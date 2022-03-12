@@ -19,4 +19,5 @@ Route::get('/', function () {
 
 Route::prefix('/todo')->group(function(){
     Route::get('/','HomeController@show');
+    Route::post('/','HomeController@store');
 });

@@ -16,7 +16,8 @@
         <div><span>+</span>ToDo</div>
 
         <p>
-            <form method="post">
+            <form method="post" action="">
+            @csrf
                 <p><input type="text" id="todo_content" name="todo_content"></p>
                 <input type="datetime-local" id="deadline" name="deadline">
                 <input type="submit" id="submit" value="+">
