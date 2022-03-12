@@ -27,5 +27,13 @@
     </section>
 
 
+
+    <section>
+        @foreach ($items as $item)
+           <p><span>{{ $item->todo_content }}</span> <span>{{ $item->deadline }}</span></p>
+        @endforeach
+    </section>
+
+
 </body>
 </html>
