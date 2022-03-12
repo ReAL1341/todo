@@ -16,3 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::prefix('/todo')->group(function(){
+    Route::get('/','HomeController@show');
+});
