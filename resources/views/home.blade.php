@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{asset('/css/home.css')}}">
     <title>ToDo</title>
 </head>
 <body>
@@ -14,11 +15,13 @@
 
         <div><span>+</span>ToDo</div>
 
-        <form method="post">
-            <input type="text" id="todo_content" name="todo_content">
-            <input type="datetime-local" id="deadline" name="deadline">
-            <input type="submit" id="submit" value="+">
-        </form>
+        <p>
+            <form method="post">
+                <p><input type="text" id="todo_content" name="todo_content"></p>
+                <input type="datetime-local" id="deadline" name="deadline">
+                <input type="submit" id="submit" value="+">
+            </form>
+        </p>
 
     </section>
 
