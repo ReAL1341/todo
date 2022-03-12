@@ -20,7 +20,7 @@
             @csrf
                 <p><input type="text" id="todo_content" name="todo_content"></p>
                 <input type="datetime-local" id="deadline" name="deadline">
-                <input type="submit" id="submit" value="+">
+                <button type="submit"id="submit" name="send" value="+">+</button>
             </form>
         </p>
 
@@ -29,9 +29,18 @@
 
 
     <section>
+
         @foreach ($items as $item)
-           <p><span>{{ $item->todo_content }}</span> <span>{{ $item->deadline }}</span></p>
+            <p>
+                <form method="post">
+                @csrf
+                    <span>{{ $item->todo_content }}</span>
+                    <span>{{ $item->deadline }}</span>
+                    <button type="submit" formaction="" name="delete" value="{{ $item->id }}">×</button>
+                </form>
+            </p>
         @endforeach
+    
     </section>
 
 
