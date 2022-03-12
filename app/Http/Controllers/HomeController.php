@@ -9,7 +9,9 @@ use App\Models\Todo;
 class HomeController extends Controller
 {
     public function show(){
-        return view('home');
+        $items = DB::table('todo')->get();
+
+        return view('home',compact('items'));
     }
 
     public function store(Request $request){
@@ -21,6 +23,6 @@ class HomeController extends Controller
 
         $items = DB::table('todo')->get();
 
-        return view('home',['items'=> $items]);
+        return redirect('/todo')->with(compact('items'));
     }
 }
