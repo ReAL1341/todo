@@ -22,7 +22,6 @@ class HomeController extends Controller
     public function store(Request $request){
         //+ボタンの処理
         if($request->has('add')){
-            //保存処理
             $todo = new Todo();
             $form = $request->all();
             unset($form['_token']);
@@ -33,11 +32,31 @@ class HomeController extends Controller
 
         //×ボタンの処理
         if($request->has('delete')){
-            //レコード削除処理
             DB::table('todo')->where('id',$request->delete)->delete();
             
             return redirect('/todo');
         }
+
+        //まとめて削除ボタンの処理
+        if($request->has('delete_multi_request')){
+            $current_channel = $request->delete_multi_request;
+            $items = DB::table('todo')->where('channel',$current_channel)->get();
+            $items->mode = 'delete';
+            $channels = DB::table('channel')->get();
+            return view('home',compact('current_channel','items','channels'));   
+        }
+
+        //削除ボタンの処理
+        if($request->has('delete_multi')){
+            $delete_items = $request->get('delete_items');
+            if($delete_items != null){
+                foreach($delete_items as $delete_item){
+                    DB::table('todo')->where('channel',$request->delete_multi)->where('id',$delete_item)->delete();
+                }
+            }
+            return redirect('/todo');
+        }
+
 
         //編集ボタンの処理
         if($request->has('edit')){

@@ -54,27 +54,46 @@
 
     <!-- todo_list_section -->
     <section class="todo_list_section">
-        @foreach ($items as $item)
-            <p>
-                <form method="post"><!--一括削除-->
-                @csrf
+        @if(property_exists($items,'mode'))
+            <form method="post">
+            @csrf
+                @foreach($items as $item)
+                    <p>
+                        <input type="checkbox" id="{{$item->id}}" name="delete_items[]" value="{{$item->id}}">
+                        <label for="{{$item->id}}">
+                            <span>{{$item->todo_content}}</span>
+                            <span>{{$item->deadline}}</span>
+                        </label>
+                    </p>
+                @endforeach
+                <p><button type="submit" name="delete_multi" value="{{$current_channel}}">削除</button></p>
+            </form>
+        @else
+            <form method="post">
+            @csrf
+                    <button type="submit" name="delete_multi_request" value="{{ $current_channel }}">まとめて削除</button>
+            </form>
+            @foreach ($items as $item)
+                <p>
+                    <form method="post">
+                    @csrf
 
-                @if(property_exists($item,'mode'))
-                    <input type="text" id="todo_content" name="todo_content" value="{{$item->todo_content}}">
-                    <input type="datetime-local" id="deadline" name="deadline" value="{{$item->deadline}}">
-                    <input type="hidden" name="channel" value="{{$current_channel}}">
-                    <button type="submit"id="submit" name="update" value="{{ $item->id }}">完了</button>
-                    <!--やめるボタン-->
-                @else
-                    <span>{{$item->todo_content}}</span>
-                    <span>{{$item->deadline}}</span>
-                    <input type="hidden" name="channel" value="{{$current_channel}}">
-                    <button type="submit" formaction="" name="edit" value="{{$item->id}}">編集</button>
-                    <button type="submit" formaction="" name="delete" value="{{$item->id}}">×</button>
-                @endif
-                </form>
-            </p>
-        @endforeach
+                    @if(property_exists($item,'mode'))
+                        <input type="text" id="todo_content" name="todo_content" value="{{$item->todo_content}}">
+                        <input type="datetime-local" id="deadline" name="deadline" value="{{$item->deadline}}">
+                        <input type="hidden" name="channel" value="{{$current_channel}}">
+                        <button type="submit"id="submit" name="update" value="{{ $item->id }}">完了</button>
+                    @else
+                        <span>{{$item->todo_content}}</span>
+                        <span>{{$item->deadline}}</span>
+                        <input type="hidden" name="channel" value="{{$current_channel}}">
+                        <button type="submit" formaction="" name="edit" value="{{$item->id}}">編集</button>
+                        <button type="submit" formaction="" name="delete" value="{{$item->id}}">×</button>
+                    @endif
+                    </form>
+                </p>
+            @endforeach
+        @endif
     </section>
 
 
