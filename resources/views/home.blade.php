@@ -35,7 +35,7 @@
     </section>
 
 
-    <!-- channel_list_section -->   <!-- チャンネル移動、削除していいですか -->
+    <!-- channel_list_section -->   <!-- 削除していいですか -->
     <section class="channel_list_section">
         @error('name')
             <p>{{$message}}</p>
@@ -77,12 +77,13 @@
                         </label>
                     </p>
                 @endforeach
+                <input type="hidden" name="channel" value="{{$current_channel}}">
                 <p><button type="submit" name="delete_multi" value="{{$current_channel}}">削除</button></p>
             </form>
         @else
             <form method="post">
             @csrf
-                    <button type="submit" name="delete_multi_request" value="{{ $current_channel }}">まとめて削除</button>
+                    <button type="submit" name="delete_multi_request" value="{{$current_channel}}">まとめて削除</button>
             </form>
             @foreach ($items as $item)
                 <p>

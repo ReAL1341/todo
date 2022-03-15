@@ -13,8 +13,12 @@ class HomeController extends Controller
 
 
     public function show(){
-        $current_channel = 'やることリスト';
-        $items = DB::table('todo')->where('channel',$current_channel)->get();
+        if(session('current_channel') != null){
+            $current_channel = session('current_channel');
+        }else{
+            $current_channel = 'やることリスト';
+        }
+            $items = DB::table('todo')->where('channel',$current_channel)->get();
         $channels = DB::table('channel')->get();
         return view('home',compact('current_channel','items','channels'));
     }
@@ -44,14 +48,16 @@ class HomeController extends Controller
             unset($form['_token']);
             $todo->fill($form)->save();
 
-            return redirect('/todo');
+            $current_channel = $request->channel;
+            return redirect('/todo')->with(compact('current_channel'));
         }
 
         //×ボタンの処理
         if($request->has('delete')){
             DB::table('todo')->where('id',$request->delete)->delete();
             
-            return redirect('/todo');
+            $current_channel = $request->channel;
+            return redirect('/todo')->with(compact('current_channel'));
         }
 
         //まとめて削除ボタンの処理
@@ -71,7 +77,9 @@ class HomeController extends Controller
                     DB::table('todo')->where('channel',$request->delete_multi)->where('id',$delete_item)->delete();
                 }
             }
-            return redirect('/todo');
+
+            $current_channel = $request->channel;
+            return redirect('/todo')->with(compact('current_channel'));
         }
 
 
@@ -97,7 +105,8 @@ class HomeController extends Controller
             ];
             DB::table('todo')->where('id',$request->update)->update($param);
 
-            return redirect('/todo');
+            $current_channel = $request->channel;
+            return redirect('/todo')->with(compact('current_channel'));
         }
 
         //チャンネル+ボタン
@@ -119,7 +128,8 @@ class HomeController extends Controller
             unset($form['_token']);
             $new_channel->fill($form)->save();
 
-            return redirect('/todo');
+            $current_channel = $request->name;
+            return redirect('/todo')->with(compact('current_channel'));
         }
 
         //チャンネル変更ボタン
