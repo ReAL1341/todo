@@ -17,10 +17,17 @@
         <div><span>+</span>ToDo</div>
 
         <p>
+            @error('todo_content')
+                <p>{{$message}}</p>
+            @enderror
+            @error('deadline')
+                <p>{{$message}}</p>
+            @enderror
+
             <form method="post" action="">
             @csrf
-                <p><input type="text" id="todo_content" name="todo_content"></p>
-                <input type="datetime-local" id="deadline" name="deadline">
+                <p><input type="text" id="todo_content" name="todo_content" value="{{old('todo_content')}}"></p>
+                <input type="datetime-local" id="deadline" name="deadline" value="{{old('deadline')}}">
                 <input type="hidden" name="channel" value="{{$current_channel}}">
                 <button type="submit" name="add" value="+">+</button>
             </form>
@@ -30,6 +37,10 @@
 
     <!-- channel_list_section -->   <!-- チャンネル移動、削除していいですか -->
     <section class="channel_list_section">
+        @error('name')
+            <p>{{$message}}</p>
+        @enderror
+        
         <form method="post" action="">
         @csrf
             <input type="text" name="name">

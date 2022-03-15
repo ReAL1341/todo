@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use App\Models\Todo;
 use App\Models\Channel;
@@ -22,6 +23,22 @@ class HomeController extends Controller
     public function store(Request $request){
         //+ボタンの処理
         if($request->has('add')){
+            $rules = [
+                'todo_content' => 'required|unique:todo,todo_content',
+            ];
+            $message = [
+                'todo_content.required' => 'タスクを入力してください',
+                'todo_content.unique' => 'そのタスクはすでに存在します',
+                'deadline.after' => '期限は今よりも後にしてください',
+            ];
+            $validator = Validator::make($request->all(),$rules,$message);
+            $validator->sometimes('deadline','after:now',function($input){
+                return $input->deadline != null;
+            });
+            if($validator->fails()){
+                return redirect('/todo')->withErrors($validator)->withInput();
+            }
+
             $todo = new Todo();
             $form = $request->all();
             unset($form['_token']);
@@ -85,6 +102,18 @@ class HomeController extends Controller
 
         //チャンネル+ボタン
         if($request->has('add_channel')){
+            $rules = [
+                'name' => 'required|unique:channel,name',
+            ];
+            $message = [
+                'name.required' => 'チャンネル名を入力してください',
+                'name.unique' => 'その名前のチャンネルはすでに存在します'
+            ];
+            $validator = Validator::make($request->all(),$rules,$message);
+            if($validator->fails()){
+                return redirect('/todo')->withErrors($validator);
+            }
+
             $new_channel = new Channel();
             $form = $request->all();
             unset($form['_token']);
