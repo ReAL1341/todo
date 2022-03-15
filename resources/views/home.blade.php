@@ -9,11 +9,11 @@
     <title>ToDo</title>
 </head>
 <body>
+    <h1>{{$current_channel}}</h1>
 
 
     <!--add_todo_section -->
     <section class="add_todo_section">
-
         <div><span>+</span>ToDo</div>
 
         <p>
@@ -21,36 +21,60 @@
             @csrf
                 <p><input type="text" id="todo_content" name="todo_content"></p>
                 <input type="datetime-local" id="deadline" name="deadline">
-                <button type="submit"id="submit" name="add" value="+">+</button>
+                <input type="hidden" name="channel" value="{{$current_channel}}">
+                <button type="submit" name="add" value="+">+</button>
             </form>
         </p>
-
     </section>
 
 
+    <!-- channel_list_section -->   <!-- チャンネル移動、削除していいですか -->
+    <section class="channel_list_section">
+        <form method="post" action="">
+        @csrf
+            <input type="text" name="name">
+            <button type="submit" name="add_channel" value="add_channel">+</button>
+        </form>
 
-    <section>
+        @foreach($channels as $channel)
+            <form method="post" action="">
+            @csrf
+            @if($channel->name != 'やることリスト')
+                <p>
+                    <button type="submit" name="change_channel" value="{{$channel->name}}">{{$channel->name}}</button>
+                    <button type="submit" name="channel_delete" value="{{$channel->name}}">×</button>
+                </p>
+            @else
+                    <button type="submit" name="change_channel" value="{{$channel->name}}">{{$channel->name}}</button>
+            @endif
+            </form>
+        @endforeach
+    </section>
 
+
+    <!-- todo_list_section -->
+    <section class="todo_list_section">
         @foreach ($items as $item)
             <p>
                 <form method="post"><!--一括削除-->
                 @csrf
 
                 @if(property_exists($item,'mode'))
-                    <input type="text" id="todo_content" name="todo_content" value="{{$item->todo_content}}"><!--未完-->
-                    <input type="datetime-local" id="deadline" name="deadline" value="{{$item->deadline}}"><!--未完-->
-                    <button type="submit"id="submit" name="update" value="{{ $item->id }}">完了</button><!--未完-->
+                    <input type="text" id="todo_content" name="todo_content" value="{{$item->todo_content}}">
+                    <input type="datetime-local" id="deadline" name="deadline" value="{{$item->deadline}}">
+                    <input type="hidden" name="channel" value="{{$current_channel}}">
+                    <button type="submit"id="submit" name="update" value="{{ $item->id }}">完了</button>
                     <!--やめるボタン-->
                 @else
                     <span>{{$item->todo_content}}</span>
                     <span>{{$item->deadline}}</span>
+                    <input type="hidden" name="channel" value="{{$current_channel}}">
                     <button type="submit" formaction="" name="edit" value="{{$item->id}}">編集</button>
-                    <button type="submit" formaction="" name="delete" value="{{$item->id}}">×</button><!--未完-->
+                    <button type="submit" formaction="" name="delete" value="{{$item->id}}">×</button>
                 @endif
                 </form>
             </p>
         @endforeach
-    
     </section>
 
 

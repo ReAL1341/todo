@@ -5,15 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Todo extends Model
+class Channel extends Model
 {
     use HasFactory;
 
-    public $table = 'todo';
+    public $table = 'channel';
 
     public $fillable = [
-        'todo_content',
-        'deadline',
-        'channel',
+        'name',
     ];
 }
