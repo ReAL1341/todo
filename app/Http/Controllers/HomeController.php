@@ -11,46 +11,48 @@ use App\Models\Channel;
 class HomeController extends Controller
 {
 
+    public function DBGet(){
+        $items = DB::table('todo')->get(['id','todo_content','deadline']);
+        $res = json_encode($items);
+        return $res;
+    }
 
     public function show(){
-        if(session('current_channel') != null){
-            $current_channel = session('current_channel');
-        }else{
-            $current_channel = 'やることリスト';
-        }
-            $items = DB::table('todo')->where('channel',$current_channel)->get();
-        $channels = DB::table('channel')->get();
-        return view('home',compact('current_channel','items','channels'));
+        // if(session('current_channel') != null){
+        //     $current_channel = session('current_channel');
+        // }else{
+        //     $current_channel = 'やることリスト';
+        // }
+        // $items = DB::table('todo')->where('channel',$current_channel)->get();
+        // $channels = DB::table('channel')->get();
+        return view('home');
     }
 
 
     public function store(Request $request){
         //+ボタンの処理
-        if($request->has('add')){
-            $rules = [
-                'todo_content' => 'required|unique:todo,todo_content',
-            ];
-            $message = [
-                'todo_content.required' => 'タスクを入力してください',
-                'todo_content.unique' => 'そのタスクはすでに存在します',
-                'deadline.after' => '期限は今よりも後にしてください',
-            ];
-            $validator = Validator::make($request->all(),$rules,$message);
-            $validator->sometimes('deadline','after:now',function($input){
-                return $input->deadline != null;
-            });
-            if($validator->fails()){
-                return redirect('/todo')->withErrors($validator)->withInput();
-            }
-
+        // if($request->type == 'add'){
+            // $rules = [
+            //     'todo_content' => 'required|unique:todo,todo_content',
+            // ];
+            // $message = [
+            //     'todo_content.required' => 'タスクを入力してください',
+            //     'todo_content.unique' => 'そのタスクはすでに存在します',
+            //     'deadline.after' => '期限は今よりも後にしてください',
+            // ];
+            // $validator = Validator::make($request->all(),$rules,$message);
+            // $validator->sometimes('deadline','after:now',function($input){
+            //     return $input->deadline != null;
+            // });
+            // if($validator->fails()){
+            //     return redirect('/todo')->withErrors($validator)->withInput();
+            // }
             $todo = new Todo();
             $form = $request->all();
             unset($form['_token']);
             $todo->fill($form)->save();
 
-            $current_channel = $request->channel;
-            return redirect('/todo')->with(compact('current_channel'));
-        }
+            return view('home');
 
         //×ボタンの処理
         if($request->has('delete')){
