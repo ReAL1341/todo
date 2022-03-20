@@ -15,17 +15,19 @@
 <script>
 import axios from 'axios'
 import TodoListComponent from './TodoListComponent.vue'
-import { reactive,ref } from 'vue'
+import { reactive,ref,toRefs } from 'vue'
 
 export default{
     name:'AddTodoComponent',
     components: { TodoListComponent },
     setup() {
         const data = reactive({
-            todo_content:'',
-            deadline:'',
-            type:'add',
+                todo_content:'',
+                deadline:'',
+                type:'add',
         })
+        
+        const refData = toRefs(data)
 
         let db_items = ref([])
         axios.get('/api/DB').then((res)=>{    //ControllerからDBレコードを取得
@@ -37,6 +39,8 @@ export default{
             axios.get('/api/DB').then((res)=>{     //ControllerからDBレコードを取得
                 db_items.value = res.data  //レスポンスのうち、dataに格納された配列を取得
             })
+            refData.todo_content.value = ''
+            refData.deadline.value = ''
         }
 
         return {

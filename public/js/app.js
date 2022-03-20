@@ -19289,6 +19289,7 @@ __webpack_require__.r(__webpack_exports__);
       deadline: '',
       type: 'add'
     });
+    var refData = (0,vue__WEBPACK_IMPORTED_MODULE_2__.toRefs)(data);
     var db_items = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)([]);
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/DB').then(function (res) {
       //ControllerからDBレコードを取得
@@ -19301,6 +19302,8 @@ __webpack_require__.r(__webpack_exports__);
         //ControllerからDBレコードを取得
         db_items.value = res.data; //レスポンスのうち、dataに格納された配列を取得
       });
+      refData.todo_content.value = '';
+      refData.deadline.value = '';
     };
 
     return {
