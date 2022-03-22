@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\DBController;
 use Illuminate\Contracts\Cache\Store;
 
 /*
@@ -22,4 +23,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/todo',[HomeController::class,'show']);
 Route::post('/todo',[HomeController::class,'store']);
-Route::get('/DB',[HomeController::class,'DBGet']);
+Route::get('/DB',[DBController::class,'DBGet']);
+Route::post('/DB/edit',[DBController::class,'currentPost']);

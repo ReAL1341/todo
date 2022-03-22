@@ -10,28 +10,14 @@ use App\Models\Channel;
 
 class HomeController extends Controller
 {
-
-    public function DBGet(){
-        $items = DB::table('todo')->get(['id','todo_content','deadline']);
-        $res = json_encode($items);
-        return $res;
-    }
-
     public function show(){
-        // if(session('current_channel') != null){
-        //     $current_channel = session('current_channel');
-        // }else{
-        //     $current_channel = 'やることリスト';
-        // }
-        // $items = DB::table('todo')->where('channel',$current_channel)->get();
-        // $channels = DB::table('channel')->get();
         return view('home');
     }
 
 
     public function store(Request $request){
         //+ボタンの処理
-        // if($request->type == 'add'){
+        if($request->input('type') == 'add'){
             // $rules = [
             //     'todo_content' => 'required|unique:todo,todo_content',
             // ];
@@ -53,14 +39,15 @@ class HomeController extends Controller
             $todo->fill($form)->save();
 
             return view('home');
-
-        //×ボタンの処理
-        if($request->has('delete')){
-            DB::table('todo')->where('id',$request->delete)->delete();
-            
-            $current_channel = $request->channel;
-            return redirect('/todo')->with(compact('current_channel'));
         }
+
+        //削除ボタンの処理
+        if($request->input('type') == 'delete'){
+            DB::table('todo')->where('id',$request->input('id'))->delete();
+            
+            return view('home');
+        }
+
 
         //まとめて削除ボタンの処理
         if($request->has('delete_multi_request')){
@@ -86,30 +73,16 @@ class HomeController extends Controller
 
 
         //編集ボタンの処理
-        if($request->has('edit')){
-            $current_channel = DB::table('todo')->where('id',$request->edit)->first();
-            $current_channel = $current_channel->channel;
-            $items = DB::table('todo')->where('channel',$current_channel)->get();
-            $channels = DB::table('channel')->get();
-            foreach($items as $item){
-                if($item->id == $request->edit){
-                    $item->mode = 'edit';
-                }
-            };
-            return view('home',compact('current_channel','items','channels'));
-        }
-
-        //編集完了ボタンの処理
-        if($request->has('update')){
+        //ここまだ
+        if($request->input('type') == 'edit'){
             $param = [
-                'todo_content' => $request->todo_content,
-                'deadline' => $request->deadline,
+                'todo_content' => $request->input('todo_content'),
+                'deadline' => $request->input('deadline'),
             ];
-            DB::table('todo')->where('id',$request->update)->update($param);
-
-            $current_channel = $request->channel;
-            return redirect('/todo')->with(compact('current_channel'));
+            DB::table('todo')->where('id',$request->input('id'))->update($param);            
+            return view('home');
         }
+
 
         //チャンネル+ボタン
         if($request->has('add_channel')){

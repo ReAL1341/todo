@@ -10,7 +10,7 @@
 </head>
 <body>
     <div id="app">
-        <add-todo-component></add-todo-component>
+        <todo-component></todo-component>
     </div>
 
 
