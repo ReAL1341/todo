@@ -1,20 +1,36 @@
 <template>
     <div>
 
-        <todo-list-component v-on:todo_update="todoUpdate" v-bind:db_items_pro="db_items_pro"></todo-list-component>
+
+        <todo-list-component
+            v-on:todo_update="todoUpdate"
+            v-bind:db_items_pro="db_items_pro"
+        ></todo-list-component>
+
 
         <div>
             <div>
-                <p><input type="text" v-model="input_data.todo_content"></p>
-                <input type="datetime-local" v-model="input_data.deadline">
-                <p>{{ input_data.todo_content }}</p>
-                <p>{{ input_data.deadline }}</p>
+                <p>
+                    <input
+                        type="text"
+                        v-model="input_data.todo_content"
+                    >
+                </p>
+                <p>
+                    <input
+                        type="datetime-local"
+                        v-model="input_data.deadline"
+                    >
+                </p>
                 <button v-on:click="apiPost">+</button>
             </div>
         </div>
 
+
     </div>
 </template>
+
+
 
 
 <script>
@@ -71,12 +87,15 @@ export default{
 }
 
 //命名の整理
-//読み込み表示
-//削除確認
-//一括削除
+//コメント
+//css
 
 // チャンネル
 //カラムの変更
 
+//削除確認
+//一括削除
+
+//読み込み表示
 //スクロールによる順序変更
 </script>
