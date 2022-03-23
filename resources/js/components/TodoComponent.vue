@@ -1,27 +1,7 @@
 <template>
     <div>
 
-        <div>
-            <div v-for="item in db_items" v-bind:key="item.id"><!--このままだと全部edit_modeになる -->
-                <!-- 編集ボタンを押したとき -->
-                <p v-if="edit_mode === item.id">
-                    <input type="text" v-model="edit_data.todo_content">
-                    <input type="datetime-local" v-model="edit_data.deadline">
-                    <input type="radio" class="radio" v-on:change="editPost" v-bind:id="item.id" v-bind:value="item.id" v-model="edit_data.id">
-                    <button><label v-bind:for="item.id">完了</label></button>
-                </p>
-                <!-- 編集ボタンを押していないとき -->
-                <p v-else>
-                    {{item.todo_content}}
-                    {{item.deadline}}
-                    <!-- radioがonになったときに削除処理実行 -->
-                    <input type="radio" class="radio" v-on:change="todo_delete" v-bind:id="item.id+'delete'" v-bind:value="item.id" v-model="delete_data.id">
-                    <button><label v-bind:for="item.id+'delete'">削除</label></button>
-                    <input type="radio" class="radio" v-on:change="editGet" v-bind:id="item.id+'edit'" v-bind:value="item.id" v-model="edit_mode">
-                    <button><label v-bind:for="item.id+'edit'">編集</label></button>
-                </p>
-            </div>
-        </div>
+        <todo-list-component v-on:todo_update="todoUpdate" v-bind:db_items_pro="db_items_pro"></todo-list-component>
 
         <div>
             <div>
@@ -36,18 +16,17 @@
     </div>
 </template>
 
-<style scoped>
-.radio{
-    display: none;
-}
-</style>
 
 <script>
 import axios from 'axios'
 import { reactive,ref,toRefs } from 'vue'
+import TodoListComponent from './TodoListComponent.vue'
 
 export default{
     name:'TodoComponent',
+    components:{
+        TodoListComponent,
+    },
     setup() {
         //入力データをreactiveで設定
         const input_data = reactive({
@@ -60,9 +39,9 @@ export default{
 
 
         // DBレコードを非同期で全取得
-        let db_items = ref([])
+        let db_items_pro = ref([])
         axios.get('/api/DB').then((res)=>{
-            db_items.value = res.data
+            db_items_pro.value = res.data
         })
 
 
@@ -71,70 +50,28 @@ export default{
             axios.post("/api/todo",input_data)
             // DBレコードを非同期で全取得
             axios.get('/api/DB').then((res)=>{
-                db_items.value = res.data
+                db_items_pro.value = res.data
             })
             // 入力フォームの初期化
             refData.todo_content.value = ''
             refData.deadline.value = ''
         }
 
-        // 削除ボタンがポストするデータ
-        const delete_data = {
-            id:'',
-            type:'delete',
-        }
-
-        // 削除ボタンの処理
-        const todo_delete = ()=>{
-            axios.post('/api/todo',delete_data)
-            axios.get('/api/DB').then((res)=>{
-                db_items.value = res.data
-            })
-        }
-
-        //編集モードの管理
-        let edit_mode = ref('')
-
-        const edit_data = reactive({
-            todo_content:'',
-            deadline:'',
-            type:'edit',
-        })
-        const refEditData = toRefs(edit_data)
-
-        const editGet = ()=>{
-            axios.post('/api/DB/edit',{id:edit_mode.value}).then((res)=>{
-                refEditData.todo_content.value = res.data[0].todo_content
-                refEditData.deadline.value = res.data[0].deadline
-            })
-        }
-
-        const editPost = ()=>{
-            axios.post('/api/todo',edit_data)
-            edit_mode.value = ''
-            refEditData.todo_content.value = ''
-            refEditData.deadline.value = ''
-            axios.get('/api/DB').then((res)=>{
-                db_items.value = res.data
-            })
+        const todoUpdate = (db_items)=>{
+            db_items_pro.value = db_items.value
         }
 
         return {
             input_data,
-            delete_data,
-            db_items,
-            edit_mode,
-            edit_data,
+            db_items_pro,
             apiPost,
-            todo_delete,
-            editGet,
-            editPost,
+            todoUpdate,
         }
     },
 }
 
 //命名の整理
-
+//読み込み表示
 //削除確認
 //一括削除
 
