@@ -3,27 +3,21 @@
 
 
         <todo-list-component
-            v-on:todo_update="todoUpdate"
-            v-bind:db_items_pro="db_items_pro"
+            v-bind:todoItems="todoItems"
+            v-on:todo-update="todoUpdate"
         ></todo-list-component>
 
 
         <div>
-            <div>
-                <p>
-                    <input
-                        type="text"
-                        v-model="input_data.todo_content"
-                    >
-                </p>
-                <p>
-                    <input
-                        type="datetime-local"
-                        v-model="input_data.deadline"
-                    >
-                </p>
-                <button v-on:click="apiPost">+</button>
-            </div>
+            <input
+                v-model="inputData.todo_content"
+                type="text"
+            >
+            <input
+                v-model="inputData.deadline"
+                type="datetime-local"
+            >
+            <button v-on:click="inputDataPost">+</button>
         </div>
 
 
@@ -45,42 +39,43 @@ export default{
     },
     setup() {
         //入力データをreactiveで設定
-        const input_data = reactive({
+        const inputData = reactive({
                 todo_content:'',
                 deadline:'',
                 type:'add',
         })
         // ref化することで、分割代入を可能にする
-        const refData = toRefs(input_data)
+        const refInputData = toRefs(inputData)
 
 
         // DBレコードを非同期で全取得
-        let db_items_pro = ref([])
+        let todoItems = ref([])
         axios.get('/api/DB').then((res)=>{
-            db_items_pro.value = res.data
+            todoItems.value = res.data
         })
 
 
-        const apiPost = ()=>{
+        const inputDataPost = ()=>{
             //入力データを非同期でポスト
-            axios.post("/api/todo",input_data)
+            axios.post("/api/todo",inputData)
             // DBレコードを非同期で全取得
             axios.get('/api/DB').then((res)=>{
-                db_items_pro.value = res.data
+                todoItems.value = res.data
             })
             // 入力フォームの初期化
-            refData.todo_content.value = ''
-            refData.deadline.value = ''
+            refInputData.todo_content.value = ''
+            refInputData.deadline.value = ''
         }
 
-        const todoUpdate = (db_items)=>{
-            db_items_pro.value = db_items.value
+        const todoUpdate = (newTodoItems)=>{
+            //DBレコードの再取得
+            todoItems.value = newTodoItems.value
         }
 
         return {
-            input_data,
-            db_items_pro,
-            apiPost,
+            inputData,
+            todoItems,
+            inputDataPost,
             todoUpdate,
         }
     },

@@ -19285,43 +19285,45 @@ __webpack_require__.r(__webpack_exports__);
   },
   setup: function setup() {
     //入力データをreactiveで設定
-    var input_data = (0,vue__WEBPACK_IMPORTED_MODULE_1__.reactive)({
+    var inputData = (0,vue__WEBPACK_IMPORTED_MODULE_1__.reactive)({
       todo_content: '',
       deadline: '',
       type: 'add'
     }); // ref化することで、分割代入を可能にする
 
-    var refData = (0,vue__WEBPACK_IMPORTED_MODULE_1__.toRefs)(input_data); // DBレコードを非同期で全取得
+    var refInputData = (0,vue__WEBPACK_IMPORTED_MODULE_1__.toRefs)(inputData); // DBレコードを非同期で全取得
 
-    var db_items_pro = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)([]);
+    var todoItems = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)([]);
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/DB').then(function (res) {
-      db_items_pro.value = res.data;
+      todoItems.value = res.data;
     });
 
-    var apiPost = function apiPost() {
+    var inputDataPost = function inputDataPost() {
       //入力データを非同期でポスト
-      axios__WEBPACK_IMPORTED_MODULE_0___default().post("/api/todo", input_data); // DBレコードを非同期で全取得
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post("/api/todo", inputData); // DBレコードを非同期で全取得
 
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/DB').then(function (res) {
-        db_items_pro.value = res.data;
+        todoItems.value = res.data;
       }); // 入力フォームの初期化
 
-      refData.todo_content.value = '';
-      refData.deadline.value = '';
+      refInputData.todo_content.value = '';
+      refInputData.deadline.value = '';
     };
 
-    var todoUpdate = function todoUpdate(db_items) {
-      db_items_pro.value = db_items.value;
+    var todoUpdate = function todoUpdate(newTodoItems) {
+      //DBレコードの再取得
+      todoItems.value = newTodoItems.value;
     };
 
     return {
-      input_data: input_data,
-      db_items_pro: db_items_pro,
-      apiPost: apiPost,
+      inputData: inputData,
+      todoItems: todoItems,
+      inputDataPost: inputDataPost,
       todoUpdate: todoUpdate
     };
   }
 }); //命名の整理
+//コメント
 //css
 // チャンネル
 //カラムの変更
@@ -19350,64 +19352,68 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'TodoListComponent',
-  props: ['db_items_pro'],
-  emits: ['todo_update'],
+  props: {
+    todoItems: {
+      type: Array,
+      required: true
+    }
+  },
+  emits: ['todo-update'],
   setup: function setup(props, _ref) {
     var emit = _ref.emit;
-    var db_items = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)([]); // 削除ボタンがポストするデータ
+    var newTodoItems = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)([]); // 削除ボタンがポストするデータ
 
-    var delete_data = {
+    var deleteData = {
       id: '',
       type: 'delete'
     }; // 削除ボタンの処理
 
-    var todo_delete = function todo_delete() {
-      axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/todo', delete_data);
+    var deleteDataPost = function deleteDataPost() {
+      axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/todo', deleteData);
       axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/DB').then(function (res) {
-        db_items.value = res.data;
-        emit('todo_update', db_items);
+        newTodoItems.value = res.data;
+        emit('todo-update', newTodoItems);
       });
     }; //編集モードの管理
 
 
-    var edit_mode = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(''); //編集内容をreactiveで設定
+    var updateMode = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(''); //編集内容をreactiveで設定
 
-    var edit_data = (0,vue__WEBPACK_IMPORTED_MODULE_0__.reactive)({
+    var updateData = (0,vue__WEBPACK_IMPORTED_MODULE_0__.reactive)({
       todo_content: '',
       deadline: '',
       type: 'edit'
     });
-    var refEditData = (0,vue__WEBPACK_IMPORTED_MODULE_0__.toRefs)(edit_data); //編集ボタンの処理
+    var refUpdateData = (0,vue__WEBPACK_IMPORTED_MODULE_0__.toRefs)(updateData); //編集ボタンの処理
 
-    var editGet = function editGet() {
+    var updateIdPost = function updateIdPost() {
       axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/DB/edit', {
-        id: edit_mode.value
+        id: updateMode.value
       }).then(function (res) {
-        refEditData.todo_content.value = res.data[0].todo_content;
-        refEditData.deadline.value = res.data[0].deadline;
+        refUpdateData.todo_content.value = res.data[0].todo_content;
+        refUpdateData.deadline.value = res.data[0].deadline;
       });
     }; //編集完了ボタンの処理
 
 
-    var editPost = function editPost() {
-      axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/todo', edit_data);
-      edit_mode.value = '';
-      refEditData.todo_content.value = '';
-      refEditData.deadline.value = '';
+    var updateDataPost = function updateDataPost() {
+      axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/todo', updateData);
+      updateMode.value = '';
+      refUpdateData.todo_content.value = '';
+      refUpdateData.deadline.value = '';
       axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/DB').then(function (res) {
-        db_items.value = res.data;
-        emit('todo_update', db_items);
+        newTodoItems.value = res.data;
+        emit('todo-update', newTodoItems);
       });
     };
 
     return {
-      db_items: db_items,
-      delete_data: delete_data,
-      todo_delete: todo_delete,
-      edit_mode: edit_mode,
-      edit_data: edit_data,
-      editGet: editGet,
-      editPost: editPost
+      deleteData: deleteData,
+      deleteDataPost: deleteDataPost,
+      updateMode: updateMode,
+      updateData: updateData,
+      updateIdPost: updateIdPost,
+      updateDataPost: updateDataPost
     };
   }
 });
@@ -19431,33 +19437,29 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_todo_list_component = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("todo-list-component");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_todo_list_component, {
-    onTodo_update: $setup.todoUpdate,
-    db_items_pro: $setup.db_items_pro
+    todoItems: $setup.todoItems,
+    onTodoUpdate: $setup.todoUpdate
   }, null, 8
   /* PROPS */
-  , ["onTodo_update", "db_items_pro"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    type: "text",
+  , ["todoItems", "onTodoUpdate"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-      return $setup.input_data.todo_content = $event;
-    })
+      return $setup.inputData.todo_content = $event;
+    }),
+    type: "text"
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.input_data.todo_content]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    type: "datetime-local",
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.inputData.todo_content]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
-      return $setup.input_data.deadline = $event;
-    })
+      return $setup.inputData.deadline = $event;
+    }),
+    type: "datetime-local"
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.input_data.deadline]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.input_data.todo_content), 1
-  /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.input_data.deadline), 1
-  /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.inputData.deadline]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[2] || (_cache[2] = function () {
-      return $setup.apiPost && $setup.apiPost.apply($setup, arguments);
+      return $setup.inputDataPost && $setup.inputDataPost.apply($setup, arguments);
     })
-  }, "+")])])]);
+  }, "+")])]);
 }
 
 /***/ }),
@@ -19490,77 +19492,77 @@ var _hoisted_5 = ["for"];
 var _hoisted_6 = ["id", "value"];
 var _hoisted_7 = ["for"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.db_items_pro, function (item) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.todoItems, function (item) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: item.id
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 編集ボタンを押したとき "), $setup.edit_mode === item.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-      type: "text",
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 編集ボタンを押したとき "), $setup.updateMode === item.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
       "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-        return $setup.edit_data.todo_content = $event;
-      })
+        return $setup.updateData.todo_content = $event;
+      }),
+      type: "text"
     }, null, 512
     /* NEED_PATCH */
-    ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.edit_data.todo_content]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-      type: "datetime-local",
+    ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.updateData.todo_content]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
       "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
-        return $setup.edit_data.deadline = $event;
-      })
+        return $setup.updateData.deadline = $event;
+      }),
+      type: "datetime-local"
     }, null, 512
     /* NEED_PATCH */
-    ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.edit_data.deadline]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-      type: "radio",
-      "class": "radio",
-      onChange: _cache[2] || (_cache[2] = function () {
-        return $setup.editPost && $setup.editPost.apply($setup, arguments);
+    ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.updateData.deadline]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+        return $setup.updateData.id = $event;
       }),
       id: item.id,
       value: item.id,
-      "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
-        return $setup.edit_data.id = $event;
+      "class": "radio",
+      type: "radio",
+      onChange: _cache[3] || (_cache[3] = function () {
+        return $setup.updateDataPost && $setup.updateDataPost.apply($setup, arguments);
       })
     }, null, 40
     /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_2), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $setup.edit_data.id]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    , _hoisted_2), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $setup.updateData.id]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
       "for": item.id
     }, "完了", 8
     /* PROPS */
     , _hoisted_3)])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
       key: 1
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 編集ボタンを押していないとき "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.todo_content) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.deadline), 1
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 編集ボタンを押していないとき "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.todo_content) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.deadline) + " ", 1
     /* TEXT */
-    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" radioがonになったときに削除処理実行 "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-      type: "radio",
-      "class": "radio",
-      onChange: _cache[4] || (_cache[4] = function () {
-        return $setup.todo_delete && $setup.todo_delete.apply($setup, arguments);
-      }),
-      id: item.id + 'delete',
-      value: item.id,
-      "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
-        return $setup.delete_data.id = $event;
-      })
-    }, null, 40
-    /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_4), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $setup.delete_data.id]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-      "for": item.id + 'delete'
-    }, "削除", 8
-    /* PROPS */
-    , _hoisted_5)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-      type: "radio",
-      "class": "radio",
-      onChange: _cache[6] || (_cache[6] = function () {
-        return $setup.editGet && $setup.editGet.apply($setup, arguments);
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+        return $setup.updateMode = $event;
       }),
       id: item.id + 'edit',
       value: item.id,
-      "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
-        return $setup.edit_mode = $event;
+      "class": "radio",
+      type: "radio",
+      onChange: _cache[5] || (_cache[5] = function () {
+        return $setup.updateIdPost && $setup.updateIdPost.apply($setup, arguments);
       })
     }, null, 40
     /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_6), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $setup.edit_mode]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    , _hoisted_4), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $setup.updateMode]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
       "for": item.id + 'edit'
     }, "編集", 8
+    /* PROPS */
+    , _hoisted_5)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
+        return $setup.deleteData.id = $event;
+      }),
+      id: item.id + 'delete',
+      value: item.id,
+      "class": "radio",
+      type: "radio",
+      onChange: _cache[7] || (_cache[7] = function () {
+        return $setup.deleteDataPost && $setup.deleteDataPost.apply($setup, arguments);
+      })
+    }, null, 40
+    /* PROPS, HYDRATE_EVENTS */
+    , _hoisted_6), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $setup.deleteData.id]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+      "for": item.id + 'delete'
+    }, "削除", 8
     /* PROPS */
     , _hoisted_7)])])], 2112
     /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */
