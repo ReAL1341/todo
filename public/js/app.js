@@ -19292,25 +19292,50 @@ __webpack_require__.r(__webpack_exports__);
       deadline_time: ''
     }); // ref化することで、分割代入を可能にする
 
-    var refInputData = (0,vue__WEBPACK_IMPORTED_MODULE_1__.toRefs)(inputData); // DBレコードを非同期で全取得
+    var refInputData = (0,vue__WEBPACK_IMPORTED_MODULE_1__.toRefs)(inputData);
+    var errorMessage = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(''); // DBレコードを非同期で全取得
 
     var todoItems = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)([]);
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/DB').then(function (res) {
       todoItems.value = res.data;
     });
 
+    var postValidation = function postValidation(data, errorMessage) {
+      if (data.todo_content == '') {
+        errorMessage.value = 'タスクを入力してください';
+        return false;
+      } else if (Boolean(data.deadline_month) !== Boolean(data.deadline_date)) {
+        errorMessage.value = '「月日」の両方を入力してください';
+        return false;
+      } else if (data.deadline_month == '' && data.deadline_time != '') {
+        errorMessage.value = '「日付と時間」もしくは「日付のみ」で入力してください';
+        return false;
+      } else if (data.deadline_month > 12 || data.deadline_month < 1) {
+        errorMessage.value = '正確に「月」を入力してください';
+        return false;
+      } else if (data.deadline_date > 31 || data.deadline_date < 1) {
+        errorMessage.value = '正確に「日」を入力してください';
+        return false;
+      } else {
+        errorMessage.value = '';
+        return true;
+      }
+    };
+
     var inputDataPost = function inputDataPost() {
-      //入力データを非同期でポスト
-      axios__WEBPACK_IMPORTED_MODULE_0___default().post("/api/todo/store", inputData); // DBレコードを非同期で全取得
+      if (postValidation(inputData, errorMessage)) {
+        //入力データを非同期でポスト
+        axios__WEBPACK_IMPORTED_MODULE_0___default().post("/api/todo/store", inputData); // DBレコードを非同期で全取得
 
-      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/DB').then(function (res) {
-        todoItems.value = res.data;
-      }); // 入力フォームの初期化
+        axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/DB').then(function (res) {
+          todoItems.value = res.data;
+        }); // 入力フォームの初期化
 
-      refInputData.todo_content.value = '';
-      refInputData.deadline_month.value = '';
-      refInputData.deadline_date.value = '';
-      refInputData.deadline_time.value = '';
+        refInputData.todo_content.value = '';
+        refInputData.deadline_month.value = '';
+        refInputData.deadline_date.value = '';
+        refInputData.deadline_time.value = '';
+      }
     };
 
     var todoUpdate = function todoUpdate(newTodoItems) {
@@ -19320,9 +19345,11 @@ __webpack_require__.r(__webpack_exports__);
 
     return {
       inputData: inputData,
+      errorMessage: errorMessage,
       todoItems: todoItems,
       inputDataPost: inputDataPost,
-      todoUpdate: todoUpdate
+      todoUpdate: todoUpdate,
+      postValidation: postValidation
     };
   }
 }); //コメント
@@ -19360,12 +19387,17 @@ __webpack_require__.r(__webpack_exports__);
     todoItems: {
       type: Array,
       required: true
+    },
+    postValidation: {
+      type: Function,
+      required: true
     }
   },
   emits: ['todo-update'],
   setup: function setup(props, _ref) {
     var emit = _ref.emit;
-    var newTodoItems = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)([]); // 削除ボタンがポストするデータ
+    var newTodoItems = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)([]);
+    var errorMessage = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(''); // 削除ボタンがポストするデータ
 
     var deleteData = {
       id: ''
@@ -19403,16 +19435,18 @@ __webpack_require__.r(__webpack_exports__);
 
 
     var updateDataPost = function updateDataPost() {
-      axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/todo/update', updateData);
-      updateMode.value = '';
-      refUpdateData.todo_content.value = '';
-      refUpdateData.deadline_month.value = '';
-      refUpdateData.deadline_date.value = '';
-      refUpdateData.deadline_time.value = '';
-      axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/DB').then(function (res) {
-        newTodoItems.value = res.data;
-        emit('todo-update', newTodoItems);
-      });
+      if (props.postValidation(updateData, errorMessage)) {
+        axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/todo/update', updateData);
+        updateMode.value = '';
+        refUpdateData.todo_content.value = '';
+        refUpdateData.deadline_month.value = '';
+        refUpdateData.deadline_date.value = '';
+        refUpdateData.deadline_time.value = '';
+        axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/DB').then(function (res) {
+          newTodoItems.value = res.data;
+          emit('todo-update', newTodoItems);
+        });
+      } else {}
     };
 
     var dayString = function dayString(month, date) {
@@ -19426,7 +19460,8 @@ __webpack_require__.r(__webpack_exports__);
       updateData: updateData,
       updateIdPost: updateIdPost,
       updateDataPost: updateDataPost,
-      dayString: dayString
+      dayString: dayString,
+      errorMessage: errorMessage
     };
   }
 });
@@ -19468,10 +19503,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_todo_list_component, {
     todoItems: $setup.todoItems,
+    postValidation: $setup.postValidation,
     onTodoUpdate: $setup.todoUpdate
   }, null, 8
   /* PROPS */
-  , ["todoItems", "onTodoUpdate"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  , ["todoItems", "postValidation", "onTodoUpdate"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $setup.inputData.todo_content = $event;
     }),
@@ -19509,7 +19545,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[4] || (_cache[4] = function () {
       return $setup.inputDataPost && $setup.inputDataPost.apply($setup, arguments);
     })
-  }, "追加")])]);
+  }, "追加")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.errorMessage), 1
+  /* TEXT */
+  )]);
 }
 
 /***/ }),
@@ -19549,22 +19587,25 @@ var _hoisted_3 = /*#__PURE__*/_withScopeId(function () {
 });
 
 var _hoisted_4 = ["id", "value"];
-var _hoisted_5 = ["for"];
-var _hoisted_6 = ["id", "value"];
-var _hoisted_7 = {
+var _hoisted_5 = {
   "class": "update-button"
 };
-var _hoisted_8 = ["for"];
-var _hoisted_9 = ["id", "value"];
-var _hoisted_10 = {
+var _hoisted_6 = ["for"];
+var _hoisted_7 = ["id", "value"];
+var _hoisted_8 = {
+  "class": "update-button"
+};
+var _hoisted_9 = ["for"];
+var _hoisted_10 = ["id", "value"];
+var _hoisted_11 = {
   "class": "delete-button"
 };
-var _hoisted_11 = ["for"];
+var _hoisted_12 = ["for"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.todoItems, function (item) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: item.id
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 編集ボタンを押したとき "), $setup.updateMode === item.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 編集ボタンを押したとき "), $setup.updateMode === item.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
       "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
         return $setup.updateData.todo_content = $event;
       }),
@@ -19603,18 +19644,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }),
       id: item.id,
       value: item.id,
-      "class": "radio",
-      type: "radio",
+      "class": "button-hidden",
+      type: "checkbox",
       onChange: _cache[5] || (_cache[5] = function () {
         return $setup.updateDataPost && $setup.updateDataPost.apply($setup, arguments);
       })
     }, null, 40
     /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_4), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $setup.updateData.id]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    , _hoisted_4), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $setup.updateData.id]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
       "for": item.id
     }, "完了", 8
     /* PROPS */
-    , _hoisted_5)])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    , _hoisted_6)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.errorMessage), 1
+    /* TEXT */
+    )])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
       key: 1
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 編集ボタンを押していないとき "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.todo_content), 1
     /* TEXT */
@@ -19624,35 +19667,35 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }),
       id: item.id + 'edit',
       value: item.id,
-      "class": "radio",
+      "class": "button-hidden",
       type: "radio",
       onChange: _cache[7] || (_cache[7] = function () {
         return $setup.updateIdPost && $setup.updateIdPost.apply($setup, arguments);
       })
     }, null, 40
     /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_6), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $setup.updateMode]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    , _hoisted_7), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $setup.updateMode]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
       "for": item.id + 'edit'
     }, "編集", 8
     /* PROPS */
-    , _hoisted_8)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    , _hoisted_9)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
       "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
         return $setup.deleteData.id = $event;
       }),
       id: item.id + 'delete',
       value: item.id,
-      "class": "radio",
+      "class": "button-hidden",
       type: "radio",
       onChange: _cache[9] || (_cache[9] = function () {
         return $setup.deleteDataPost && $setup.deleteDataPost.apply($setup, arguments);
       })
     }, null, 40
     /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_9), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $setup.deleteData.id]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    , _hoisted_10), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $setup.deleteData.id]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
       "for": item.id + 'delete'
     }, "削除", 8
     /* PROPS */
-    , _hoisted_11)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.dayString(item.deadline_month, item.deadline_date)) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.deadline_time), 1
+    , _hoisted_12)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.dayString(item.deadline_month, item.deadline_date)) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.deadline_time), 1
     /* TEXT */
     )])], 2112
     /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */
@@ -19726,7 +19769,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.radio[data-v-5c76bffe],\r\n.update-time[data-v-5c76bffe]::-webkit-calendar-picker-indicator{\r\n    display: none;\n}\n.update-button[data-v-5c76bffe]{\r\n    border-radius: 3px;\r\n    border-color: rgb(8, 168, 8);\r\n    background-color: rgb(11, 228, 11);\r\n    color: white;\r\n    font-weight: bold;\n}\n.update-button[data-v-5c76bffe]:hover{\r\n    background-color:rgb(11, 190, 11) ;\n}\n.delete-button[data-v-5c76bffe]{\r\n    border-radius: 3px;\r\n    border-color: rgb(188, 17, 17);\r\n    background-color: rgb(248, 20, 20);\r\n    color: white;\r\n    font-weight: bold;\n}\n.delete-button[data-v-5c76bffe]:hover{\r\n    background-color: rgb(210, 20, 20);\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.button-hidden[data-v-5c76bffe],\r\n.update-time[data-v-5c76bffe]::-webkit-calendar-picker-indicator{\r\n    display: none;\n}\n.update-button[data-v-5c76bffe]{\r\n    border-radius: 3px;\r\n    border-color: rgb(8, 168, 8);\r\n    background-color: rgb(11, 228, 11);\r\n    color: white;\r\n    font-weight: bold;\n}\n.update-button[data-v-5c76bffe]:hover{\r\n    background-color:rgb(11, 190, 11) ;\n}\n.delete-button[data-v-5c76bffe]{\r\n    border-radius: 3px;\r\n    border-color: rgb(188, 17, 17);\r\n    background-color: rgb(248, 20, 20);\r\n    color: white;\r\n    font-weight: bold;\n}\n.delete-button[data-v-5c76bffe]:hover{\r\n    background-color: rgb(210, 20, 20);\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

@@ -4,6 +4,7 @@
 
         <todo-list-component
             v-bind:todoItems="todoItems"
+            v-bind:postValidation="postValidation"
             v-on:todo-update="todoUpdate"
         ></todo-list-component>
 
@@ -37,6 +38,7 @@
                 v-on:click="inputDataPost"
             >追加</button>
         </div>
+        <p>{{errorMessage}}</p>
 
 
     </div>
@@ -65,7 +67,8 @@ export default{
         })
         // ref化することで、分割代入を可能にする
         const refInputData = toRefs(inputData)
-
+        
+        let errorMessage = ref('')
 
         // DBレコードを非同期で全取得
         let todoItems = ref([])
@@ -73,19 +76,47 @@ export default{
             todoItems.value = res.data
         })
 
+        const postValidation = (data,errorMessage)=>{
+            if(data.todo_content == ''){
+                errorMessage.value = 'タスクを入力してください'
+                return false
+            }
+            else if(Boolean(data.deadline_month) !== Boolean(data.deadline_date)){
+                errorMessage.value = '「月日」の両方を入力してください'
+                return false
+            }
+            else if(data.deadline_month == '' && data.deadline_time != ''){
+                errorMessage.value = '「日付と時間」もしくは「日付のみ」で入力してください'
+                return false
+            }
+            else if(data.deadline_month > 12 || data.deadline_month < 1){
+                errorMessage.value = '正確に「月」を入力してください'
+                return false
+            }
+            else if(data.deadline_date >31 || data.deadline_date < 1){
+                errorMessage.value = '正確に「日」を入力してください'
+                return false
+            }            
+            else{
+                errorMessage.value = ''
+                return true
+            }
+        }
 
         const inputDataPost = ()=>{
-            //入力データを非同期でポスト
-            axios.post("/api/todo/store",inputData)
-            // DBレコードを非同期で全取得
-            axios.get('/api/DB').then((res)=>{
-                todoItems.value = res.data
-            })
-            // 入力フォームの初期化
-            refInputData.todo_content.value = ''
-            refInputData.deadline_month.value = ''
-            refInputData.deadline_date.value = ''
-            refInputData.deadline_time.value = ''
+            if(postValidation(inputData,errorMessage)){
+                //入力データを非同期でポスト
+                axios.post("/api/todo/store",inputData)
+                // DBレコードを非同期で全取得
+                axios.get('/api/DB').then((res)=>{
+                    todoItems.value = res.data
+                })
+                // 入力フォームの初期化
+                refInputData.todo_content.value = ''
+                refInputData.deadline_month.value = ''
+                refInputData.deadline_date.value = ''
+                refInputData.deadline_time.value = ''
+            }
         }
 
         const todoUpdate = (newTodoItems)=>{
@@ -95,9 +126,11 @@ export default{
 
         return {
             inputData,
+            errorMessage,
             todoItems,
             inputDataPost,
             todoUpdate,
+            postValidation,
         }
     },
 }
