@@ -6,14 +6,29 @@
 
 
         <!-- 編集ボタンを押したとき -->
-        <p v-if="updateMode === item.id">
+        <div v-if="updateMode === item.id">
             <input
                 v-model="updateData.todo_content"
                 type="text"
             >
             <input
-                v-model="updateData.deadline"
-                type="datetime-local"
+                v-model="updateData.deadline_month"
+                type="number"
+                min="1"
+                max="12"
+            >
+            <span>月</span>
+            <input
+                v-model="updateData.deadline_date"
+                type="number"
+                min="1"
+                max="31"
+            >
+            <span>日</span>
+            <input
+                v-model="updateData.deadline_time"
+                class="update-time"
+                type="time"
             >
             <input
                 v-model="updateData.id"
@@ -24,32 +39,38 @@
                 v-on:change="updateDataPost"
             >
             <button><label v-bind:for="item.id">完了</label></button>
-        </p>
+        </div>
     
     
         <!-- 編集ボタンを押していないとき -->
-        <p v-else>
-            {{item.todo_content}}
-            {{item.deadline}}
-            <input
-                v-model="updateMode"
-                v-bind:id="item.id+'edit'"
-                v-bind:value="item.id"
-                class="radio"
-                type="radio"
-                v-on:change="updateIdPost"
-            >
-            <button><label v-bind:for="item.id+'edit'">編集</label></button>
-            <input
-                v-model="deleteData.id"
-                v-bind:id="item.id+'delete'"
-                v-bind:value="item.id"
-                class="radio"
-                type="radio"
-                v-on:change="deleteDataPost"
-            >
-            <button><label v-bind:for="item.id+'delete'">削除</label></button>
-        </p>
+        <div v-else>
+            <p>
+                <span>{{item.todo_content}}</span>
+                
+                <input
+                    v-model="updateMode"
+                    v-bind:id="item.id+'edit'"
+                    v-bind:value="item.id"
+                    class="radio"
+                    type="radio"
+                    v-on:change="updateIdPost"
+                >
+                <button class="update-button"><label v-bind:for="item.id+'edit'">編集</label></button>
+                <input
+                    v-model="deleteData.id"
+                    v-bind:id="item.id+'delete'"
+                    v-bind:value="item.id"
+                    class="radio"
+                    type="radio"
+                    v-on:change="deleteDataPost"
+                >
+                <button class="delete-button"><label v-bind:for="item.id+'delete'">削除</label></button>
+            </p>
+            <p>
+                {{dayString(item.deadline_month,item.deadline_date)}}
+                {{item.deadline_time}}
+            </p>
+        </div>
     
     
     </div>
@@ -94,7 +115,9 @@ export default {
         //編集内容をreactiveで設定
         const updateData = reactive({
             todo_content:'',
-            deadline:'',
+            deadline_month:'',
+            deadline_date:'',
+            deadline_time:'',
         })
         const refUpdateData = toRefs(updateData)
 
@@ -102,7 +125,9 @@ export default {
         const updateIdPost = ()=>{
             axios.post('/api/DB/update',{id:updateMode.value}).then((res)=>{
                 refUpdateData.todo_content.value = res.data[0].todo_content
-                refUpdateData.deadline.value = res.data[0].deadline
+                refUpdateData.deadline_month.value = res.data[0].deadline_month
+                refUpdateData.deadline_date.value = res.data[0].deadline_date
+                refUpdateData.deadline_time.value = res.data[0].deadline_time
             })
         }
 
@@ -111,12 +136,18 @@ export default {
             axios.post('/api/todo/update',updateData)
             updateMode.value = ''
             refUpdateData.todo_content.value = ''
-            refUpdateData.deadline.value = ''
+            refUpdateData.deadline_month.value = ''
+            refUpdateData.deadline_date.value = ''
+            refUpdateData.deadline_time.value = ''
             axios.get('/api/DB').then((res)=>{
                 newTodoItems.value = res.data
                 emit('todo-update',newTodoItems)
             })
            
+        }
+
+        const dayString = (month,date)=>{
+            return month + "月" + date + '日'
         }
 
         return{
@@ -126,6 +157,7 @@ export default {
             updateData,
             updateIdPost,
             updateDataPost,
+            dayString,
         }
     },
 }
@@ -134,7 +166,28 @@ export default {
 
 
 <style scoped>
-.radio{
+.radio,
+.update-time::-webkit-calendar-picker-indicator{
     display: none;
+}
+.update-button{
+    border-radius: 3px;
+    border-color: rgb(8, 168, 8);
+    background-color: rgb(11, 228, 11);
+    color: white;
+    font-weight: bold;
+}
+.update-button:hover{
+    background-color:rgb(11, 190, 11) ;
+}
+.delete-button{
+    border-radius: 3px;
+    border-color: rgb(188, 17, 17);
+    background-color: rgb(248, 20, 20);
+    color: white;
+    font-weight: bold;
+}
+.delete-button:hover{
+    background-color: rgb(210, 20, 20);
 }
 </style>

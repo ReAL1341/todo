@@ -13,7 +13,9 @@ class Todo extends Model
 
     public $fillable = [
         'todo_content',
-        'deadline',
+        'deadline_month',
+        'deadline_date',
+        'deadline_time',
         'channel',
     ];
 }

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 class DBController extends Controller
 {
     public function DBResponse(){
-        $items = DB::table('todo')->get(['id','todo_content','deadline']);
+        $items = DB::table('todo')->get(['id','todo_content','deadline_month','deadline_date','deadline_time']);
         $res = json_encode($items);
         return $res;
     }

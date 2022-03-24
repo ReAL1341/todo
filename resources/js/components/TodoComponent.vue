@@ -14,10 +14,28 @@
                 type="text"
             >
             <input
-                v-model="inputData.deadline"
-                type="datetime-local"
+                v-model="inputData.deadline_month"
+                type="number"
+                min="1"
+                max="12"
             >
-            <button v-on:click="inputDataPost">+</button>
+            <span>月</span>
+            <input
+                v-model="inputData.deadline_date"
+                type="number"
+                min="1"
+                max="31"
+            >
+            <span>日</span>
+            <input
+                v-model="inputData.deadline_time"
+                class="input-time"
+                type="time"
+            >
+            <button 
+                class="input-button"
+                v-on:click="inputDataPost"
+            >追加</button>
         </div>
 
 
@@ -41,7 +59,9 @@ export default{
         //入力データをreactiveで設定
         const inputData = reactive({
                 todo_content:'',
-                deadline:'',
+                deadline_month:'',
+                deadline_date:'',
+                deadline_time:'',
         })
         // ref化することで、分割代入を可能にする
         const refInputData = toRefs(inputData)
@@ -63,7 +83,9 @@ export default{
             })
             // 入力フォームの初期化
             refInputData.todo_content.value = ''
-            refInputData.deadline.value = ''
+            refInputData.deadline_month.value = ''
+            refInputData.deadline_date.value = ''
+            refInputData.deadline_time.value = ''
         }
 
         const todoUpdate = (newTodoItems)=>{
@@ -83,6 +105,8 @@ export default{
 
 //コメント
 //css
+//enterで次の入力へ
+//バリデーション
 
 // チャンネル
 //カラムの変更
@@ -93,3 +117,20 @@ export default{
 //読み込み表示
 //スクロールによる順序変更
 </script>
+
+
+<style scoped>
+.input-time::-webkit-calendar-picker-indicator{
+    display: none;
+}
+.input-button{
+    border-radius: 3px;
+    border-color: rgb(15, 122, 175);
+    background-color: rgb(30, 144, 255);
+    color: white;
+    font-weight: bold;
+}
+.input-button:hover{
+    background-color: rgb(18,122,189);
+}
+</style>

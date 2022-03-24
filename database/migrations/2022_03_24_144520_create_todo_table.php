@@ -16,8 +16,10 @@ class CreateTodoTable extends Migration
         Schema::create('todo', function (Blueprint $table) {
             $table->id();
             $table->text('todo_content');
-            $table->dateTime('deadline');
-            $table->string('channel');
+            $table->integer('deadline_month')->nullable();
+            $table->integer('deadline_date')->nullable();
+            $table->time('deadline_time')->nullable();
+            $table->string('channel')->nullable();
             $table->timestamps();
         });
     }

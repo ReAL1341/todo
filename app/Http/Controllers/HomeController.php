@@ -49,7 +49,9 @@ class HomeController extends Controller
     public function update(Request $request){
         $param = [
             'todo_content' => $request->input('todo_content'),
-            'deadline' => $request->input('deadline'),
+            'deadline_month' => $request->input('deadline_month'),
+            'deadline_date' => $request->input('deadline_date'),
+            'deadline_time' => $request->input('deadline_time'),
         ];
         DB::table('todo')->where('id',$request->input('id'))->update($param);            
         return view('home');
