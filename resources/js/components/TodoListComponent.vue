@@ -11,12 +11,14 @@
                 <input
                     v-model="updateData.todo_content"
                     type="text"
+                    v-on:keyup.enter="$event.target.nextElementSibling.focus()"
                 >
                 <input
                     v-model="updateData.deadline_month"
                     type="number"
                     min="1"
                     max="12"
+                    v-on:keyup.enter="$event.target.nextElementSibling.nextElementSibling.focus()"
                 >
                 <span>月</span>
                 <input
@@ -24,12 +26,14 @@
                     type="number"
                     min="1"
                     max="31"
+                    v-on:keyup.enter="$event.target.nextElementSibling.nextElementSibling.focus()"
                 >
                 <span>日</span>
                 <input
                     v-model="updateData.deadline_time"
                     class="update-time"
                     type="time"
+                    v-on:keyup.enter="$event.target.blur()"
                 >
                 <input
                     v-model="updateData.id"

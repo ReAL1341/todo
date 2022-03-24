@@ -19355,7 +19355,6 @@ __webpack_require__.r(__webpack_exports__);
 }); //コメント
 //css
 //enterで次の入力へ
-//バリデーション
 // チャンネル
 //カラムの変更
 //削除確認
@@ -19511,38 +19510,50 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $setup.inputData.todo_content = $event;
     }),
-    type: "text"
-  }, null, 512
-  /* NEED_PATCH */
+    type: "text",
+    onKeyup: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)(function ($event) {
+      return $event.target.nextElementSibling.focus();
+    }, ["enter"]))
+  }, null, 544
+  /* HYDRATE_EVENTS, NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.inputData.todo_content]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
       return $setup.inputData.deadline_month = $event;
     }),
     type: "number",
     min: "1",
-    max: "12"
-  }, null, 512
-  /* NEED_PATCH */
+    max: "12",
+    onKeyup: _cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)(function ($event) {
+      return $event.target.nextElementSibling.nextElementSibling.focus();
+    }, ["enter"]))
+  }, null, 544
+  /* HYDRATE_EVENTS, NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.inputData.deadline_month]]), _hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+    "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
       return $setup.inputData.deadline_date = $event;
     }),
     type: "number",
     min: "1",
-    max: "31"
-  }, null, 512
-  /* NEED_PATCH */
+    max: "31",
+    onKeyup: _cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)(function ($event) {
+      return $event.target.nextElementSibling.nextElementSibling.focus();
+    }, ["enter"]))
+  }, null, 544
+  /* HYDRATE_EVENTS, NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.inputData.deadline_date]]), _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+    "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
       return $setup.inputData.deadline_time = $event;
     }),
     "class": "input-time",
-    type: "time"
-  }, null, 512
-  /* NEED_PATCH */
+    type: "time",
+    onKeyup: _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)(function ($event) {
+      return $event.target.blur();
+    }, ["enter"]))
+  }, null, 544
+  /* HYDRATE_EVENTS, NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.inputData.deadline_time]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "input-button",
-    onClick: _cache[4] || (_cache[4] = function () {
+    onClick: _cache[8] || (_cache[8] = function () {
       return $setup.inputDataPost && $setup.inputDataPost.apply($setup, arguments);
     })
   }, "追加")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.errorMessage), 1
@@ -19609,44 +19620,56 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
         return $setup.updateData.todo_content = $event;
       }),
-      type: "text"
-    }, null, 512
-    /* NEED_PATCH */
+      type: "text",
+      onKeyup: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)(function ($event) {
+        return $event.target.nextElementSibling.focus();
+      }, ["enter"]))
+    }, null, 544
+    /* HYDRATE_EVENTS, NEED_PATCH */
     ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.updateData.todo_content]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-      "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+      "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
         return $setup.updateData.deadline_month = $event;
       }),
       type: "number",
       min: "1",
-      max: "12"
-    }, null, 512
-    /* NEED_PATCH */
+      max: "12",
+      onKeyup: _cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)(function ($event) {
+        return $event.target.nextElementSibling.nextElementSibling.focus();
+      }, ["enter"]))
+    }, null, 544
+    /* HYDRATE_EVENTS, NEED_PATCH */
     ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.updateData.deadline_month]]), _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-      "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+      "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
         return $setup.updateData.deadline_date = $event;
       }),
       type: "number",
       min: "1",
-      max: "31"
-    }, null, 512
-    /* NEED_PATCH */
+      max: "31",
+      onKeyup: _cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)(function ($event) {
+        return $event.target.nextElementSibling.nextElementSibling.focus();
+      }, ["enter"]))
+    }, null, 544
+    /* HYDRATE_EVENTS, NEED_PATCH */
     ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.updateData.deadline_date]]), _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-      "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+      "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
         return $setup.updateData.deadline_time = $event;
       }),
       "class": "update-time",
-      type: "time"
-    }, null, 512
-    /* NEED_PATCH */
+      type: "time",
+      onKeyup: _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)(function ($event) {
+        return $event.target.blur();
+      }, ["enter"]))
+    }, null, 544
+    /* HYDRATE_EVENTS, NEED_PATCH */
     ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.updateData.deadline_time]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-      "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+      "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
         return $setup.updateData.id = $event;
       }),
       id: item.id,
       value: item.id,
       "class": "button-hidden",
       type: "checkbox",
-      onChange: _cache[5] || (_cache[5] = function () {
+      onChange: _cache[9] || (_cache[9] = function () {
         return $setup.updateDataPost && $setup.updateDataPost.apply($setup, arguments);
       })
     }, null, 40
@@ -19662,14 +19685,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 編集ボタンを押していないとき "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.todo_content), 1
     /* TEXT */
     ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-      "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
+      "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
         return $setup.updateMode = $event;
       }),
       id: item.id + 'edit',
       value: item.id,
       "class": "button-hidden",
       type: "radio",
-      onChange: _cache[7] || (_cache[7] = function () {
+      onChange: _cache[11] || (_cache[11] = function () {
         return $setup.updateIdPost && $setup.updateIdPost.apply($setup, arguments);
       })
     }, null, 40
@@ -19679,14 +19702,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, "編集", 8
     /* PROPS */
     , _hoisted_9)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-      "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
+      "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
         return $setup.deleteData.id = $event;
       }),
       id: item.id + 'delete',
       value: item.id,
       "class": "button-hidden",
       type: "radio",
-      onChange: _cache[9] || (_cache[9] = function () {
+      onChange: _cache[13] || (_cache[13] = function () {
         return $setup.deleteDataPost && $setup.deleteDataPost.apply($setup, arguments);
       })
     }, null, 40

@@ -13,12 +13,14 @@
             <input
                 v-model="inputData.todo_content"
                 type="text"
+                v-on:keyup.enter="$event.target.nextElementSibling.focus()"
             >
             <input
                 v-model="inputData.deadline_month"
                 type="number"
                 min="1"
                 max="12"
+                v-on:keyup.enter="$event.target.nextElementSibling.nextElementSibling.focus()"
             >
             <span>月</span>
             <input
@@ -26,12 +28,14 @@
                 type="number"
                 min="1"
                 max="31"
+                v-on:keyup.enter="$event.target.nextElementSibling.nextElementSibling.focus()"
             >
             <span>日</span>
             <input
                 v-model="inputData.deadline_time"
                 class="input-time"
                 type="time"
+                v-on:keyup.enter="$event.target.blur()"
             >
             <button 
                 class="input-button"
@@ -138,8 +142,6 @@ export default{
 
 //コメント
 //css
-//enterで次の入力へ
-//バリデーション
 
 // チャンネル
 //カラムの変更

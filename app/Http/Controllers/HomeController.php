@@ -17,21 +17,6 @@ class HomeController extends Controller
 
     public function store(Request $request){
     //+ボタンの処理
-        // $rules = [
-        //     'todo_content' => 'required|unique:todo,todo_content',
-        // ];
-        // $message = [
-        //     'todo_content.required' => 'タスクを入力してください',
-        //     'todo_content.unique' => 'そのタスクはすでに存在します',
-        //     'deadline.after' => '期限は今よりも後にしてください',
-        // ];
-        // $validator = Validator::make($request->all(),$rules,$message);
-        // $validator->sometimes('deadline','after:now',function($input){
-        //     return $input->deadline != null;
-        // });
-        // if($validator->fails()){
-        //     return redirect('/todo')->withErrors($validator)->withInput();
-        // }
         $todo = new Todo();
         $input = $request->all();
         unset($input['_token']);
