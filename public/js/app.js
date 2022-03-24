@@ -19287,8 +19287,7 @@ __webpack_require__.r(__webpack_exports__);
     //入力データをreactiveで設定
     var inputData = (0,vue__WEBPACK_IMPORTED_MODULE_1__.reactive)({
       todo_content: '',
-      deadline: '',
-      type: 'add'
+      deadline: ''
     }); // ref化することで、分割代入を可能にする
 
     var refInputData = (0,vue__WEBPACK_IMPORTED_MODULE_1__.toRefs)(inputData); // DBレコードを非同期で全取得
@@ -19300,7 +19299,7 @@ __webpack_require__.r(__webpack_exports__);
 
     var inputDataPost = function inputDataPost() {
       //入力データを非同期でポスト
-      axios__WEBPACK_IMPORTED_MODULE_0___default().post("/api/todo", inputData); // DBレコードを非同期で全取得
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post("/api/todo/store", inputData); // DBレコードを非同期で全取得
 
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/DB').then(function (res) {
         todoItems.value = res.data;
@@ -19322,8 +19321,7 @@ __webpack_require__.r(__webpack_exports__);
       todoUpdate: todoUpdate
     };
   }
-}); //命名の整理
-//コメント
+}); //コメント
 //css
 // チャンネル
 //カラムの変更
@@ -19364,12 +19362,11 @@ __webpack_require__.r(__webpack_exports__);
     var newTodoItems = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)([]); // 削除ボタンがポストするデータ
 
     var deleteData = {
-      id: '',
-      type: 'delete'
+      id: ''
     }; // 削除ボタンの処理
 
     var deleteDataPost = function deleteDataPost() {
-      axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/todo', deleteData);
+      axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/todo/delete', deleteData);
       axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/DB').then(function (res) {
         newTodoItems.value = res.data;
         emit('todo-update', newTodoItems);
@@ -19381,13 +19378,12 @@ __webpack_require__.r(__webpack_exports__);
 
     var updateData = (0,vue__WEBPACK_IMPORTED_MODULE_0__.reactive)({
       todo_content: '',
-      deadline: '',
-      type: 'edit'
+      deadline: ''
     });
     var refUpdateData = (0,vue__WEBPACK_IMPORTED_MODULE_0__.toRefs)(updateData); //編集ボタンの処理
 
     var updateIdPost = function updateIdPost() {
-      axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/DB/edit', {
+      axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/DB/update', {
         id: updateMode.value
       }).then(function (res) {
         refUpdateData.todo_content.value = res.data[0].todo_content;
@@ -19397,7 +19393,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
     var updateDataPost = function updateDataPost() {
-      axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/todo', updateData);
+      axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/todo/update', updateData);
       updateMode.value = '';
       refUpdateData.todo_content.value = '';
       refUpdateData.deadline.value = '';

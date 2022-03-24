@@ -76,12 +76,11 @@ export default {
         // 削除ボタンがポストするデータ
         const deleteData = {
             id:'',
-            type:'delete',
         }
 
         // 削除ボタンの処理
         const deleteDataPost = ()=>{
-            axios.post('/api/todo',deleteData)
+            axios.post('/api/todo/delete',deleteData)
             axios.get('/api/DB').then((res)=>{
                 newTodoItems.value = res.data
                 emit('todo-update',newTodoItems)
@@ -96,13 +95,12 @@ export default {
         const updateData = reactive({
             todo_content:'',
             deadline:'',
-            type:'edit',
         })
         const refUpdateData = toRefs(updateData)
 
         //編集ボタンの処理
         const updateIdPost = ()=>{
-            axios.post('/api/DB/edit',{id:updateMode.value}).then((res)=>{
+            axios.post('/api/DB/update',{id:updateMode.value}).then((res)=>{
                 refUpdateData.todo_content.value = res.data[0].todo_content
                 refUpdateData.deadline.value = res.data[0].deadline
             })
@@ -110,7 +108,7 @@ export default {
 
         //編集完了ボタンの処理
         const updateDataPost = ()=>{
-            axios.post('/api/todo',updateData)
+            axios.post('/api/todo/update',updateData)
             updateMode.value = ''
             refUpdateData.todo_content.value = ''
             refUpdateData.deadline.value = ''

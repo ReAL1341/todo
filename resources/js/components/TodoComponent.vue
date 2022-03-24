@@ -42,7 +42,6 @@ export default{
         const inputData = reactive({
                 todo_content:'',
                 deadline:'',
-                type:'add',
         })
         // ref化することで、分割代入を可能にする
         const refInputData = toRefs(inputData)
@@ -57,7 +56,7 @@ export default{
 
         const inputDataPost = ()=>{
             //入力データを非同期でポスト
-            axios.post("/api/todo",inputData)
+            axios.post("/api/todo/store",inputData)
             // DBレコードを非同期で全取得
             axios.get('/api/DB').then((res)=>{
                 todoItems.value = res.data
@@ -81,7 +80,7 @@ export default{
     },
 }
 
-//命名の整理
+
 //コメント
 //css
 

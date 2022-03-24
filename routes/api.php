@@ -22,6 +22,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/todo',[HomeController::class,'show']);
-Route::post('/todo',[HomeController::class,'store']);
-Route::get('/DB',[DBController::class,'DBGet']);
-Route::post('/DB/edit',[DBController::class,'currentPost']);
+Route::post('/todo/store',[HomeController::class,'store']);
+Route::post('/todo/delete',[HomeController::class,'delete']);
+Route::post('/todo/update',[HomeController::class,'update']);
+Route::get('/DB',[DBController::class,'DBResponse']);
+Route::post('/DB/update',[DBController::class,'currentDataResponse']);
