@@ -3,12 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use App\Models\Todo;
-use App\Models\Channel;
 
-class HomeController extends Controller
+class TodoController extends Controller
 {
     public function show(){
         return view('home');
@@ -42,6 +40,17 @@ class HomeController extends Controller
         return view('home');
     }
 
+    public function itemsResponse(){
+        $items = DB::table('todo')->get(['id','todo_content','deadline_month','deadline_date','deadline_time']);
+        $res = json_encode($items);
+        return $res;
+    }
+
+    public function preUpdateResponse(Request $request){
+        $items = DB::table('todo')->where('id',$request->input('id'))->get();
+        $res = json_encode($items);
+        return $res;
+    }
 
     //まとめて削除ボタンの処理
     // if($request->has('delete_multi_request')){

@@ -1,6 +1,7 @@
 <template>
     <div>
 
+        <todo-channel-component></todo-channel-component>
 
         <todo-list-component
             v-bind:todoItems="todoItems"
@@ -76,7 +77,7 @@ export default{
 
         // DBレコードを非同期で全取得
         let todoItems = ref([])
-        axios.get('/api/DB').then((res)=>{
+        axios.get('/api/todo/response').then((res)=>{
             todoItems.value = res.data
         })
 
@@ -112,7 +113,7 @@ export default{
                 //入力データを非同期でポスト
                 axios.post("/api/todo/store",inputData)
                 // DBレコードを非同期で全取得
-                axios.get('/api/DB').then((res)=>{
+                axios.get('/api/todo/response').then((res)=>{
                     todoItems.value = res.data
                 })
                 // 入力フォームの初期化
@@ -143,9 +144,7 @@ export default{
 //コメント
 //css
 
-// チャンネル
-//カラムの変更
-
+//チャンネル
 //削除確認
 //一括削除
 

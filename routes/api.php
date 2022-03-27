@@ -2,9 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\DBController;
-use Illuminate\Contracts\Cache\Store;
+use App\Http\Controllers\TodoController;
+use App\Http\Controllers\ChannelController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,9 +20,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/todo',[HomeController::class,'show']);
-Route::post('/todo/store',[HomeController::class,'store']);
-Route::post('/todo/delete',[HomeController::class,'delete']);
-Route::post('/todo/update',[HomeController::class,'update']);
-Route::get('/DB',[DBController::class,'DBResponse']);
-Route::post('/DB/update',[DBController::class,'currentDataResponse']);
+Route::get('/todo',[TodoController::class,'show']);
+Route::post('/todo/store',[TodoController::class,'store']);
+Route::post('/todo/delete',[TodoController::class,'delete']);
+Route::post('/todo/update',[TodoController::class,'update']);
+Route::get('/todo/response',[TodoController::class,'itemsResponse']);
+Route::post('/todo/response/update',[TodoController::class,'preUpdateResponse']);
+
+Route::get('/channel',[ChannelController::class,'channelResponse']);
+Route::post('/channel/store',[ChannelController::class,'channelStore']);

@@ -116,7 +116,7 @@ export default {
         // 削除ボタンの処理
         const deleteDataPost = ()=>{
             axios.post('/api/todo/delete',deleteData)
-            axios.get('/api/DB').then((res)=>{
+            axios.get('/api/todo/response').then((res)=>{
                 newTodoItems.value = res.data
                 emit('todo-update',newTodoItems)
             })
@@ -138,7 +138,7 @@ export default {
 
         //編集ボタンの処理
         const updateIdPost = ()=>{
-            axios.post('/api/DB/update',{id:updateMode.value}).then((res)=>{
+            axios.post('/api/todo/response/update',{id:updateMode.value}).then((res)=>{
                 refUpdateData.todo_content.value = res.data[0].todo_content
                 refUpdateData.deadline_month.value = res.data[0].deadline_month
                 refUpdateData.deadline_date.value = res.data[0].deadline_date
@@ -156,7 +156,7 @@ export default {
                 refUpdateData.deadline_month.value = ''
                 refUpdateData.deadline_date.value = ''
                 refUpdateData.deadline_time.value = ''
-                axios.get('/api/DB').then((res)=>{
+                axios.get('/api/todo/response').then((res)=>{
                     newTodoItems.value = res.data
                     emit('todo-update',newTodoItems)
                 })
