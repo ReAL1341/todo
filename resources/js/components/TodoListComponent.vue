@@ -100,6 +100,10 @@ export default {
             type:Function,
             required:true,
         },
+        currentChannel:{
+            type:String,
+            required:true,
+        },
     },
     emits:['todo-update'],
     setup(props,{emit}) {
@@ -116,7 +120,7 @@ export default {
         // 削除ボタンの処理
         const deleteDataPost = ()=>{
             axios.post('/api/todo/delete',deleteData)
-            axios.get('/api/todo/response').then((res)=>{
+            axios.post('/api/todo/response',{channel:props.currentChannel}).then((res)=>{
                 newTodoItems.value = res.data
                 emit('todo-update',newTodoItems)
             })
@@ -156,13 +160,10 @@ export default {
                 refUpdateData.deadline_month.value = ''
                 refUpdateData.deadline_date.value = ''
                 refUpdateData.deadline_time.value = ''
-                axios.get('/api/todo/response').then((res)=>{
+                axios.post('/api/todo/response',{channel:props.currentChannel}).then((res)=>{
                     newTodoItems.value = res.data
                     emit('todo-update',newTodoItems)
                 })
-            }
-            else{
-
             }
         }
 

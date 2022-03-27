@@ -17,10 +17,10 @@
             <input
                 v-model="toChannel"
                 v-bind:id="item.id+'current-id'"
-                v-bind:value="item.id"
+                v-bind:value="item.name"
                 class="button-hidden"
                 type="radio"
-                v-on:click = "changeChannel"
+                v-on:change="changeChannel"
             >
             <button><label v-bind:for="item.id+'current-id'">{{item.name}}</label></button>
         </p>
@@ -34,7 +34,8 @@ import axios from 'axios'
 
 export default{
     name:'TodoChannelComponent',
-    setup(){
+    emits:['change-channel'],
+    setup(props,{emit}){
         let newChannel = ref('')
 
         let channelItems = ref([])
@@ -52,9 +53,8 @@ export default{
         }
 
         let toChannel = ref('')
-
         const changeChannel = ()=>{
-            axios.post('',{toChannel:toChannel.value})
+            emit('change-channel',toChannel.value)
         }
 
         return {

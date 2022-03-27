@@ -1,10 +1,14 @@
 <template>
     <div>
 
-        <todo-channel-component></todo-channel-component>
+        <todo-channel-component
+            v-on:change-channel="changeChannel"
+        ></todo-channel-component>
 
+        <h1>{{currentChannel}}</h1>
         <todo-list-component
             v-bind:todoItems="todoItems"
+            v-bind:currentChannel="currentChannel"
             v-bind:postValidation="postValidation"
             v-on:todo-update="todoUpdate"
         ></todo-list-component>
@@ -63,21 +67,25 @@ export default{
         TodoListComponent,
     },
     setup() {
+        let currentChannel = ref('やることリスト')
         //入力データをreactiveで設定
         const inputData = reactive({
                 todo_content:'',
                 deadline_month:'',
                 deadline_date:'',
                 deadline_time:'',
+                channel:currentChannel.value,
         })
         // ref化することで、分割代入を可能にする
         const refInputData = toRefs(inputData)
         
         let errorMessage = ref('')
+        
+
 
         // DBレコードを非同期で全取得
         let todoItems = ref([])
-        axios.get('/api/todo/response').then((res)=>{
+        axios.post('/api/todo/response',{channel:currentChannel.value}).then((res)=>{
             todoItems.value = res.data
         })
 
@@ -113,7 +121,7 @@ export default{
                 //入力データを非同期でポスト
                 axios.post("/api/todo/store",inputData)
                 // DBレコードを非同期で全取得
-                axios.get('/api/todo/response').then((res)=>{
+                axios.post('/api/todo/response',{channel:currentChannel.value}).then((res)=>{
                     todoItems.value = res.data
                 })
                 // 入力フォームの初期化
@@ -129,6 +137,16 @@ export default{
             todoItems.value = newTodoItems.value
         }
 
+        
+
+        const changeChannel = (toChannel)=>{
+            currentChannel.value = toChannel
+            axios.post('/api/todo/response',{channel:currentChannel.value}).then((res)=>{
+                    todoItems.value = res.data
+            })
+            refInputData.channel.value = toChannel
+        }
+
         return {
             inputData,
             errorMessage,
@@ -136,20 +154,11 @@ export default{
             inputDataPost,
             todoUpdate,
             postValidation,
+            changeChannel,
+            currentChannel,
         }
     },
 }
-
-
-//コメント
-//css
-
-//チャンネル
-//削除確認
-//一括削除
-
-//読み込み表示
-//スクロールによる順序変更
 </script>
 
 
