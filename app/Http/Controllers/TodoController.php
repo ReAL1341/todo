@@ -9,7 +9,7 @@ use App\Models\Todo;
 class TodoController extends Controller
 {
     public function show(){
-        return view('home');
+        return view('index');
     }
 
 
@@ -19,13 +19,13 @@ class TodoController extends Controller
         $input = $request->all();
         unset($input['_token']);
         $todo->fill($input)->save();
-        return view('home');
+        return view('index');
     }
 
     //削除ボタンの処理
     public function delete(Request $request){
         DB::table('todo')->where('id',$request->input('id'))->delete();
-        return view('home');
+        return view('index');
     }
 
     //編集ボタンの処理
@@ -36,8 +36,8 @@ class TodoController extends Controller
             'deadline_date' => $request->input('deadline_date'),
             'deadline_time' => $request->input('deadline_time'),
         ];
-        DB::table('todo')->where('id',$request->input('id'))->update($param);            
-        return view('home');
+        DB::table('todo')->where('id',$request->input('id'))->update($param);
+        return view('index');
     }
 
     public function itemsResponse(Request $request){

@@ -1,16 +1,10 @@
 <template>
-    <h2>チャンネル</h2>
+    <todo-channel-add-component
+        v-on:channel-list-reload="channelListReload"
+    ></todo-channel-add-component>
 
     <div>
-        <input
-            v-model="newChannel"
-            type="text"
-        >
-        <button v-on:click = "newChannelPost">追加</button>
-    </div>
-
-    <div>
-        <p 
+        <p
             v-for="item in channelItems"
             v-bind:key="item.id"
         >
@@ -25,31 +19,28 @@
             <button><label v-bind:for="item.id+'current-id'">{{item.name}}</label></button>
         </p>
     </div>
-
 </template>
 
 <script>
-import {reactive,ref,toRefs} from 'vue'
+import { ref } from 'vue'
 import axios from 'axios'
+import TodoChannelAddComponent from './TodoChannelAddComponent.vue'
 
 export default{
     name:'TodoChannelComponent',
+    components: { TodoChannelAddComponent },
     emits:['change-channel'],
     setup(props,{emit}){
-        let newChannel = ref('')
 
         let channelItems = ref([])
-
         axios.get('/api/channel').then(($res)=>{
-                channelItems.value = $res.data
+            channelItems.value = $res.data
         })
-
-        const newChannelPost = ()=> {
-            axios.post('/api/channel/store',{name:newChannel.value})
+        
+        const channelListReload = ()=>{
             axios.get('/api/channel').then(($res)=>{
                 channelItems.value = $res.data
             })
-            newChannel.value = ''
         }
 
         let toChannel = ref('')
@@ -58,9 +49,8 @@ export default{
         }
 
         return {
-            newChannel,
             channelItems,
-            newChannelPost,
+            channelListReload,
             toChannel,
             changeChannel,
         }

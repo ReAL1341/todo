@@ -1,11 +1,17 @@
 import { createApp } from 'vue';
-import TodoComponent from './components/TodoComponent.vue';
+import AppComponent from './components/AppComponent.vue';
+import TodoInputComponent from './components/TodoInputComponent.vue';
 import TodoListComponent from './components/TodoListComponent.vue';
-import TodoChannelComponent from './components/TodoChannelComponent.vue'
+import TodoListUpdateComponent from './components/TodoListUpdateComponent.vue';
+import TodoChannelComponent from './components/TodoChannelComponent.vue';
+import TodoChannelAddComponent from './components/TodoChannelAddComponent.vue';
 
 let app = createApp({})
-app.component('todo-component',TodoComponent);
+app.component('app-component',AppComponent);
+app.component('todo-input-component',TodoInputComponent);
 app.component('todo-list-component',TodoListComponent);
+app.component('todo-list-update-component',TodoListUpdateComponent);
 app.component('todo-channel-component',TodoChannelComponent);
+app.component('todo-channel-add-component',TodoChannelAddComponent);
 
 app.mount("#app");

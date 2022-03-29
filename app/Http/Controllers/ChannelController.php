@@ -20,6 +20,6 @@ class ChannelController extends Controller
         $form = $request->all();
         unset($form['_token']);
         $newChannel->fill($form)->save();
-        return view('home');
+        return view('index');
     }
 }
