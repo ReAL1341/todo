@@ -39,7 +39,6 @@
                 v-bind:item="item"
                 v-bind:updateItemId="updateItemId"
                 v-bind:currentInputData="currentInputData"
-                v-bind:todoFormValidation="todoFormValidation"
                 v-on:update-finish="updateFinish"
             ></todo-list-update-component>
         </div>
@@ -60,10 +59,6 @@ export default {
     props:{
         todoItems:{
             type:Array,
-            required:true,
-        },
-        todoFormValidation:{
-            type:Function,
             required:true,
         },
     },
@@ -108,7 +103,12 @@ export default {
         }
       
         const dayString = (month,date)=>{
-            return month + "月" + date + '日'
+            if (month!=null && date!=null){
+                return month + "月" + date + '日'
+            }
+            else{
+                return ''
+            }
         }
 
         return{

@@ -19308,36 +19308,13 @@ __webpack_require__.r(__webpack_exports__);
     var changeChannel = function changeChannel(toChannel) {
       currentChannel.value = toChannel;
       todoListReload();
-    }; //最終的にはLaravel側に移行する
-
-
-    var todoFormValidation = function todoFormValidation(data) {
-      if (data.todo_content == '') {
-        //errorMessage.value = 'タスクを入力してください'
-        return false;
-      } else if (Boolean(data.deadline_month) !== Boolean(data.deadline_date)) {
-        //errorMessage.value = '「月日」の両方を入力してください'
-        return false;
-      } else if (data.deadline_month == '' && data.deadline_time != '') {
-        //errorMessage.value = '「日付と時間」もしくは「日付のみ」で入力してください'
-        return false;
-      } else if (data.deadline_month > 12 || data.deadline_month < 1) {
-        //errorMessage.value = '正確に「月」を入力してください'
-        return false;
-      } else if (data.deadline_date > 31 || data.deadline_date < 1) {
-        //errorMessage.value = '正確に「日」を入力してください'
-        return false;
-      } else {
-        return true;
-      }
     };
 
     return {
       currentChannel: currentChannel,
       todoItems: todoItems,
       todoListReload: todoListReload,
-      changeChannel: changeChannel,
-      todoFormValidation: todoFormValidation
+      changeChannel: changeChannel
     };
   }
 });
@@ -19460,10 +19437,6 @@ __webpack_require__.r(__webpack_exports__);
     currentChannel: {
       type: String,
       required: true
-    },
-    todoFormValidation: {
-      type: Function,
-      required: true
     }
   },
   emits: ["todo-list-reload"],
@@ -19477,22 +19450,28 @@ __webpack_require__.r(__webpack_exports__);
       channel: ''
     });
     var refInputData = (0,vue__WEBPACK_IMPORTED_MODULE_1__.toRefs)(inputData);
+    var errorMessages = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)([]);
 
     var inputDataPost = function inputDataPost() {
-      if (props.todoFormValidation(inputData)) {
-        refInputData.channel.value = props.currentChannel;
-        axios__WEBPACK_IMPORTED_MODULE_0___default().post("/api/todo/store", inputData);
-        emit('todo-list-reload'); // 入力フォームの初期化
+      refInputData.channel.value = props.currentChannel;
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post("/api/todo/store", inputData).then(function ($res) {
+        if ($res.data.errors != undefined) {
+          errorMessages.value = $res.data.errors;
+        } else {
+          errorMessages.value = '';
+          emit('todo-list-reload'); // 入力フォームの初期化
 
-        refInputData.todo_content.value = '';
-        refInputData.deadline_month.value = '';
-        refInputData.deadline_date.value = '';
-        refInputData.deadline_time.value = '';
-      }
+          refInputData.todo_content.value = '';
+          refInputData.deadline_month.value = '';
+          refInputData.deadline_date.value = '';
+          refInputData.deadline_time.value = '';
+        }
+      });
     };
 
     return {
       inputData: inputData,
+      errorMessages: errorMessages,
       inputDataPost: inputDataPost
     };
   }
@@ -19526,10 +19505,6 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     todoItems: {
       type: Array,
-      required: true
-    },
-    todoFormValidation: {
-      type: Function,
       required: true
     }
   },
@@ -19579,7 +19554,11 @@ __webpack_require__.r(__webpack_exports__);
     };
 
     var dayString = function dayString(month, date) {
-      return month + "月" + date + '日';
+      if (month != null && date != null) {
+        return month + "月" + date + '日';
+      } else {
+        return '';
+      }
     };
 
     return {
@@ -19626,26 +19605,28 @@ __webpack_require__.r(__webpack_exports__);
     currentInputData: {
       type: Object,
       required: true
-    },
-    todoFormValidation: {
-      type: Function,
-      required: true
     }
   },
   emits: ['update-finish'],
   setup: function setup(props, _ref) {
     var emit = _ref.emit;
-    var updateData = (0,vue__WEBPACK_IMPORTED_MODULE_1__.reactive)(props.currentInputData); //編集完了ボタンの処理
+    var updateData = (0,vue__WEBPACK_IMPORTED_MODULE_1__.reactive)(props.currentInputData);
+    var errorMessages = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)([]); //編集完了ボタンの処理
 
     var updateDataPost = function updateDataPost() {
-      if (props.todoFormValidation(updateData)) {
-        axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/todo/update', updateData);
-        emit('update-finish');
-      }
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/todo/update', updateData).then(function ($res) {
+        if ($res.data.errors != undefined) {
+          errorMessages.value = $res.data.errors;
+        } else {
+          errorMessages.value = '';
+          emit('update-finish');
+        }
+      });
     };
 
     return {
       updateData: updateData,
+      errorMessages: errorMessages,
       updateDataPost: updateDataPost
     };
   }
@@ -19684,19 +19665,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* PROPS */
   , ["onChangeChannel"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_todo_input_component, {
     currentChannel: $setup.currentChannel,
-    todoFormValidation: $setup.todoFormValidation,
     onTodoListReload: $setup.todoListReload
   }, null, 8
   /* PROPS */
-  , ["currentChannel", "todoFormValidation", "onTodoListReload"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.currentChannel), 1
+  , ["currentChannel", "onTodoListReload"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.currentChannel), 1
   /* TEXT */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_todo_list_component, {
     todoItems: $setup.todoItems,
-    todoFormValidation: $setup.todoFormValidation,
     onTodoListReload: $setup.todoListReload
   }, null, 8
   /* PROPS */
-  , ["todoItems", "todoFormValidation", "onTodoListReload"])]);
+  , ["todoItems", "onTodoListReload"])]);
 }
 
 /***/ }),
@@ -19819,7 +19798,7 @@ var _hoisted_2 = /*#__PURE__*/_withScopeId(function () {
 });
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $setup.inputData.todo_content = $event;
     }),
@@ -19869,7 +19848,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[8] || (_cache[8] = function () {
       return $setup.inputDataPost && $setup.inputDataPost.apply($setup, arguments);
     })
-  }, "追加")]);
+  }, "追加")]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.errorMessages, function (message) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", {
+      key: message
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(message), 1
+    /* TEXT */
+    );
+  }), 128
+  /* KEYED_FRAGMENT */
+  ))]);
 }
 
 /***/ }),
@@ -19956,11 +19943,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       item: item,
       updateItemId: $setup.updateItemId,
       currentInputData: $setup.currentInputData,
-      todoFormValidation: $props.todoFormValidation,
       onUpdateFinish: $setup.updateFinish
     }, null, 8
     /* PROPS */
-    , ["item", "updateItemId", "currentInputData", "todoFormValidation", "onUpdateFinish"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+    , ["item", "updateItemId", "currentInputData", "onUpdateFinish"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
   }), 128
   /* KEYED_FRAGMENT */
   );
@@ -19991,7 +19977,7 @@ var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 );
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $setup.updateData.todo_content = $event;
     }),
@@ -20041,7 +20027,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[8] || (_cache[8] = function () {
       return $setup.updateDataPost && $setup.updateDataPost.apply($setup, arguments);
     })
-  }, "完了")]);
+  }, "完了")]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.errorMessages, function (message) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", {
+      key: message
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(message), 1
+    /* TEXT */
+    );
+  }), 128
+  /* KEYED_FRAGMENT */
+  ))]);
 }
 
 /***/ }),

@@ -1,37 +1,43 @@
 <template>
     <div>
-        <input
-            v-model="inputData.todo_content"
-            type="text"
-            v-on:keyup.enter="$event.target.nextElementSibling.focus()"
-        >
-        <input
-            v-model="inputData.deadline_month"
-            type="number"
-            min="1"
-            max="12"
-            v-on:keyup.enter="$event.target.nextElementSibling.nextElementSibling.focus()"
-        >
-        <span>月</span>
-        <input
-            v-model="inputData.deadline_date"
-            type="number"
-            min="1"
-            max="31"
-            v-on:keyup.enter="$event.target.nextElementSibling.nextElementSibling.focus()"
-        >
-        <span>日</span>
-        
-        <input
-            v-model="inputData.deadline_time"
-            class="input-time"
-            type="time"
-            v-on:keyup.enter="$event.target.blur()"
-        >
-        <button 
-            class="input-button"
-            v-on:click="inputDataPost"
-        >追加</button>
+        <p>
+            <input
+                v-model="inputData.todo_content"
+                type="text"
+                v-on:keyup.enter="$event.target.nextElementSibling.focus()"
+            >
+            <input
+                v-model="inputData.deadline_month"
+                type="number"
+                min="1"
+                max="12"
+                v-on:keyup.enter="$event.target.nextElementSibling.nextElementSibling.focus()"
+            >
+            <span>月</span>
+            <input
+                v-model="inputData.deadline_date"
+                type="number"
+                min="1"
+                max="31"
+                v-on:keyup.enter="$event.target.nextElementSibling.nextElementSibling.focus()"
+            >
+            <span>日</span>
+            
+            <input
+                v-model="inputData.deadline_time"
+                class="input-time"
+                type="time"
+                v-on:keyup.enter="$event.target.blur()"
+            >
+            <button 
+                class="input-button"
+                v-on:click="inputDataPost"
+            >追加</button>
+        </p>
+        <p
+            v-for="message in errorMessages"
+            v-bind:key="message"
+        >{{message}}</p>
     </div>
 </template>
 
@@ -40,17 +46,13 @@
 
 <script>
 import axios from 'axios'
-import { reactive,toRefs } from 'vue'
+import { reactive,ref,toRefs } from 'vue'
 
 export default{
     name:'TodoComponent',
     props:{
         currentChannel:{
             type:String,
-            required:true,
-        },
-        todoFormValidation:{
-            type:Function,
             required:true,
         },
     },
@@ -65,22 +67,29 @@ export default{
             channel:'',
         })
         const refInputData = toRefs(inputData)
+        const errorMessages = ref([])
 
         const inputDataPost = ()=>{
-            if(props.todoFormValidation(inputData)){
-                refInputData.channel.value = props.currentChannel
-                axios.post("/api/todo/store",inputData)
-                emit('todo-list-reload')
-                // 入力フォームの初期化
-                refInputData.todo_content.value = ''
-                refInputData.deadline_month.value = ''
-                refInputData.deadline_date.value = ''
-                refInputData.deadline_time.value = ''
-            }
+            refInputData.channel.value = props.currentChannel
+            axios.post("/api/todo/store",inputData).then(($res)=>{
+                if($res.data.errors != undefined){
+                    errorMessages.value = $res.data.errors
+                }
+                else{
+                    errorMessages.value = ''
+                    emit('todo-list-reload')
+                    // 入力フォームの初期化
+                    refInputData.todo_content.value = ''
+                    refInputData.deadline_month.value = ''
+                    refInputData.deadline_date.value = ''
+                    refInputData.deadline_time.value = ''
+                }
+            })
         }
 
         return {
             inputData,
+            errorMessages,
             inputDataPost,
         }
     },
