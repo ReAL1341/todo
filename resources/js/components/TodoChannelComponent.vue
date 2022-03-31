@@ -67,14 +67,14 @@ export default{
     setup(props,{emit}){
 
         let channelItems = ref([])
-        axios.get('/api/channel').then(($res)=>{
-            channelItems.value = $res.data
+        axios.get('/api/channel').then((res)=>{
+            channelItems.value = res.data
         })
         
         //チャンネルの再読み込み
         const channelListReload = ()=>{
-            axios.get('/api/channel').then(($res)=>{
-                channelItems.value = $res.data
+            axios.get('/api/channel').then((res)=>{
+                channelItems.value = res.data
             })
         }
 
@@ -87,8 +87,8 @@ export default{
         //削除ボタン
         let deleteChannelId = ref('')
         const deleteChannelIdRequest = ()=>{
-            axios.post('/api/channel/delete',{id:deleteChannelId.value}).then(($res)=>{
-                if($res.data == props.currentChannel){
+            axios.post('/api/channel/delete',{id:deleteChannelId.value}).then((res)=>{
+                if(res.data == props.currentChannel){
                     changeChannel('やることリスト')
                 }
             })

@@ -37,8 +37,6 @@
         <div v-if="updateItemId === item.id">
             <todo-list-update-component
                 v-bind:item="item"
-                v-bind:updateItemId="updateItemId"
-                v-bind:currentInputData="currentInputData"
                 v-on:update-finish="updateFinish"
             ></todo-list-update-component>
         </div>
@@ -50,7 +48,7 @@
 
 <script>
 import axios from 'axios'
-import { ref,reactive,toRefs } from 'vue'
+import { ref } from 'vue'
 import TodoListUpdateComponent from './TodoListUpdateComponent.vue'
 
 export default {
@@ -74,31 +72,10 @@ export default {
         }
 
         
-        //編集ボタン
+        //編集処理
         let updateItemId = ref('')
-        const currentInputData = reactive({
-            id:'',
-            todo_content:'',
-            deadline_month:'',
-            deadline_date:'',
-            deadline_time:'',
-        })
-        const refCurrentInputData = toRefs(currentInputData)
-        const updateItemIdRequest = ()=>{
-            axios.post('/api/todo/response/update',{id:updateItemId.value}).then((res)=>{
-                refCurrentInputData.id.value = res.data[0].id
-                refCurrentInputData.todo_content.value = res.data[0].todo_content
-                refCurrentInputData.deadline_month.value = res.data[0].deadline_month
-                refCurrentInputData.deadline_date.value = res.data[0].deadline_date
-                refCurrentInputData.deadline_time.value = res.data[0].deadline_time
-            })
-        }
         const updateFinish = ()=>{
             updateItemId.value = ''
-            refCurrentInputData.todo_content.value = ''
-            refCurrentInputData.deadline_month.value = ''
-            refCurrentInputData.deadline_date.value = ''
-            refCurrentInputData.deadline_time.value = ''
             emit('todo-list-reload')
         }
       
@@ -115,8 +92,6 @@ export default {
             deleteItemId,
             deleteItemIdRequest,
             updateItemId,
-            currentInputData,
-            updateItemIdRequest,
             updateFinish,
             dayString,
         }

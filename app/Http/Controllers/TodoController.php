@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TodoInputRequest;
+use App\Http\Requests\TodoUpdateRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Todo;
@@ -37,15 +38,8 @@ class TodoController extends Controller
         return view('index');
     }
 
-    //編集ボタンの処理
-    public function preUpdateResponse(Request $request){
-        $item = DB::table('todo')->where('id',$request->input('id'))->get();
-        $res = json_encode($item);
-        return $res;
-    }
-
     //編集完了ボタンの処理
-    public function update(TodoInputRequest $request){
+    public function update(TodoUpdateRequest $request){
         $param = [
             'todo_content' => $request->input('todo_content'),
             'deadline_month' => $request->input('deadline_month'),

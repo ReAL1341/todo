@@ -52,26 +52,24 @@ export default {
             type:Object,
             required:true,
         },
-        updateItemId:{
-            type:String,
-            required:true,
-        },
-        currentInputData:{
-            type:Object,
-            required:true,
-        },
     },
     emits:['update-finish'],
     setup(props,{emit}){
         
-        const updateData = reactive(props.currentInputData)
+        const updateData = reactive({
+            id:props.item.id,
+            todo_content:props.item.todo_content,
+            deadline_month:props.item.deadline_month,
+            deadline_date:props.item.deadline_date,
+            deadline_time:props.item.deadline_time,
+        })
         const errorMessages = ref([])
 
         //編集完了ボタンの処理
         const updateDataPost = ()=>{
-            axios.post('/api/todo/update',updateData).then(($res)=>{
-                if($res.data.errors != undefined){
-                    errorMessages.value = $res.data.errors
+            axios.post('/api/todo/update',updateData).then((res)=>{
+                if(res.data.errors != undefined){
+                    errorMessages.value = res.data.errors
                 }
                 else{
                     errorMessages.value = ''

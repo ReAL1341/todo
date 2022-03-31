@@ -19348,9 +19348,9 @@ __webpack_require__.r(__webpack_exports__);
     var newChannelPost = function newChannelPost() {
       axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/channel/store', {
         name: newChannel.value
-      }).then(function ($res) {
-        if ($res.data.errors != undefined) {
-          errorMessages.value = $res.data.errors;
+      }).then(function (res) {
+        if (res.data.errors != undefined) {
+          errorMessages.value = res.data.errors;
         } else {
           errorMessages.value = '';
           emit('channel-list-reload');
@@ -19402,13 +19402,13 @@ __webpack_require__.r(__webpack_exports__);
   setup: function setup(props, _ref) {
     var emit = _ref.emit;
     var channelItems = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)([]);
-    axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/channel').then(function ($res) {
-      channelItems.value = $res.data;
+    axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/channel').then(function (res) {
+      channelItems.value = res.data;
     }); //チャンネルの再読み込み
 
     var channelListReload = function channelListReload() {
-      axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/channel').then(function ($res) {
-        channelItems.value = $res.data;
+      axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/channel').then(function (res) {
+        channelItems.value = res.data;
       });
     }; //チャンネル切り替え
 
@@ -19425,8 +19425,8 @@ __webpack_require__.r(__webpack_exports__);
     var deleteChannelIdRequest = function deleteChannelIdRequest() {
       axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/channel/delete', {
         id: deleteChannelId.value
-      }).then(function ($res) {
-        if ($res.data == props.currentChannel) {
+      }).then(function (res) {
+        if (res.data == props.currentChannel) {
           changeChannel('やることリスト');
         }
       });
@@ -19492,9 +19492,9 @@ __webpack_require__.r(__webpack_exports__);
       axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/channel/update', {
         id: props.channel.id,
         name: newChannelName.value
-      }).then(function ($res) {
-        if ($res.data.errors != undefined) {
-          errorMessages.value = $res.data.errors;
+      }).then(function (res) {
+        if (res.data.errors != undefined) {
+          errorMessages.value = res.data.errors;
         } else {
           errorMessages.value = '';
           emit('channel-update-finish', newChannelName.value);
@@ -19551,9 +19551,9 @@ __webpack_require__.r(__webpack_exports__);
 
     var inputDataPost = function inputDataPost() {
       refInputData.channel.value = props.currentChannel;
-      axios__WEBPACK_IMPORTED_MODULE_0___default().post("/api/todo/store", inputData).then(function ($res) {
-        if ($res.data.errors != undefined) {
-          errorMessages.value = $res.data.errors;
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post("/api/todo/store", inputData).then(function (res) {
+        if (res.data.errors != undefined) {
+          errorMessages.value = res.data.errors;
         } else {
           errorMessages.value = '';
           emit('todo-list-reload'); // 入力フォームの初期化
@@ -19616,37 +19616,13 @@ __webpack_require__.r(__webpack_exports__);
         id: deleteItemId.value
       });
       emit('todo-list-reload');
-    }; //編集ボタン
+    }; //編集処理
 
 
     var updateItemId = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)('');
-    var currentInputData = (0,vue__WEBPACK_IMPORTED_MODULE_1__.reactive)({
-      id: '',
-      todo_content: '',
-      deadline_month: '',
-      deadline_date: '',
-      deadline_time: ''
-    });
-    var refCurrentInputData = (0,vue__WEBPACK_IMPORTED_MODULE_1__.toRefs)(currentInputData);
-
-    var updateItemIdRequest = function updateItemIdRequest() {
-      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/todo/response/update', {
-        id: updateItemId.value
-      }).then(function (res) {
-        refCurrentInputData.id.value = res.data[0].id;
-        refCurrentInputData.todo_content.value = res.data[0].todo_content;
-        refCurrentInputData.deadline_month.value = res.data[0].deadline_month;
-        refCurrentInputData.deadline_date.value = res.data[0].deadline_date;
-        refCurrentInputData.deadline_time.value = res.data[0].deadline_time;
-      });
-    };
 
     var updateFinish = function updateFinish() {
       updateItemId.value = '';
-      refCurrentInputData.todo_content.value = '';
-      refCurrentInputData.deadline_month.value = '';
-      refCurrentInputData.deadline_date.value = '';
-      refCurrentInputData.deadline_time.value = '';
       emit('todo-list-reload');
     };
 
@@ -19662,8 +19638,6 @@ __webpack_require__.r(__webpack_exports__);
       deleteItemId: deleteItemId,
       deleteItemIdRequest: deleteItemIdRequest,
       updateItemId: updateItemId,
-      currentInputData: currentInputData,
-      updateItemIdRequest: updateItemIdRequest,
       updateFinish: updateFinish,
       dayString: dayString
     };
@@ -19694,26 +19668,24 @@ __webpack_require__.r(__webpack_exports__);
     item: {
       type: Object,
       required: true
-    },
-    updateItemId: {
-      type: String,
-      required: true
-    },
-    currentInputData: {
-      type: Object,
-      required: true
     }
   },
   emits: ['update-finish'],
   setup: function setup(props, _ref) {
     var emit = _ref.emit;
-    var updateData = (0,vue__WEBPACK_IMPORTED_MODULE_1__.reactive)(props.currentInputData);
+    var updateData = (0,vue__WEBPACK_IMPORTED_MODULE_1__.reactive)({
+      id: props.item.id,
+      todo_content: props.item.todo_content,
+      deadline_month: props.item.deadline_month,
+      deadline_date: props.item.deadline_date,
+      deadline_time: props.item.deadline_time
+    });
     var errorMessages = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)([]); //編集完了ボタンの処理
 
     var updateDataPost = function updateDataPost() {
-      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/todo/update', updateData).then(function ($res) {
-        if ($res.data.errors != undefined) {
-          errorMessages.value = $res.data.errors;
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/todo/update', updateData).then(function (res) {
+        if (res.data.errors != undefined) {
+          errorMessages.value = res.data.errors;
         } else {
           errorMessages.value = '';
           emit('update-finish');
@@ -20111,7 +20083,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "class": "button-hidden",
       type: "radio",
       onChange: _cache[1] || (_cache[1] = function () {
-        return $setup.updateItemIdRequest && $setup.updateItemIdRequest.apply($setup, arguments);
+        return _ctx.updateItemIdRequest && _ctx.updateItemIdRequest.apply(_ctx, arguments);
       })
     }, null, 40
     /* PROPS, HYDRATE_EVENTS */
@@ -20140,12 +20112,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     /* TEXT */
     )])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 編集ボタンを押したときの入力フォーム "), $setup.updateItemId === item.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_todo_list_update_component, {
       item: item,
-      updateItemId: $setup.updateItemId,
-      currentInputData: $setup.currentInputData,
       onUpdateFinish: $setup.updateFinish
     }, null, 8
     /* PROPS */
-    , ["item", "updateItemId", "currentInputData", "onUpdateFinish"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+    , ["item", "onUpdateFinish"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
   }), 128
   /* KEYED_FRAGMENT */
   );

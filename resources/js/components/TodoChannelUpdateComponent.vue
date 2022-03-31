@@ -39,9 +39,9 @@ export default {
             axios.post('/api/channel/update',{
                 id:props.channel.id,
                 name:newChannelName.value,
-            }).then(($res)=>{
-                if($res.data.errors != undefined){
-                    errorMessages.value = $res.data.errors
+            }).then((res)=>{
+                if(res.data.errors != undefined){
+                    errorMessages.value = res.data.errors
                 }
                 else{
                     errorMessages.value = ''

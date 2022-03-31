@@ -71,9 +71,9 @@ export default{
 
         const inputDataPost = ()=>{
             refInputData.channel.value = props.currentChannel
-            axios.post("/api/todo/store",inputData).then(($res)=>{
-                if($res.data.errors != undefined){
-                    errorMessages.value = $res.data.errors
+            axios.post("/api/todo/store",inputData).then((res)=>{
+                if(res.data.errors != undefined){
+                    errorMessages.value = res.data.errors
                 }
                 else{
                     errorMessages.value = ''

@@ -27,9 +27,9 @@ export default{
         const errorMessages = ref([])
 
         const newChannelPost = ()=> {
-            axios.post('/api/channel/store',{name:newChannel.value}).then(($res)=>{
-                if($res.data.errors != undefined){
-                    errorMessages.value = $res.data.errors
+            axios.post('/api/channel/store',{name:newChannel.value}).then((res)=>{
+                if(res.data.errors != undefined){
+                    errorMessages.value = res.data.errors
                 }
                 else{
                     errorMessages.value = ''
