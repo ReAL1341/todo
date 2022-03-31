@@ -39,8 +39,8 @@ class TodoController extends Controller
 
     //編集ボタンの処理
     public function preUpdateResponse(Request $request){
-        $items = DB::table('todo')->where('id',$request->input('id'))->get();
-        $res = json_encode($items);
+        $item = DB::table('todo')->where('id',$request->input('id'))->get();
+        $res = json_encode($item);
         return $res;
     }
 

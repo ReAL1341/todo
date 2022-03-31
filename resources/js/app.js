@@ -5,6 +5,7 @@ import TodoListComponent from './components/TodoListComponent.vue';
 import TodoListUpdateComponent from './components/TodoListUpdateComponent.vue';
 import TodoChannelComponent from './components/TodoChannelComponent.vue';
 import TodoChannelAddComponent from './components/TodoChannelAddComponent.vue';
+import TodoChannelUpdateComponent from './components/TodoChannelUpdateComponent.vue';
 
 let app = createApp({})
 app.component('app-component',AppComponent);
@@ -13,5 +14,6 @@ app.component('todo-list-component',TodoListComponent);
 app.component('todo-list-update-component',TodoListUpdateComponent);
 app.component('todo-channel-component',TodoChannelComponent);
 app.component('todo-channel-add-component',TodoChannelAddComponent);
+app.component('todo-channel-update-component',TodoChannelUpdateComponent);
 
 app.mount("#app");

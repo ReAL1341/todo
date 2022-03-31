@@ -6,7 +6,8 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Validator;
 
-class TodoInputRequest extends FormRequest{
+class TodoInputRequest extends FormRequest
+{
 
     public function authorize()
     {

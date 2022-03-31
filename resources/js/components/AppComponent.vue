@@ -3,6 +3,7 @@
 
         <h2>チャンネル</h2>
         <todo-channel-component
+            v-bind:currentChannel="currentChannel"
             v-on:change-channel="changeChannel"
         ></todo-channel-component>
 

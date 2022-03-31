@@ -29,3 +29,5 @@ Route::post('/todo/response/update',[TodoController::class,'preUpdateResponse'])
 
 Route::get('/channel',[ChannelController::class,'channelResponse']);
 Route::post('/channel/store',[ChannelController::class,'channelStore']);
+Route::post('/channel/delete',[ChannelController::class,'channelDelete']);
+Route::post('/channel/update',[ChannelController::class,'channelUpdate']);
