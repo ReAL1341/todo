@@ -1,44 +1,54 @@
 <template>
-    <div
-        v-for="item in todoItems"
-        v-bind:key="item.id"
-    >
+    <div class="todo-list-wrap">
+        <h1 class="current-channel">{{currentChannel}}</h1>
 
-        <!-- todoリストを表示 -->
-        <div v-if="updateItemId != item.id">
-            <p>
-                <span>{{item.todo_content}}</span>        
-                <input
-                    v-model="updateItemId"
-                    v-bind:id="item.id+'edit'"
-                    v-bind:value="item.id"
-                    class="button-hidden"
-                    type="radio"
-                    v-on:change="updateItemIdRequest"
-                >
-                <button class="update-button"><label v-bind:for="item.id+'edit'">編集</label></button>
-                <input
-                    v-model="deleteItemId"
-                    v-bind:id="item.id+'delete'"
-                    v-bind:value="item.id"
-                    class="button-hidden"
-                    type="radio"
-                    v-on:change="deleteItemIdRequest"
-                >
-                <button class="delete-button"><label v-bind:for="item.id+'delete'">削除</label></button>
-            </p>
-            <p>
-                {{dayString(item.deadline_month,item.deadline_date)}}
-                {{item.deadline_time}}
-            </p>
-        </div>
+        <div
+            v-for="item in todoItems"
+            v-bind:key="item.id"
+            class="todo-item-wrap"
+        >
 
-        <!-- 編集ボタンを押したときの入力フォーム -->
-        <div v-if="updateItemId === item.id">
-            <todo-list-update-component
-                v-bind:item="item"
-                v-on:update-finish="updateFinish"
-            ></todo-list-update-component>
+            <!-- todoリストを表示 -->
+            <div v-if="updateItemId != item.id">
+                <input type="checkbox" v-bind:id="item.id+'checkbox'">
+                <label class="todo-item" v-bind:for="item.id+'checkbox'">
+                    <span class="todo-content">{{item.todo_content}}</span>        
+                    
+                    <span class="date-time">
+                        {{dayString(item.deadline_month,item.deadline_date)}}
+                        {{item.deadline_time}}
+                    </span>
+                    <span class="todo-list-buttons">
+                        <input
+                            v-model="updateItemId"
+                            v-bind:id="item.id+'edit'"
+                            v-bind:value="item.id"
+                            class="button-hidden"
+                            type="radio"
+                            v-on:change="updateItemIdRequest"
+                        >
+                        <button class="update-button"><label v-bind:for="item.id+'edit'">編集</label></button>
+                        <input
+                            v-model="deleteItemId"
+                            v-bind:id="item.id+'delete'"
+                            v-bind:value="item.id"
+                            class="button-hidden"
+                            type="radio"
+                            v-on:change="deleteItemIdRequest"
+                        >
+                        <button class="delete-button"><label v-bind:for="item.id+'delete'">削除</label></button>
+                    </span>
+                </label>
+            </div>
+
+            <!-- 編集ボタンを押したときの入力フォーム -->
+            <div v-if="updateItemId === item.id">
+                <todo-list-update-component
+                    v-bind:item="item"
+                    v-on:update-finish="updateFinish"
+                ></todo-list-update-component>
+            </div>
+
         </div>
 
     </div>
@@ -59,6 +69,10 @@ export default {
             type:Array,
             required:true,
         },
+        currentChannel:{
+            type:String,
+            required:true,
+        }
     },
     emits:['todo-list-reload'],
     setup(props,{emit}) {
@@ -98,31 +112,3 @@ export default {
     },
 }
 </script>
-
-
-<style scoped>
-    .button-hidden,
-    .update-time::-webkit-calendar-picker-indicator{
-        display: none;
-    }
-    .update-button{
-        border-radius: 3px;
-        border-color: rgb(8, 168, 8);
-        background-color: rgb(11, 228, 11);
-        color: white;
-        font-weight: bold;
-    }
-    .update-button:hover{
-        background-color:rgb(11, 190, 11) ;
-    }
-    .delete-button{
-        border-radius: 3px;
-        border-color: rgb(188, 17, 17);
-        background-color: rgb(248, 20, 20);
-        color: white;
-        font-weight: bold;
-    }
-    .delete-button:hover{
-        background-color: rgb(210, 20, 20);
-    }
-</style>

@@ -1,25 +1,31 @@
 <template>
-    <div>
+    <div class="app-wrap">
 
-        <h2>チャンネル</h2>
-        <todo-channel-component
-            v-bind:currentChannel="currentChannel"
-            v-on:change-channel="changeChannel"
-        ></todo-channel-component>
+        <section class="side-menu">
+            <div class="sticky">
+                <h2>チャンネル</h2>
+                <todo-channel-component
+                    v-bind:currentChannel="currentChannel"
+                    v-on:change-channel="changeChannel"
+                ></todo-channel-component>
+            </div>
+        </section>
 
-
-        <todo-input-component
-            v-bind:currentChannel="currentChannel"
-            v-on:todo-list-reload="todoListReload"
-        ></todo-input-component>
-
-
-        <h1>{{currentChannel}}</h1>
-        <todo-list-component
-            v-bind:todoItems="todoItems"
-            v-on:todo-list-reload="todoListReload"
-        ></todo-list-component>
-
+        <main class="main-content">
+            
+            <todo-list-component
+                v-bind:todoItems="todoItems"
+                v-bind:currentChannel="currentChannel"
+                v-on:todo-list-reload="todoListReload"
+            ></todo-list-component>
+            
+            
+            <todo-input-component
+                v-bind:currentChannel="currentChannel"
+                v-on:todo-list-reload="todoListReload"
+            ></todo-input-component>
+        
+        </main>
 
     </div>
 </template>

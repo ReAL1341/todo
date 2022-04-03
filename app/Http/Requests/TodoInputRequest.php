@@ -18,7 +18,7 @@ class TodoInputRequest extends FormRequest
     public function rules()
     {
         return [
-            'todo_content' => 'required|unique:todo',
+            'todo_content' => 'required|unique:todo|max:40',
             'deadline_month' => 'required_with:deadline_date,deadline_time',
             'deadline_date' => 'required_with:deadline_month,deadline_time',
         ];
@@ -37,17 +37,35 @@ class TodoInputRequest extends FormRequest
         return [
             'todo_content.required' => ':attributeを入力してください',
             'todo_content.unique' => 'その:attributeはすでに存在します',
+            'todo_content.max' => ':attributeは40字以内にしてください',
             'deadline_month.required_with' => '「:attribute」を入力してください',
             'deadline_date.required_with' => '「:attribute」を入力してください',
         ];
     }
 
-    // 1年以内に存在する日付かどうかをバリデーションする
+    protected function prepareForValidation()
+    {
+        //「1」➡「01」のように
+        // 一桁の整数値の最初に「0」をつける
+        $data = $this->all();
+        if((int)$data['deadline_month'] < 10){
+            $data['deadline_month'] = '0'.$data['deadline_month'];
+        }
+        if((int)$data['deadline_date'] < 10){
+            $data['deadline_date'] = '0'.$data['deadline_date'];
+        }
+        return $data;
+    }
+
+
     public function withValidator(Validator $validator){
+
         $validator->after(function ($validator){
             $month = $this->input('deadline_month');
             $date = $this->input('deadline_date');
-            if($month != '' && $date != ''){
+                      
+            if($month != '' && $date != ''){                
+                // 1年以内に存在する日付かどうかをバリデーション
                 $day = $month.'-'.$date;
                 $nowYear = date('Y');
                 $today = strtotime(date("Y-m-d"));

@@ -1,43 +1,42 @@
 <template>
-    <div>
+    <div class="input-wrap">
         <p>
             <input
                 v-model="inputData.todo_content"
+                class="input-todo-content"
                 type="text"
-                v-on:keyup.enter="$event.target.nextElementSibling.focus()"
-            >
-            <input
-                v-model="inputData.deadline_month"
-                type="number"
-                min="1"
-                max="12"
-                v-on:keyup.enter="$event.target.nextElementSibling.nextElementSibling.focus()"
-            >
-            <span>月</span>
-            <input
-                v-model="inputData.deadline_date"
-                type="number"
-                min="1"
-                max="31"
-                v-on:keyup.enter="$event.target.nextElementSibling.nextElementSibling.focus()"
-            >
-            <span>日</span>
-            
-            <input
-                v-model="inputData.deadline_time"
-                class="input-time"
-                type="time"
+                placeholder="タスクを入力してください"
                 v-on:keyup.enter="$event.target.blur()"
             >
             <button 
-                class="input-button"
+                class="input-submit-button"
                 v-on:click="inputDataPost"
             >追加</button>
         </p>
-        <p
-            v-for="message in errorMessages"
-            v-bind:key="message"
-        >{{message}}</p>
+        <p class="input-deadline-wrap">
+            <span class="input-deadline-text">期限:</span>
+            <input
+                v-model="inputData.deadline_month"
+                class="input-deadline  input-deadline-month"
+                type="text"
+                v-on:keyup.enter="$event.target.nextElementSibling.nextElementSibling.focus()"
+            >
+            <span class="input-deadline-text">月</span>
+            <input
+                v-model="inputData.deadline_date"
+                class="input-deadline  input-deadline-date"
+                type="text"
+                v-on:keyup.enter="$event.target.nextElementSibling.nextElementSibling.focus()"
+            >
+            <span class="input-deadline-text">日</span>
+            <input
+                v-model="inputData.deadline_time"
+                class="input-deadline input-deadline-time"
+                type="time"
+                v-on:keyup.enter="$event.target.blur()"
+            >
+            <span class="input-error-message">{{errorMessages[0]}}</span>
+        </p>
     </div>
 </template>
 
@@ -95,20 +94,3 @@ export default{
     },
 }
 </script>
-
-
-<style scoped>
-.input-time::-webkit-calendar-picker-indicator{
-    display: none;
-}
-.input-button{
-    border-radius: 3px;
-    border-color: rgb(15, 122, 175);
-    background-color: rgb(30, 144, 255);
-    color: white;
-    font-weight: bold;
-}
-.input-button:hover{
-    background-color: rgb(18,122,189);
-}
-</style>

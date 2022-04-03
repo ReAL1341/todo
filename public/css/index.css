@@ -1,0 +1,187 @@
+/*======================
+    index.blade.php
+======================*/
+html{
+    height: 100%;
+}
+body{
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+}
+#app{
+    height: 100%;
+}
+body::-webkit-scrollbar{
+    display: none;
+}
+
+/*=======================
+    AppComponent.vue
+=======================*/
+.app-wrap{
+    display: flex;
+    height: 100%;
+}
+.side-menu{
+    width: 400px;
+    min-height: 100%;
+    background-color: rgb(34, 36, 37);
+}
+.main-content{
+    width: 100%;
+    height: 100%;
+}
+.sticky{
+    position: sticky;
+}
+
+/*==============================
+    TodoInputComponent.vue
+==============================*/
+.input-wrap{
+    position: fixed;
+    width: 100%;
+    height: 135px;
+    background-color: rgb(179, 179, 179);
+    bottom: 0px;
+    margin-top: 0px;
+    padding-top: 20px;
+}
+.input-todo-content{
+    width: 54%;
+    margin-left: 5%;
+    font-size: 24px;
+    border-radius: 5px;
+    border: none;
+}
+.input-submit-button{
+    border-radius: 3px;
+    border-color: rgb(15, 122, 175);
+    background-color: rgb(30, 144, 255);
+    color: white;
+    font-weight: bold;
+    font-size: 24px;
+    margin-left: 15px;
+}
+.input-submit-button:hover{
+    background-color: rgb(18,122,189);
+}
+.input-deadline-wrap{
+    margin-left: 10%;
+}
+.input-deadline-text{
+    font-size: 20px;
+    color: white;
+}
+.input-deadline{
+    font-size: 20px;
+    border-radius: 4px;
+    border: none;
+    text-align: center;
+}
+.input-deadline-month{
+    width: 20px;
+}
+.input-deadline-date{
+    width: 40px;
+}
+.input-deadline-time{
+    /* width: ; */
+}
+.input-deadline-time::-webkit-calendar-picker-indicator{
+    display: none;
+}
+.input-error-message{
+    margin-left: 8%;
+    color: rgb(248, 20, 20);
+}
+
+/*=============================
+    TodoListComponent.vue
+=============================*/
+.todo-list-wrap{
+    width: 100%;
+    height: 80.5%;
+    overflow:scroll;
+}
+.todo-list-wrap::-webkit-scrollbar {
+    width: 10px;
+    height: 3px;
+}
+.todo-list-wrap::-webkit-scrollbar-thumb {
+    background: rgb(142, 141, 141);
+    border-radius: 5px;
+}
+.todo-item-wrap{
+    margin-left: 10px;
+    width: 80%;
+    margin: auto;
+}
+.todo-item{
+    display: block;
+    font-size: 18px;
+    margin: 20px 2% 20px 1%;
+    border-bottom: solid black 3px ;
+}
+.todo-content{
+    display: inline-block;
+    width: 38%;
+    padding: 0px 18px;
+    border-radius: 5px;
+}
+.date-time{
+    display: inline-block;
+    width:148px;
+    margin-left: 3%;
+    padding-left:10px;
+    border-radius: 5px;
+}
+.todo-list-buttons{
+    margin-left: 5%;
+}
+
+.button-hidden,
+.update-time::-webkit-calendar-picker-indicator{
+    display: none;
+}
+.update-button{
+    border-radius: 3px;
+    border-color: rgb(15, 122, 175);
+    background-color: rgb(30, 144, 255);
+    color: white;
+    font-weight: bold;
+    margin: auto 1.2%;
+    font-size: 15px;
+}
+.update-button:hover{
+    background-color: rgb(18,122,189);
+}
+.delete-button{
+    border-radius: 3px;
+    border-color: rgb(188, 17, 17);
+    background-color: rgb(248, 20, 20);
+    color: white;
+    font-weight: bold;
+    margin: auto 1.2%;
+    font-size: 15px;
+}
+.delete-button:hover{
+    background-color: rgb(210, 20, 20);
+}
+.current-channel{
+    margin-left: 4%;
+}
+
+/*=========================
+    TodoChannelComponent
+=========================*/
+.channel-item{
+    width: 100%;
+    background-color: rgb(34, 36, 37);
+    color: white;
+    border: none;
+}
+.channel-item:hover{
+    background-color: rgb(26, 158, 245);
+}

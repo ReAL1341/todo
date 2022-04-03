@@ -19,7 +19,7 @@ class TodoUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'todo_content' => 'required',
+            'todo_content' => 'required|max:40',
             'deadline_month' => 'required_with:deadline_date,deadline_time',
             'deadline_date' => 'required_with:deadline_month,deadline_time',
         ];
@@ -37,6 +37,7 @@ class TodoUpdateRequest extends FormRequest
     public function messages(){
         return [
             'todo_content.required' => ':attributeを入力してください',
+            'todo_content.max' => ':attributeは40字以内にしてください',
             'deadline_month.required_with' => '「:attribute」を入力してください',
             'deadline_date.required_with' => '「:attribute」を入力してください',
         ];
@@ -45,10 +46,12 @@ class TodoUpdateRequest extends FormRequest
     
     public function withValidator(Validator $validator){
         $validator->after(function ($validator){
-            // 1年以内に存在する日付かどうかをバリデーションする
             $month = $this->input('deadline_month');
             $date = $this->input('deadline_date');
+
             if($month != '' && $date != ''){
+                
+                // 1年以内に存在する日付かどうかをバリデーションする
                 $day = $month.'-'.$date;
                 $nowYear = date('Y');
                 $today = strtotime(date("Y-m-d"));

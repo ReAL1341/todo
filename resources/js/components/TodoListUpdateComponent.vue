@@ -8,17 +8,13 @@
             >
             <input
                 v-model="updateData.deadline_month"
-                type="number"
-                min="1"
-                max="12"
+                type="text"
                 v-on:keyup.enter="$event.target.nextElementSibling.nextElementSibling.focus()"
             >
             <span>月</span>
             <input
                 v-model="updateData.deadline_date"
-                type="number"
-                min="1"
-                max="31"
+                type="text"
                 v-on:keyup.enter="$event.target.nextElementSibling.nextElementSibling.focus()"
             >
             <span>日</span>

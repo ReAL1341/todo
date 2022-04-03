@@ -8,7 +8,7 @@
             v-for="item in channelItems"
             v-bind:key="item.id"
         >
-            <p v-if="updateChannelId != item.id">
+            <p v-if="updateChannelId!=item.id && item.name=='やることリスト'">
                 <input
                     v-model="toChannel"
                     v-bind:id="item.id+'current-id'"
@@ -18,6 +18,21 @@
                     v-on:change="changeChannel(toChannel)"
                 >
                 <button><label v-bind:for="item.id+'current-id'">{{item.name}}</label></button>
+                
+            </p>
+
+            <p v-else-if="updateChannelId != item.id">
+                <input
+                    v-model="toChannel"
+                    v-bind:id="item.id+'current-id'"
+                    v-bind:value="item.name"
+                    class="button-hidden"
+                    type="radio"
+                    v-on:change="changeChannel(toChannel)"
+                >
+                <button class="channel-item">
+                    <label v-bind:for="item.id+'current-id'">{{item.name}}</label>
+                </button>
                 <input
                     v-model="updateChannelId"
                     v-bind:id="item.id+'channel-update'"
