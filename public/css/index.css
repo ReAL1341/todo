@@ -115,48 +115,20 @@ body::-webkit-scrollbar{
 }
 .todo-item-wrap{
     margin-left: 10px;
-    width: 80%;
+    width: 70%;
     margin: auto;
 }
 .todo-item{
-    display: block;
     font-size: 18px;
     margin: 20px 2% 20px 1%;
     border-bottom: solid black 3px ;
+    user-select: none;
 }
-.todo-content{
-    display: inline-block;
-    width: 38%;
-    padding: 0px 18px;
-    border-radius: 5px;
-}
-.date-time{
-    display: inline-block;
-    width:148px;
-    margin-left: 3%;
-    padding-left:10px;
-    border-radius: 5px;
-}
-.todo-list-buttons{
-    margin-left: 5%;
-}
-
 .button-hidden,
 .update-time::-webkit-calendar-picker-indicator{
     display: none;
 }
-.update-button{
-    border-radius: 3px;
-    border-color: rgb(15, 122, 175);
-    background-color: rgb(30, 144, 255);
-    color: white;
-    font-weight: bold;
-    margin: auto 1.2%;
-    font-size: 15px;
-}
-.update-button:hover{
-    background-color: rgb(18,122,189);
-}
+
 .delete-button{
     border-radius: 3px;
     border-color: rgb(188, 17, 17);
@@ -171,6 +143,65 @@ body::-webkit-scrollbar{
 }
 .current-channel{
     margin-left: 4%;
+}
+.delete-confirm{
+    background-color: rgba(0, 0, 0, 0.8);
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.confirm-display{
+    background-color: white;
+    width: 50%;
+    height: 60%;
+}
+.delete-items{
+    border: solid black 3px;
+    width: 70%;
+    height: 60%;
+    margin: auto;
+    overflow: scroll;
+}
+.delete-items::-webkit-scrollbar{
+    display: none;
+}
+/*===============================
+    TodoListItemComponent.vue
+================================*/
+.todo-content{
+    display: inline-block;
+    width: 38%;
+    padding: 0px 18px;
+    border-radius: 5px;
+}
+.date-time{
+    display: inline-block;
+    width:148px;
+    margin-left: 3%;
+    padding-left:10px;
+    border-radius: 5px;
+}
+.update-button{
+    border-radius: 3px;
+    border-color: rgb(15, 122, 175);
+    background-color: rgb(30, 144, 255);
+    color: white;
+    font-weight: bold;
+    margin-left: 3%;
+    font-size: 15px;
+}
+.update-button:hover{
+    background-color: rgb(18,122,189);
+}
+.button-hidden,
+.update-time::-webkit-calendar-picker-indicator{
+    display: none;
 }
 
 /*=========================

@@ -29,13 +29,13 @@ class TodoController extends Controller
         $input = $request->all();
         unset($input['_token']);
         $todo->fill($input)->save();
-        return view('index');
     }
 
     //削除ボタンの処理
     public function delete(Request $request){
-        DB::table('todo')->where('id',$request->input('id'))->delete();
-        return view('index');
+        foreach($request->input('items') as $id){
+            DB::table('todo')->where('id',$id)->delete();
+        }
     }
 
     //編集完了ボタンの処理
@@ -47,6 +47,5 @@ class TodoController extends Controller
             'deadline_time' => $request->input('deadline_time'),
         ];
         DB::table('todo')->where('id',$request->input('id'))->update($param);
-        return view('index');
     }
 }
