@@ -1,12 +1,13 @@
 <template>
-    <div>
-        <p>
+    <div class="add-channel-wrap">
+        <div>
             <input
                 v-model="newChannel"
                 type="text"
+                placeholder="チャンネル名を入力してください"
             >
             <button v-on:click="newChannelPost">追加</button>
-        </p>
+        </div>
         <p
             v-for="message in errorMessages"
             v-bind:key="message"

@@ -18,7 +18,8 @@ class TodoController extends Controller
 
     //todoリスト取得処理
     public function itemsResponse(Request $request){
-        $items = DB::table('todo')->where('channel',$request->input('channel'))->get(['id','todo_content','deadline_month','deadline_date','deadline_time']);
+        $items = DB::table('todo')->where('channel',$request->input('channel'))
+                                    ->get(['id','todo_content','deadline_month','deadline_date','deadline_time']);
         $res = json_encode($items);
         return $res;
     }
@@ -33,8 +34,8 @@ class TodoController extends Controller
 
     //削除ボタンの処理
     public function delete(Request $request){
-        foreach($request->input('items') as $id){
-            DB::table('todo')->where('id',$id)->delete();
+        foreach($request->input('items') as $item){
+            DB::table('todo')->where('id',$item['id'])->delete();
         }
     }
 

@@ -1,15 +1,14 @@
 <template>
-    <div>
-        <p>
+    <div class="update-channel-wrap">
+        <div>
             <input
                 v-model="newChannelName"
                 type="text"
             >
             <button 
-                class="update-button"
                 v-on:click="newChannelNamePost"
             >完了</button>
-        </p>
+        </div>
         <p
             v-for="message in errorMessages"
             v-bind:key="message"
@@ -45,7 +44,7 @@ export default {
                 }
                 else{
                     errorMessages.value = ''
-                    emit('channel-update-finish',newChannelName.value)
+                    emit('channel-update-finish')
                 }
             })
         }
@@ -58,17 +57,3 @@ export default {
     },
 }
 </script>
-
-
-<style scoped>
-    .update-button{
-        border-radius: 3px;
-        border-color: rgb(8, 168, 8);
-        background-color: rgb(11, 228, 11);
-        color: white;
-        font-weight: bold;
-    }
-    .update-button:hover{
-        background-color:rgb(11, 190, 11) ;
-    }
-</style>

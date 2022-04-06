@@ -34,10 +34,6 @@ export default {
             type:Function,
             required:true,
         },
-        checked:{
-            type:Boolean,
-            required:true,
-        },
     },
     emits:[
         'checked-items-admin',

@@ -3,7 +3,7 @@
 
         <section class="side-menu">
             <div class="sticky">
-                <h2>チャンネル</h2>
+                <h2 class="channel-h2">チャンネル</h2>
                 <todo-channel-component
                     v-bind:currentChannel="currentChannel"
                     v-on:change-channel="changeChannel"

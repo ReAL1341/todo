@@ -3,25 +3,16 @@
         v-on:channel-list-reload="channelListReload"
     ></todo-channel-add-component>
 
+
+
     <div>
         <div
             v-for="item in channelItems"
             v-bind:key="item.id"
         >
-            <p v-if="updateChannelId!=item.id && item.name=='やることリスト'">
-                <input
-                    v-model="toChannel"
-                    v-bind:id="item.id+'current-id'"
-                    v-bind:value="item.name"
-                    class="button-hidden"
-                    type="radio"
-                    v-on:change="changeChannel(toChannel)"
-                >
-                <button><label v-bind:for="item.id+'current-id'">{{item.name}}</label></button>
-                
-            </p>
 
-            <p v-else-if="updateChannelId != item.id">
+
+            <div v-if="updateChannelId!=item.id && item.name=='やることリスト'">
                 <input
                     v-model="toChannel"
                     v-bind:id="item.id+'current-id'"
@@ -30,34 +21,80 @@
                     type="radio"
                     v-on:change="changeChannel(toChannel)"
                 >
-                <button class="channel-item">
-                    <label v-bind:for="item.id+'current-id'">{{item.name}}</label>
-                </button>
+                <div class="channel-item"><label v-bind:for="item.id+'current-id'">{{item.name}}</label></div>
+                
+            </div>
+
+            <div v-else-if="updateChannelId != item.id">
                 <input
-                    v-model="updateChannelId"
-                    v-bind:id="item.id+'channel-update'"
-                    v-bind:value="item.id"
+                    v-model="toChannel"
+                    v-bind:id="item.id+'current-id'"
+                    v-bind:value="item.name"
                     class="button-hidden"
                     type="radio"
+                    v-on:change="changeChannel(toChannel)"
                 >
-                <button class="update-button"><label v-bind:for="item.id+'channel-update'">編集</label></button>
-                <input
-                    v-model="deleteChannelId"
-                    v-bind:id="item.id+'channel-delete'"
-                    v-bind:value="item.id"
-                    class="button-hidden"
-                    type="radio"
-                    v-on:change="deleteChannelIdRequest"
-                >
-                <button class="delete-button"><label v-bind:for="item.id+'channel-delete'">削除</label></button>
-            </p>
+                <div>
+                    <div class="channel-item">
+                        <label class="channel-name" v-bind:for="item.id+'current-id'">{{item.name}}</label>
+                        <input
+                            v-model="channelMenuId"
+                            v-bind:value="item.id"
+                            v-bind:id="item.id+'channel-menu'"
+                            class="button-hidden"
+                            type="radio"
+                        >
+                        <label
+                            v-bind:for="item.id+'channel-menu'"
+                            class="kebab-menu"
+                        >&#8942;</label>
+                    </div>
+
+                    <!-- ケバブメニューの内容 -->
+                    <div v-if="channelMenuId == item.id">
+                        <input
+                            v-model="channelMenuId"
+                            v-bind:value="''"
+                            v-bind:id="item.id+'hidden'"
+                            class="button-hidden"
+                            type="radio"
+                        >
+                        <label
+                            class="channel-menu-background"
+                            v-bind:for="item.id+'hidden'"
+                        ></label>
+                        <div class="channel-menu-content">
+                                <input
+                                    v-model="updateChannelId"
+                                    v-bind:id="item.id+'channel-update'"
+                                    v-bind:value="item.id"
+                                    class="button-hidden"
+                                    type="radio"
+                                >
+                                <label v-bind:for="item.id+'channel-update'" class="channel-menu-button">編集</label>
+                                <input
+                                    v-model="deleteChannelId"
+                                    v-bind:id="item.id+'channel-delete'"
+                                    v-bind:value="item.id"
+                                    class="button-hidden"
+                                    type="radio"
+                                    v-on:change="deleteChannelIdRequest"
+                                >
+                                <label v-bind:for="item.id+'channel-delete'" class="channel-menu-button">削除</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
                
-            <p v-else-if="updateChannelId === item.id">
+
+            <div v-else-if="updateChannelId === item.id">
                 <todo-channel-update-component
                     v-bind:channel="item"
                     v-on:channel-update-finish="channelUpdateFinish"
                 ></todo-channel-update-component>
-            </p>
+            </div>
+
+
         </div>
     </div>
 </template>
@@ -99,6 +136,9 @@ export default{
             emit('change-channel',toChannel)
         }
 
+        //ケバブメニュー
+        let channelMenuId = ref('')
+
         //削除ボタン
         let deleteChannelId = ref('')
         const deleteChannelIdRequest = ()=>{
@@ -113,10 +153,10 @@ export default{
 
         //編集処理
         let updateChannelId = ref('')
-        const channelUpdateFinish = (toChannel)=>{
+        const channelUpdateFinish = ()=>{
             updateChannelId.value = ''
+            channelMenuId.value = ''
             channelListReload()
-            changeChannel(toChannel)
         }
 
         return {
@@ -124,6 +164,7 @@ export default{
             channelListReload,
             toChannel,
             changeChannel,
+            channelMenuId,
             deleteChannelId,
             deleteChannelIdRequest,
             updateChannelId,
@@ -132,30 +173,3 @@ export default{
     },
 }
 </script>
-
-
-<style scoped>
-    .button-hidden{
-        display: none;
-    }
-    .update-button{
-        border-radius: 3px;
-        border-color: rgb(8, 168, 8);
-        background-color: rgb(11, 228, 11);
-        color: white;
-        font-weight: bold;
-    }
-    .update-button:hover{
-        background-color:rgb(11, 190, 11) ;
-    }
-    .delete-button{
-        border-radius: 3px;
-        border-color: rgb(188, 17, 17);
-        background-color: rgb(248, 20, 20);
-        color: white;
-        font-weight: bold;
-    }
-    .delete-button:hover{
-        background-color: rgb(210, 20, 20);
-    }
-</style>

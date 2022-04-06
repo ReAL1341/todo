@@ -27,6 +27,17 @@ body::-webkit-scrollbar{
     width: 400px;
     min-height: 100%;
     background-color: rgb(34, 36, 37);
+    overflow: scroll;
+}
+.side-menu::-webkit-scrollbar{
+    display: none;
+}
+.channel-h2{
+    color: white;
+    width: 90%;
+    margin: 10px auto;
+    font-size: 26px;
+    text-align: center;
 }
 .main-content{
     width: 100%;
@@ -81,13 +92,15 @@ body::-webkit-scrollbar{
     text-align: center;
 }
 .input-deadline-month{
-    width: 20px;
+    width: 27px;
+    padding: 5px 3px;
 }
 .input-deadline-date{
-    width: 40px;
+    width: 27px;
+    padding: 5px 3px;
 }
 .input-deadline-time{
-    /* width: ; */
+    padding: 5px 10px;
 }
 .input-deadline-time::-webkit-calendar-picker-indicator{
     display: none;
@@ -212,7 +225,123 @@ body::-webkit-scrollbar{
     background-color: rgb(34, 36, 37);
     color: white;
     border: none;
+    font-size: 26px;
+    margin: 15px auto;
+    text-align: center;
 }
 .channel-item:hover{
     background-color: rgb(26, 158, 245);
+}
+.kebab-menu{
+    display: inline-block;
+    padding: 0px 9px;
+    border-radius: 1000px;
+    font-size: 16px;
+    font-weight: bold;
+    position: relative;
+    left: 50px;
+    user-select: none;
+}
+.kebab-menu:hover{
+    background-color: rgb(144, 202, 241);
+}
+.kebab-menu:active{
+    background-color: rgb(107, 193, 250);
+}
+.channel-menu-background{
+    position: fixed;
+    display: block;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 900;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+.channel-menu-content{
+    display: flex;
+    justify-content: space-around;
+    width: 70%;
+    margin: auto;
+}
+.channel-menu-button{
+    background-color: white;
+    z-index: 1000;
+    color: black;
+    border-radius: 10px;
+    font-size: 14px;
+    display: inline-block;
+    padding: 0px 15px;
+    position: relative;
+}
+.channel-menu-button:hover{
+    background-color: rgb(198, 193, 193);
+}
+.channel-name{
+    display: inline-block;
+    width: 55%;
+}
+
+
+/*==============================
+    TodoChannelAddComponent
+==============================*/
+.add-channel-wrap{
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+.add-channel-wrap div input{
+    width: 80%;
+    border: none;
+    margin: auto;
+    display: block;
+    border-radius: 5px;
+    font-size: 16px;
+    padding: 5px;
+}
+.add-channel-wrap div button{
+    display: inline-block;
+    margin-top: 10px;
+    border-radius: 3px;
+    border-color: rgb(15, 122, 175);
+    background-color: rgb(30, 144, 255);
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+}
+.add-channel-wrap button:hover{
+    background-color: rgb(18,122,189);
+}
+
+
+/*================================
+    TodoChannelUpdateComponent
+================================*/
+.update-channel-wrap{
+    text-align: center;
+}
+.update-channel-wrap input{
+    background-color: rgb(34,36,37);
+    font-size: 28px;
+    color: white;
+    width: 80%;
+    display: block;
+    margin: 15px auto;
+    border: solid white 0.5px;
+    border-radius: 5px;
+    text-align: center;
+}
+.update-channel-wrap button{
+    display: inline-block;
+    margin-top: 10px;
+    border-radius: 3px;
+    border-color: rgb(15, 122, 175);
+    background-color: rgb(30, 144, 255);
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+}
+.add-channel-wrap button:hover{
+    background-color: rgb(18,122,189);
 }

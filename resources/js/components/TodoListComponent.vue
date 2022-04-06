@@ -112,7 +112,8 @@ export default {
             deleteFlag.value = true
         }
         const deleteItemsRequest = ()=>{
-            axios.post('/api/todo/delete',{items:checkedItems.value}) //個々かえる
+            axios.post('/api/todo/delete',{items:checkedItems.value})
+            deleteFlag.value = false
             checkedItems.value = []
             emit('todo-list-reload')
         }

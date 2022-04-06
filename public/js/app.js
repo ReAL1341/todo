@@ -19417,8 +19417,10 @@ __webpack_require__.r(__webpack_exports__);
 
     var changeChannel = function changeChannel(toChannel) {
       emit('change-channel', toChannel);
-    }; //削除ボタン
+    }; //ケバブメニュー
 
+
+    var channelMenuId = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(''); //削除ボタン
 
     var deleteChannelId = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('');
 
@@ -19437,10 +19439,10 @@ __webpack_require__.r(__webpack_exports__);
 
     var updateChannelId = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('');
 
-    var channelUpdateFinish = function channelUpdateFinish(toChannel) {
+    var channelUpdateFinish = function channelUpdateFinish() {
       updateChannelId.value = '';
+      channelMenuId.value = '';
       channelListReload();
-      changeChannel(toChannel);
     };
 
     return {
@@ -19448,6 +19450,7 @@ __webpack_require__.r(__webpack_exports__);
       channelListReload: channelListReload,
       toChannel: toChannel,
       changeChannel: changeChannel,
+      channelMenuId: channelMenuId,
       deleteChannelId: deleteChannelId,
       deleteChannelIdRequest: deleteChannelIdRequest,
       updateChannelId: updateChannelId,
@@ -19497,7 +19500,7 @@ __webpack_require__.r(__webpack_exports__);
           errorMessages.value = res.data.errors;
         } else {
           errorMessages.value = '';
-          emit('channel-update-finish', newChannelName.value);
+          emit('channel-update-finish');
         }
       });
     };
@@ -19649,17 +19652,15 @@ __webpack_require__.r(__webpack_exports__);
     var deleteItemsRequest = function deleteItemsRequest() {
       axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/todo/delete', {
         items: checkedItems.value
-      }); //個々かえる
-
+      });
+      deleteFlag.value = false;
       checkedItems.value = [];
       emit('todo-list-reload');
     };
 
     var deleteCancel = function deleteCancel() {
       deleteFlag.value = false;
-    };
-
-    var checkClear = function checkClear() {}; //「●月●日」を返す
+    }; //「●月●日」を返す
 
 
     var dayString = function dayString(month, date) {
@@ -19680,7 +19681,6 @@ __webpack_require__.r(__webpack_exports__);
       updateItemId: updateItemId,
       updateItemIdChange: updateItemIdChange,
       updateFinish: updateFinish,
-      checkClear: checkClear,
       dayString: dayString
     };
   }
@@ -19710,10 +19710,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     dayString: {
       type: Function,
-      required: true
-    },
-    checked: {
-      type: Boolean,
       required: true
     }
   },
@@ -19825,7 +19821,9 @@ var _hoisted_3 = {
   "class": "sticky"
 };
 
-var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, "チャンネル", -1
+var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+  "class": "channel-h2"
+}, "チャンネル", -1
 /* HOISTED */
 );
 
@@ -19873,12 +19871,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
+var _hoisted_1 = {
+  "class": "add-channel-wrap"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $setup.newChannel = $event;
     }),
-    type: "text"
+    type: "text",
+    placeholder: "チャンネル名を入力してください"
   }, null, 512
   /* NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.newChannel]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
@@ -19920,26 +19922,33 @@ var _hoisted_1 = {
   key: 0
 };
 var _hoisted_2 = ["id", "value"];
-var _hoisted_3 = ["for"];
-var _hoisted_4 = {
-  key: 1
-};
-var _hoisted_5 = ["id", "value"];
-var _hoisted_6 = {
+var _hoisted_3 = {
   "class": "channel-item"
 };
-var _hoisted_7 = ["for"];
-var _hoisted_8 = ["id", "value"];
-var _hoisted_9 = {
-  "class": "update-button"
+var _hoisted_4 = ["for"];
+var _hoisted_5 = {
+  key: 1
 };
+var _hoisted_6 = ["id", "value"];
+var _hoisted_7 = {
+  "class": "channel-item"
+};
+var _hoisted_8 = ["for"];
+var _hoisted_9 = ["value", "id"];
 var _hoisted_10 = ["for"];
-var _hoisted_11 = ["id", "value"];
-var _hoisted_12 = {
-  "class": "delete-button"
+var _hoisted_11 = {
+  key: 0
 };
+var _hoisted_12 = ["id"];
 var _hoisted_13 = ["for"];
 var _hoisted_14 = {
+  "class": "channel-menu-content"
+};
+var _hoisted_15 = ["id", "value"];
+var _hoisted_16 = ["for"];
+var _hoisted_17 = ["id", "value"];
+var _hoisted_18 = ["for"];
+var _hoisted_19 = {
   key: 2
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -19954,7 +19963,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   , ["onChannelListReload"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.channelItems, function (item) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: item.id
-    }, [$setup.updateChannelId != item.id && item.name == 'やることリスト' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    }, [$setup.updateChannelId != item.id && item.name == 'やることリスト' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
       "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
         return $setup.toChannel = $event;
       }),
@@ -19967,11 +19976,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       })
     }, null, 40
     /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_2), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $setup.toChannel]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    , _hoisted_2), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $setup.toChannel]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
       "for": item.id + 'current-id'
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.name), 9
     /* TEXT, PROPS */
-    , _hoisted_3)])])) : $setup.updateChannelId != item.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    , _hoisted_4)])])) : $setup.updateChannelId != item.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
       "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
         return $setup.toChannel = $event;
       }),
@@ -19984,12 +19993,43 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       })
     }, null, 40
     /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_5), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $setup.toChannel]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    , _hoisted_6), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $setup.toChannel]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+      "class": "channel-name",
       "for": item.id + 'current-id'
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.name), 9
     /* TEXT, PROPS */
-    , _hoisted_7)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    , _hoisted_8), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
       "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+        return $setup.channelMenuId = $event;
+      }),
+      value: item.id,
+      id: item.id + 'channel-menu',
+      "class": "button-hidden",
+      type: "radio"
+    }, null, 8
+    /* PROPS */
+    , _hoisted_9), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $setup.channelMenuId]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+      "for": item.id + 'channel-menu',
+      "class": "kebab-menu"
+    }, "⋮", 8
+    /* PROPS */
+    , _hoisted_10)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ケバブメニューの内容 "), $setup.channelMenuId == item.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
+        return $setup.channelMenuId = $event;
+      }),
+      value: '',
+      id: item.id + 'hidden',
+      "class": "button-hidden",
+      type: "radio"
+    }, null, 8
+    /* PROPS */
+    , _hoisted_12), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $setup.channelMenuId]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+      "class": "channel-menu-background",
+      "for": item.id + 'hidden'
+    }, null, 8
+    /* PROPS */
+    , _hoisted_13), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
         return $setup.updateChannelId = $event;
       }),
       id: item.id + 'channel-update',
@@ -19998,28 +20038,30 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       type: "radio"
     }, null, 8
     /* PROPS */
-    , _hoisted_8), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $setup.updateChannelId]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-      "for": item.id + 'channel-update'
+    , _hoisted_15), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $setup.updateChannelId]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+      "for": item.id + 'channel-update',
+      "class": "channel-menu-button"
     }, "編集", 8
     /* PROPS */
-    , _hoisted_10)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-      "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
+    , _hoisted_16), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
         return $setup.deleteChannelId = $event;
       }),
       id: item.id + 'channel-delete',
       value: item.id,
       "class": "button-hidden",
       type: "radio",
-      onChange: _cache[6] || (_cache[6] = function () {
+      onChange: _cache[8] || (_cache[8] = function () {
         return $setup.deleteChannelIdRequest && $setup.deleteChannelIdRequest.apply($setup, arguments);
       })
     }, null, 40
     /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_11), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $setup.deleteChannelId]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-      "for": item.id + 'channel-delete'
+    , _hoisted_17), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $setup.deleteChannelId]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+      "for": item.id + 'channel-delete',
+      "class": "channel-menu-button"
     }, "削除", 8
     /* PROPS */
-    , _hoisted_13)])])) : $setup.updateChannelId === item.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_todo_channel_update_component, {
+    , _hoisted_18)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : $setup.updateChannelId === item.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_todo_channel_update_component, {
       channel: item,
       onChannelUpdateFinish: $setup.channelUpdateFinish
     }, null, 8
@@ -20047,8 +20089,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
+
+var _withScopeId = function _withScopeId(n) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-b907ec7c"), n = n(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)(), n;
+};
+
+var _hoisted_1 = {
+  "class": "update-channel-wrap"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $setup.newChannelName = $event;
     }),
@@ -20056,7 +20106,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, 512
   /* NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.newChannelName]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "update-button",
     onClick: _cache[1] || (_cache[1] = function () {
       return $setup.newChannelNamePost && $setup.newChannelNamePost.apply($setup, arguments);
     })
@@ -20225,11 +20274,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[0] || (_cache[0] = function () {
       return $setup.deleteConfirm && $setup.deleteConfirm.apply($setup, arguments);
     })
-  }, "削除 "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[1] || (_cache[1] = function () {
-      return $setup.checkClear && $setup.checkClear.apply($setup, arguments);
-    })
-  }, "チェックを全て外す "), $setup.deleteFlag ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.checkedItems, function (checkedItem) {
+  }, "削除 "), $setup.deleteFlag ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.checkedItems, function (checkedItem) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", {
       key: checkedItem.id
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(checkedItem.todo_content), 1
@@ -20242,11 +20287,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }), 128
   /* KEYED_FRAGMENT */
   ))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[2] || (_cache[2] = function () {
+    onClick: _cache[1] || (_cache[1] = function () {
       return $setup.deleteItemsRequest && $setup.deleteItemsRequest.apply($setup, arguments);
     })
   }, "はい"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[3] || (_cache[3] = function () {
+    onClick: _cache[2] || (_cache[2] = function () {
       return $setup.deleteCancel && $setup.deleteCancel.apply($setup, arguments);
     })
   }, "いいえ")])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.todoItems, function (item) {
