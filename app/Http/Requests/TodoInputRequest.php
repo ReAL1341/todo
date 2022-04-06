@@ -49,10 +49,10 @@ class TodoInputRequest extends FormRequest
         // 一桁の整数値の最初に「0」をつける
         $month = $this->input('deadline_month');
         $date = $this->input('deadline_date');
-        if((int)$month < 10){
+        if($month != '' && (int)$month < 10){
             $month = '0'.$month;
         }
-        if((int)$date < 10){
+        if($date != '' && (int)$date < 10){
             $date = '0'.$date;
         }
         $this->merge([

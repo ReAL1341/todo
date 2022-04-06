@@ -11,6 +11,22 @@
             v-bind:key="item.id"
         >
 
+            <div
+                v-if="deleteFlag"
+                class="delete-confirm"
+            >
+                <div class="confirm-display-channel">
+                    <p>「{{item.name}}」を削除していいですか?</p>
+                    <button 
+                        class="delete-button"
+                        v-on:click="deleteChannelIdRequest"
+                    >はい</button>
+                    <button
+                        class="cancel-button"
+                        v-on:click="deleteCancel"
+                    >いいえ</button>
+                </div>
+            </div>
 
             <div v-if="updateChannelId!=item.id && item.name=='やることリスト'">
                 <input
@@ -78,7 +94,7 @@
                                     v-bind:value="item.id"
                                     class="button-hidden"
                                     type="radio"
-                                    v-on:change="deleteChannelIdRequest"
+                                    v-on:change="deleteConfirm"
                                 >
                                 <label v-bind:for="item.id+'channel-delete'" class="channel-menu-button">削除</label>
                         </div>
@@ -141,14 +157,24 @@ export default{
 
         //削除ボタン
         let deleteChannelId = ref('')
+        let deleteFlag = ref(false)
+        const deleteConfirm = ()=>{
+            channelMenuId.value = ''
+            deleteChannelId.value = ''
+            deleteFlag.value = true
+        }
         const deleteChannelIdRequest = ()=>{
             axios.post('/api/channel/delete',{id:deleteChannelId.value}).then((res)=>{
                 if(res.data == props.currentChannel){
                     changeChannel('やることリスト')
                 }
             })
+            deleteFlag.value = false
             deleteChannelId.value = ''
             channelListReload()
+        }
+        const deleteCancel = ()=>{
+            deleteFlag.value = false
         }
 
         //編集処理
@@ -166,7 +192,10 @@ export default{
             changeChannel,
             channelMenuId,
             deleteChannelId,
+            deleteFlag,
+            deleteConfirm,
             deleteChannelIdRequest,
+            deleteCancel,
             updateChannelId,
             channelUpdateFinish,
         }

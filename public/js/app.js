@@ -19423,6 +19423,13 @@ __webpack_require__.r(__webpack_exports__);
     var channelMenuId = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(''); //削除ボタン
 
     var deleteChannelId = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('');
+    var deleteFlag = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
+
+    var deleteConfirm = function deleteConfirm() {
+      channelMenuId.value = '';
+      deleteChannelId.value = '';
+      deleteFlag.value = true;
+    };
 
     var deleteChannelIdRequest = function deleteChannelIdRequest() {
       axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/channel/delete', {
@@ -19432,8 +19439,13 @@ __webpack_require__.r(__webpack_exports__);
           changeChannel('やることリスト');
         }
       });
+      deleteFlag.value = false;
       deleteChannelId.value = '';
       channelListReload();
+    };
+
+    var deleteCancel = function deleteCancel() {
+      deleteFlag.value = false;
     }; //編集処理
 
 
@@ -19452,7 +19464,10 @@ __webpack_require__.r(__webpack_exports__);
       changeChannel: changeChannel,
       channelMenuId: channelMenuId,
       deleteChannelId: deleteChannelId,
+      deleteFlag: deleteFlag,
+      deleteConfirm: deleteConfirm,
       deleteChannelIdRequest: deleteChannelIdRequest,
+      deleteCancel: deleteCancel,
       updateChannelId: updateChannelId,
       channelUpdateFinish: channelUpdateFinish
     };
@@ -19908,37 +19923,44 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  key: 0
+  key: 0,
+  "class": "delete-confirm"
 };
-var _hoisted_2 = ["id", "value"];
+var _hoisted_2 = {
+  "class": "confirm-display-channel"
+};
 var _hoisted_3 = {
-  "class": "channel-item"
-};
-var _hoisted_4 = ["for"];
-var _hoisted_5 = {
   key: 1
 };
-var _hoisted_6 = ["id", "value"];
-var _hoisted_7 = {
+var _hoisted_4 = ["id", "value"];
+var _hoisted_5 = {
   "class": "channel-item"
 };
-var _hoisted_8 = ["for"];
-var _hoisted_9 = ["value", "id"];
+var _hoisted_6 = ["for"];
+var _hoisted_7 = {
+  key: 2
+};
+var _hoisted_8 = ["id", "value"];
+var _hoisted_9 = {
+  "class": "channel-item"
+};
 var _hoisted_10 = ["for"];
-var _hoisted_11 = {
+var _hoisted_11 = ["value", "id"];
+var _hoisted_12 = ["for"];
+var _hoisted_13 = {
   key: 0
 };
-var _hoisted_12 = ["id"];
-var _hoisted_13 = ["for"];
-var _hoisted_14 = {
+var _hoisted_14 = ["id"];
+var _hoisted_15 = ["for"];
+var _hoisted_16 = {
   "class": "channel-menu-content"
 };
-var _hoisted_15 = ["id", "value"];
-var _hoisted_16 = ["for"];
 var _hoisted_17 = ["id", "value"];
 var _hoisted_18 = ["for"];
-var _hoisted_19 = {
-  key: 2
+var _hoisted_19 = ["id", "value"];
+var _hoisted_20 = ["for"];
+var _hoisted_21 = {
+  key: 3
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_todo_channel_add_component = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("todo-channel-add-component");
@@ -19952,24 +19974,19 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   , ["onChannelListReload"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.channelItems, function (item) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: item.id
-    }, [$setup.updateChannelId != item.id && item.name == 'やることリスト' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-      "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-        return $setup.toChannel = $event;
-      }),
-      id: item.id + 'current-id',
-      value: item.name,
-      "class": "button-hidden",
-      type: "radio",
-      onChange: _cache[1] || (_cache[1] = function ($event) {
-        return $setup.changeChannel($setup.toChannel);
+    }, [$setup.deleteFlag ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "「" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.name) + "」を削除していいですか?", 1
+    /* TEXT */
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "delete-button",
+      onClick: _cache[0] || (_cache[0] = function () {
+        return $setup.deleteChannelIdRequest && $setup.deleteChannelIdRequest.apply($setup, arguments);
       })
-    }, null, 40
-    /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_2), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $setup.toChannel]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-      "for": item.id + 'current-id'
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.name), 9
-    /* TEXT, PROPS */
-    , _hoisted_4)])])) : $setup.updateChannelId != item.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    }, "はい"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "cancel-button",
+      onClick: _cache[1] || (_cache[1] = function () {
+        return $setup.deleteCancel && $setup.deleteCancel.apply($setup, arguments);
+      })
+    }, "いいえ")])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $setup.updateChannelId != item.id && item.name == 'やることリスト' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
       "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
         return $setup.toChannel = $event;
       }),
@@ -19982,13 +19999,30 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       })
     }, null, 40
     /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_6), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $setup.toChannel]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    , _hoisted_4), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $setup.toChannel]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+      "for": item.id + 'current-id'
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.name), 9
+    /* TEXT, PROPS */
+    , _hoisted_6)])])) : $setup.updateChannelId != item.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+        return $setup.toChannel = $event;
+      }),
+      id: item.id + 'current-id',
+      value: item.name,
+      "class": "button-hidden",
+      type: "radio",
+      onChange: _cache[5] || (_cache[5] = function ($event) {
+        return $setup.changeChannel($setup.toChannel);
+      })
+    }, null, 40
+    /* PROPS, HYDRATE_EVENTS */
+    , _hoisted_8), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $setup.toChannel]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
       "class": "channel-name",
       "for": item.id + 'current-id'
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.name), 9
     /* TEXT, PROPS */
-    , _hoisted_8), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-      "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+    , _hoisted_10), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
         return $setup.channelMenuId = $event;
       }),
       value: item.id,
@@ -19997,13 +20031,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       type: "radio"
     }, null, 8
     /* PROPS */
-    , _hoisted_9), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $setup.channelMenuId]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    , _hoisted_11), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $setup.channelMenuId]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
       "for": item.id + 'channel-menu',
       "class": "kebab-menu"
     }, "⋮", 8
     /* PROPS */
-    , _hoisted_10)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ケバブメニューの内容 "), $setup.channelMenuId == item.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-      "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
+    , _hoisted_12)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ケバブメニューの内容 "), $setup.channelMenuId == item.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
         return $setup.channelMenuId = $event;
       }),
       value: '',
@@ -20012,13 +20046,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       type: "radio"
     }, null, 8
     /* PROPS */
-    , _hoisted_12), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $setup.channelMenuId]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    , _hoisted_14), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $setup.channelMenuId]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
       "class": "channel-menu-background",
       "for": item.id + 'hidden'
     }, null, 8
     /* PROPS */
-    , _hoisted_13), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-      "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
+    , _hoisted_15), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
         return $setup.updateChannelId = $event;
       }),
       id: item.id + 'channel-update',
@@ -20027,30 +20061,30 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       type: "radio"
     }, null, 8
     /* PROPS */
-    , _hoisted_15), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $setup.updateChannelId]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    , _hoisted_17), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $setup.updateChannelId]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
       "for": item.id + 'channel-update',
       "class": "channel-menu-button"
     }, "編集", 8
     /* PROPS */
-    , _hoisted_16), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-      "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
+    , _hoisted_18), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
         return $setup.deleteChannelId = $event;
       }),
       id: item.id + 'channel-delete',
       value: item.id,
       "class": "button-hidden",
       type: "radio",
-      onChange: _cache[8] || (_cache[8] = function () {
-        return $setup.deleteChannelIdRequest && $setup.deleteChannelIdRequest.apply($setup, arguments);
+      onChange: _cache[10] || (_cache[10] = function () {
+        return $setup.deleteConfirm && $setup.deleteConfirm.apply($setup, arguments);
       })
     }, null, 40
     /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_17), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $setup.deleteChannelId]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    , _hoisted_19), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $setup.deleteChannelId]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
       "for": item.id + 'channel-delete',
       "class": "channel-menu-button"
     }, "削除", 8
     /* PROPS */
-    , _hoisted_18)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : $setup.updateChannelId === item.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_todo_channel_update_component, {
+    , _hoisted_20)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : $setup.updateChannelId === item.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_todo_channel_update_component, {
       channel: item,
       onChannelUpdateFinish: $setup.channelUpdateFinish
     }, null, 8
