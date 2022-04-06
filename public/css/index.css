@@ -344,6 +344,9 @@ body::-webkit-scrollbar{
     font-size: 16px;
     padding: 5px;
 }
+.add-channel-wrap p{
+    color: rgb(248, 20, 20);
+}
 .add-channel-wrap div button{
     display: inline-block;
     margin-top: 10px;
