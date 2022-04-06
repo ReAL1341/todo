@@ -16,7 +16,7 @@ class ChannelInputRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:20',
+            'name' => 'required|max:14|unique:channel',
         ];
     }
 
@@ -31,12 +31,13 @@ class ChannelInputRequest extends FormRequest
     {
         return [
             'name.required' => ':attributeを入力してください',
-            'name.max' => ':attributeは20字以内にしてください',
+            'name.max' => ':attributeは14字以内にしてください',
+            'name.unique' => 'その:attributeはすでに存在します',
         ];
     }
 
     protected function failedValidation($validator){
-        $response['errors']  = $validator->errors()->all();
+        $response['errors']  = $validator->errors()->first();
         throw new HttpResponseException(
             response()->json($response)
         );

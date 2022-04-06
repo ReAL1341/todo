@@ -1,18 +1,13 @@
 <template>
     <div class="update-channel-wrap">
-        <div>
-            <input
-                v-model="newChannelName"
-                type="text"
-            >
-            <button 
-                v-on:click="newChannelNamePost"
-            >完了</button>
-        </div>
-        <p
-            v-for="message in errorMessages"
-            v-bind:key="message"
-        >{{message}}</p>
+        <input
+            v-model="newChannelName"
+            type="text"
+        >
+        <p>{{errorMessage}}</p>
+        <button 
+            v-on:click="newChannelNamePost"
+        >完了</button>
     </div>
 </template>
 
@@ -33,17 +28,17 @@ export default {
     setup(props,{emit}) {
         
         const newChannelName = ref(props.channel.name)
-        const errorMessages = ref([])
+        const errorMessage = ref('')
         const newChannelNamePost = ()=>{
             axios.post('/api/channel/update',{
                 id:props.channel.id,
                 name:newChannelName.value,
             }).then((res)=>{
                 if(res.data.errors != undefined){
-                    errorMessages.value = res.data.errors
+                    errorMessage.value = res.data.errors
                 }
                 else{
-                    errorMessages.value = ''
+                    errorMessage.value = ''
                     emit('channel-update-finish')
                 }
             })
@@ -51,7 +46,7 @@ export default {
 
         return {
             newChannelName,
-            errorMessages,
+            errorMessage,
             newChannelNamePost,
         }
     },

@@ -8,10 +8,7 @@
             >
             <button v-on:click="newChannelPost">追加</button>
         </div>
-        <p
-            v-for="message in errorMessages"
-            v-bind:key="message"
-        >{{message}}</p>
+        <p>{{errorMessage}}</p>
     </div>
 </template>
 
@@ -25,15 +22,15 @@ export default{
     emits:['channel-list-reload'],
     setup(props,{emit}) {
         let newChannel = ref('')
-        const errorMessages = ref([])
+        const errorMessage = ref('')
 
         const newChannelPost = ()=> {
             axios.post('/api/channel/store',{name:newChannel.value}).then((res)=>{
                 if(res.data.errors != undefined){
-                    errorMessages.value = res.data.errors
+                    errorMessage.value = res.data.errors
                 }
                 else{
-                    errorMessages.value = ''
+                    errorMessage.value = ''
                    emit('channel-list-reload')
                     newChannel.value = '' 
                 }
@@ -42,7 +39,7 @@ export default{
 
         return {
             newChannel,
-            errorMessages,
+            errorMessage,
             newChannelPost,
         }
     },

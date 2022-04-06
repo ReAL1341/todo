@@ -43,6 +43,24 @@ class TodoUpdateRequest extends FormRequest
         ];
     }
 
+    protected function passedValidation()
+    {
+        //「1」➡「01」のように
+        // 一桁の整数値の最初に「0」をつける
+        $month = $this->input('deadline_month');
+        $date = $this->input('deadline_date');
+        if((int)$month < 10){
+            $month = '0'.$month;
+        }
+        if((int)$date < 10){
+            $date = '0'.$date;
+        }
+        $this->merge([
+            'deadline_month' => $month,
+            'deadline_date' => $date,
+        ]);
+    }
+
     
     public function withValidator(Validator $validator){
         $validator->after(function ($validator){
@@ -68,7 +86,7 @@ class TodoUpdateRequest extends FormRequest
                 }
             }
 
-            // タスクに変更がない場合、既存のタスクとの重複をバリデーションする
+            // タスクに変更がある場合、既存のタスクとの重複をバリデーションする
             $id = $this->input('id');
             $currentTodoItem = DB::table('todo')->where('id',$id)->first();
             $currentTodoContent = $currentTodoItem->todo_content;
@@ -81,7 +99,7 @@ class TodoUpdateRequest extends FormRequest
     }
 
     protected function failedValidation($validator){
-        $response['errors']  = $validator->errors()->all();
+        $response['errors']  = $validator->errors()->first();
         throw new HttpResponseException(
             response()->json($response)
         );

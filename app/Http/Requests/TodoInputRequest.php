@@ -43,18 +43,22 @@ class TodoInputRequest extends FormRequest
         ];
     }
 
-    protected function prepareForValidation()
+    protected function passedValidation()
     {
         //「1」➡「01」のように
         // 一桁の整数値の最初に「0」をつける
-        $data = $this->all();
-        if((int)$data['deadline_month'] < 10){
-            $data['deadline_month'] = '0'.$data['deadline_month'];
+        $month = $this->input('deadline_month');
+        $date = $this->input('deadline_date');
+        if((int)$month < 10){
+            $month = '0'.$month;
         }
-        if((int)$data['deadline_date'] < 10){
-            $data['deadline_date'] = '0'.$data['deadline_date'];
+        if((int)$date < 10){
+            $date = '0'.$date;
         }
-        return $data;
+        $this->merge([
+            'deadline_month' => $month,
+            'deadline_date' => $date,
+        ]);
     }
 
 
@@ -85,7 +89,7 @@ class TodoInputRequest extends FormRequest
     }
 
     protected function failedValidation($validator){
-        $response['errors']  = $validator->errors()->all();
+        $response['errors']  = $validator->errors()->first();
         throw new HttpResponseException(
             response()->json($response)
         );

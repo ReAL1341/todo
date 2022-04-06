@@ -35,7 +35,7 @@
                 type="time"
                 v-on:keyup.enter="$event.target.blur()"
             >
-            <span class="input-error-message">{{errorMessages[0]}}</span>
+            <span class="input-error-message">{{errorMessage}}</span>
         </p>
     </div>
 </template>
@@ -66,16 +66,16 @@ export default{
             channel:'',
         })
         const refInputData = toRefs(inputData)
-        const errorMessages = ref([])
+        const errorMessage = ref('')
 
         const inputDataPost = ()=>{
             refInputData.channel.value = props.currentChannel
             axios.post("/api/todo/store",inputData).then((res)=>{
                 if(res.data.errors != undefined){
-                    errorMessages.value = res.data.errors
+                    errorMessage.value = res.data.errors
                 }
                 else{
-                    errorMessages.value = ''
+                    errorMessage.value = ''
                     emit('todo-list-reload')
                     // 入力フォームの初期化
                     refInputData.todo_content.value = ''
@@ -88,7 +88,7 @@ export default{
 
         return {
             inputData,
-            errorMessages,
+            errorMessage,
             inputDataPost,
         }
     },

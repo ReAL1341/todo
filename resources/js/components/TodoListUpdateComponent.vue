@@ -29,10 +29,7 @@
                 v-on:click="updateDataPost"
             >完了</button>
         </p>
-        <p
-            v-for="message in errorMessages"
-            v-bind:key="message"
-        >{{message}}</p>
+        <p>{{errorMessage}}</p>
     </div>
 </template>
 
@@ -59,16 +56,16 @@ export default {
             deadline_date:props.item.deadline_date,
             deadline_time:props.item.deadline_time,
         })
-        const errorMessages = ref([])
+        const errorMessage = ref('')
 
         //編集完了ボタンの処理
         const updateDataPost = ()=>{
             axios.post('/api/todo/update',updateData).then((res)=>{
                 if(res.data.errors != undefined){
-                    errorMessages.value = res.data.errors
+                    errorMessage.value = res.data.errors
                 }
                 else{
-                    errorMessages.value = ''
+                    errorMessage.value = ''
                     emit('update-finish')
                 }
             })
@@ -76,7 +73,7 @@ export default {
 
         return {
             updateData,
-            errorMessages,
+            errorMessage,
             updateDataPost,
         }
     },

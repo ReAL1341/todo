@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Channel;
 use App\Http\Requests\ChannelInputRequest;
+use App\Http\Requests\ChannelUpdateRequest;
 
 class ChannelController extends Controller
 {
@@ -34,7 +35,7 @@ class ChannelController extends Controller
     }
 
     //編集完了ボタンの処理
-    public function channelUpdate(ChannelInputRequest $request){
+    public function channelUpdate(ChannelUpdateRequest $request){
         $nowChannel = DB::table('channel')->where('id',$request->input('id'))->first();
         $nameParam = [
             'name' => $request->input('name'),
