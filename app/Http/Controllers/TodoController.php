@@ -2,23 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Todo;
+use Illuminate\Http\Request;
 use App\Http\Requests\TodoInputRequest;
 use App\Http\Requests\TodoUpdateRequest;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\Models\Todo;
 
 
 class TodoController extends Controller
 {
-
+    //ページの表示
     public function show(){
         return view('index');
     }
 
     //todoリスト取得処理
     public function itemsResponse(Request $request){
-        $items = DB::table('todo')->where('channel',$request->input('channel'))
+        $items = Todo::where('channel',$request->input('channel'))
                                     ->get(['id','todo_content','deadline_month','deadline_date','deadline_time']);
         $res = json_encode($items);
         return $res;
@@ -35,7 +34,7 @@ class TodoController extends Controller
     //削除ボタンの処理
     public function delete(Request $request){
         foreach($request->input('items') as $item){
-            DB::table('todo')->where('id',$item['id'])->delete();
+            Todo::where('id',$item['id'])->delete();
         }
     }
 
@@ -47,6 +46,6 @@ class TodoController extends Controller
             'deadline_date' => $request->input('deadline_date'),
             'deadline_time' => $request->input('deadline_time'),
         ];
-        DB::table('todo')->where('id',$request->input('id'))->update($param);
+        Todo::where('id',$request->input('id'))->update($param);
     }
 }
