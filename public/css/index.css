@@ -261,7 +261,10 @@ body::-webkit-scrollbar{
 .update-deadline-wrap{
     margin-left: 7%;
 }
-
+.update-error{
+    font-size: 18px;
+    color: rgb(248, 20, 20);
+}
 /*=========================
     TodoChannelComponent
 =========================*/
