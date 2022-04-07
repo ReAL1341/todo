@@ -19786,8 +19786,8 @@ __webpack_require__.r(__webpack_exports__);
     var updateData = (0,vue__WEBPACK_IMPORTED_MODULE_1__.reactive)({
       id: props.item.id,
       todo_content: props.item.todo_content,
-      deadline_month: props.item.deadline_month,
-      deadline_date: props.item.deadline_date,
+      deadline_month: Number(props.item.deadline_month),
+      deadline_date: Number(props.item.deadline_date),
       deadline_time: props.item.deadline_time
     });
     var errorMessage = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(''); //編集完了ボタンの処理

@@ -52,8 +52,8 @@ export default {
         const updateData = reactive({
             id:props.item.id,
             todo_content:props.item.todo_content,
-            deadline_month:props.item.deadline_month,
-            deadline_date:props.item.deadline_date,
+            deadline_month:Number(props.item.deadline_month),
+            deadline_date:Number(props.item.deadline_date),
             deadline_time:props.item.deadline_time,
         })
         const errorMessage = ref('')
