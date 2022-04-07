@@ -34,7 +34,7 @@
                 v-on:click="updateDataPost"
             >完了</button>
         </p>
-        <p>{{errorMessage}}</p>
+        <p class="update-error">{{errorMessage}}</p>
     </div>
 </template>
 
@@ -53,12 +53,21 @@ export default {
     },
     emits:['update-finish'],
     setup(props,{emit}){
+
+        const dayNumber = (day)=>{
+            if(day === null){
+                return ''
+            }
+            else{
+                return Number(day)
+            }
+        }
         
         const updateData = reactive({
             id:props.item.id,
             todo_content:props.item.todo_content,
-            deadline_month:Number(props.item.deadline_month),
-            deadline_date:Number(props.item.deadline_date),
+            deadline_month:dayNumber(props.item.deadline_month),
+            deadline_date:dayNumber(props.item.deadline_date),
             deadline_time:props.item.deadline_time,
         })
         const errorMessage = ref('')

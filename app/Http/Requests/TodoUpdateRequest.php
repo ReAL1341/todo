@@ -73,6 +73,8 @@ class TodoUpdateRequest extends FormRequest
                 $day = $month.'-'.$date;
                 $nowYear = date('Y');
                 $today = strtotime(date("Y-m-d"));
+                //現在の日付より前か後かを判定して、
+                //年度を調整している
                 if(strtotime($nowYear.'-'.$day) < $today){
                     $year = (int)$nowYear + 1 ;
                 }
