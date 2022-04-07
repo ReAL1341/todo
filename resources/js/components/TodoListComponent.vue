@@ -48,7 +48,10 @@
             </div>
 
             <!-- 編集ボタンを押したときの入力フォーム -->
-            <div v-if="updateItemId === item.id">
+            <div
+                v-if="updateItemId === item.id"
+                class="update-todo-item"
+            >
                 <todo-list-update-component
                     v-bind:item="item"
                     v-on:update-finish="updateFinish"

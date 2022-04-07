@@ -214,9 +214,52 @@ body::-webkit-scrollbar{
 .update-button:hover{
     background-color: rgb(18,122,189);
 }
-.button-hidden,
-.update-time::-webkit-calendar-picker-indicator{
+.button-hidden{
     display: none;
+}
+
+/*================================
+    TodoListUpdateComponent.vue
+================================*/
+.update-todo-item{
+    font-size: 18px;
+    margin: 20px 2% 0px 1%;
+    border-bottom: solid black 3px ;
+    user-select: none;
+}
+.update-todo-content{
+    display: inline-block;
+    width: 38%;
+    padding: 3px 18px;
+    font-size: 18px;
+    border: none;
+    background-color: rgb(222, 219, 219);
+    border-radius: 5px;;
+}
+.update-deadline-day{
+    font-size: 18px;
+    width: 24px;
+    text-align: center;
+    padding: 3px 3px;
+    border: none;
+    background-color: rgb(222, 219, 219);
+    border-radius: 3px;
+}
+.update-deadline-time{
+    font-size: 18px;
+    padding: 3px 3px;
+    border: none;
+    background-color: rgb(222, 219, 219);
+    border-radius: 3px;
+}
+.update-deadline-time::-webkit-calendar-picker-indicator{
+    display: none;
+}
+.update-string{
+    font-size: 18px;
+}
+.update-deadline-wrap{
+    margin-left: 7%;
 }
 
 /*=========================
