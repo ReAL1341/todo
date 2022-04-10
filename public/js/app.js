@@ -19608,17 +19608,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-/* harmony import */ var _TodoListUpdateComponent_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TodoListUpdateComponent.vue */ "./resources/js/components/TodoListUpdateComponent.vue");
-/* harmony import */ var _TodoListItemComponent_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./TodoListItemComponent.vue */ "./resources/js/components/TodoListItemComponent.vue");
-
+/* harmony import */ var _TodoListItemComponent_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TodoListItemComponent.vue */ "./resources/js/components/TodoListItemComponent.vue");
 
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'TodoListComponent',
   components: {
-    TodoListItemComponent: _TodoListItemComponent_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
-    TodoListUpdateComponent: _TodoListUpdateComponent_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+    TodoListItemComponent: _TodoListItemComponent_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   props: {
     todoItems: {
@@ -19633,28 +19630,59 @@ __webpack_require__.r(__webpack_exports__);
   emits: ['todo-list-reload'],
   setup: function setup(props, _ref) {
     var emit = _ref.emit;
+    var todoTasks = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)([]);
+    (0,vue__WEBPACK_IMPORTED_MODULE_1__.watchEffect)(function () {
+      todoTasks.value = props.todoItems;
+      todoTasks.value.forEach(function (item) {
+        Object.defineProperties(item, {
+          checked: {
+            value: false,
+            writable: true
+          },
+          updating: {
+            value: false,
+            writable: true
+          }
+        });
+      });
+    }); // チェック変更
+
     var checkedItems = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)([]);
 
-    var checkedItemsAdmin = function checkedItemsAdmin(checkboxAdminObject) {
-      if (checkboxAdminObject.checked) {
-        checkedItems.value.push(checkboxAdminObject.item);
-      } else {
-        checkedItems.value = checkedItems.value.filter(function (elementObject) {
-          return elementObject.id !== checkboxAdminObject.item.id;
-        });
-      }
-    }; //編集処理
+    var changeChecked = function changeChecked(checkedId) {
+      todoTasks.value.forEach(function (item) {
+        if (item.id === checkedId && item.checked === false) {
+          item.checked = true;
+        } else if (item.id === checkedId && item.checked === true) {
+          item.checked = false;
+        }
+      });
+      checkedItems.value = [];
+      todoTasks.value.forEach(function (item) {
+        if (item.checked) {
+          checkedItems.value.push(item);
+        }
+      });
+    }; // チェッククリア
 
 
-    var updateItemId = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)('');
+    var checkClear = function checkClear() {
+      todoTasks.value.forEach(function (item) {
+        item.checked = false;
+      });
+      checkedItems.value = [];
+    }; // 編集ボタン処理
 
-    var updateItemIdChange = function updateItemIdChange(idObject) {
-      updateItemId.value = idObject.id;
-    };
 
-    var updateFinish = function updateFinish() {
-      updateItemId.value = '';
-      emit('todo-list-reload');
+    var changeUpdating = function changeUpdating(updatingId) {
+      checkClear();
+      todoTasks.value.forEach(function (item) {
+        if (item.id === updatingId) {
+          item.updating = true;
+        } else {
+          item.updating = false;
+        }
+      });
     }; // 削除ボタン
 
 
@@ -19686,17 +19714,22 @@ __webpack_require__.r(__webpack_exports__);
       }
     };
 
+    var todoListReloadEmit = function todoListReloadEmit() {
+      emit('todo-list-reload');
+    };
+
     return {
+      todoTasks: todoTasks,
       checkedItems: checkedItems,
-      checkedItemsAdmin: checkedItemsAdmin,
+      checkClear: checkClear,
+      changeChecked: changeChecked,
+      changeUpdating: changeUpdating,
       deleteFlag: deleteFlag,
       deleteConfirm: deleteConfirm,
       deleteItemsRequest: deleteItemsRequest,
       deleteCancel: deleteCancel,
-      updateItemId: updateItemId,
-      updateItemIdChange: updateItemIdChange,
-      updateFinish: updateFinish,
-      dayString: dayString
+      dayString: dayString,
+      todoListReloadEmit: todoListReloadEmit
     };
   }
 });
@@ -19714,9 +19747,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+/* harmony import */ var _TodoListUpdateComponent_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TodoListUpdateComponent.vue */ "./resources/js/components/TodoListUpdateComponent.vue");
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  components: {
+    TodoListUpdateComponent: _TodoListUpdateComponent_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
   name: 'TodoListItemComponent',
   props: {
     item: {
@@ -19728,28 +19764,26 @@ __webpack_require__.r(__webpack_exports__);
       required: true
     }
   },
-  emits: ['checked-items-admin', 'update-item-id-change'],
+  emits: ['change-checked', 'change-updating', 'todo-list-reload-emit'],
   setup: function setup(props, _ref) {
     var emit = _ref.emit;
-    var checked = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
 
-    var checkboxAdmin = function checkboxAdmin() {
-      emit('checked-items-admin', {
-        item: props.item,
-        checked: checked.value
-      });
+    var changeCheckedEmit = function changeCheckedEmit() {
+      emit('change-checked', props.item.id);
     };
 
-    var updateItemIdChange = function updateItemIdChange() {
-      emit('update-item-id-change', {
-        id: props.item.id
-      });
+    var changeUpdatingEmit = function changeUpdatingEmit() {
+      emit('change-updating', props.item.id);
+    };
+
+    var updateFinish = function updateFinish() {
+      emit('todo-list-reload-emit');
     };
 
     return {
-      checked: checked,
-      checkboxAdmin: checkboxAdmin,
-      updateItemIdChange: updateItemIdChange
+      changeCheckedEmit: changeCheckedEmit,
+      changeUpdatingEmit: changeUpdatingEmit,
+      updateFinish: updateFinish
     };
   }
 });
@@ -20276,18 +20310,8 @@ var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 var _hoisted_6 = {
   "class": "delete-items"
 };
-var _hoisted_7 = {
-  key: 0,
-  "class": "todo-item"
-};
-var _hoisted_8 = {
-  key: 1,
-  "class": "update-todo-item"
-};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_todo_list_item_component = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("todo-list-item-component");
-
-  var _component_todo_list_update_component = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("todo-list-update-component");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.currentChannel), 1
   /* TEXT */
@@ -20296,7 +20320,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[0] || (_cache[0] = function () {
       return $setup.deleteConfirm && $setup.deleteConfirm.apply($setup, arguments);
     })
-  }, "削除 "), $setup.deleteFlag ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.checkedItems, function (checkedItem) {
+  }, "削除 "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[1] || (_cache[1] = function () {
+      return $setup.checkClear && $setup.checkClear.apply($setup, arguments);
+    })
+  }, "チェックを外す "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 削除確認ウィンドウ "), $setup.deleteFlag ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.checkedItems, function (checkedItem) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", {
       key: checkedItem.id
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(checkedItem.todo_content), 1
@@ -20309,30 +20337,26 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }), 128
   /* KEYED_FRAGMENT */
   ))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[1] || (_cache[1] = function () {
+    onClick: _cache[2] || (_cache[2] = function () {
       return $setup.deleteItemsRequest && $setup.deleteItemsRequest.apply($setup, arguments);
     })
   }, "はい"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[2] || (_cache[2] = function () {
+    onClick: _cache[3] || (_cache[3] = function () {
       return $setup.deleteCancel && $setup.deleteCancel.apply($setup, arguments);
     })
-  }, "いいえ")])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.todoItems, function (item) {
+  }, "いいえ")])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" todoリストを表示 "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.todoTasks, function (item) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: item.id,
       "class": "todo-item-wrap"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" todoリストを表示 "), $setup.updateItemId != item.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_todo_list_item_component, {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_todo_list_item_component, {
       item: item,
       dayString: $setup.dayString,
-      onCheckedItemsAdmin: $setup.checkedItemsAdmin,
-      onUpdateItemIdChange: $setup.updateItemIdChange
+      onChangeChecked: $setup.changeChecked,
+      onChangeUpdating: $setup.changeUpdating,
+      onTodoListReloadEmit: $setup.todoListReloadEmit
     }, null, 8
     /* PROPS */
-    , ["item", "dayString", "onCheckedItemsAdmin", "onUpdateItemIdChange"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 編集ボタンを押したときの入力フォーム "), $setup.updateItemId === item.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_todo_list_update_component, {
-      item: item,
-      onUpdateFinish: $setup.updateFinish
-    }, null, 8
-    /* PROPS */
-    , ["item", "onUpdateFinish"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+    , ["item", "dayString", "onChangeChecked", "onChangeUpdating", "onTodoListReloadEmit"])]);
   }), 128
   /* KEYED_FRAGMENT */
   ))]);
@@ -20353,40 +20377,51 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
-var _hoisted_1 = ["id"];
-var _hoisted_2 = ["for"];
+var _hoisted_1 = {
+  key: 0,
+  "class": "todo-item"
+};
+var _hoisted_2 = ["checked"];
 var _hoisted_3 = {
   "class": "todo-content"
 };
 var _hoisted_4 = {
   "class": "date-time"
 };
+var _hoisted_5 = {
+  "class": "update-todo-item"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-      return $setup.checked = $event;
-    }),
-    id: $props.item.id + 'checkbox',
-    type: "checkbox",
-    onChange: _cache[1] || (_cache[1] = function () {
-      return $setup.checkboxAdmin && $setup.checkboxAdmin.apply($setup, arguments);
+  var _component_todo_list_update_component = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("todo-list-update-component");
+
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [!$props.item.updating ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    checked: $props.item.checked,
+    type: "checkbox"
+  }, null, 8
+  /* PROPS */
+  , _hoisted_2), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    onClick: _cache[0] || (_cache[0] = function () {
+      return $setup.changeCheckedEmit && $setup.changeCheckedEmit.apply($setup, arguments);
     })
-  }, null, 40
-  /* PROPS, HYDRATE_EVENTS */
-  , _hoisted_1), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $setup.checked]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "for": $props.item.id + 'checkbox'
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.item.todo_content), 1
   /* TEXT */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.dayString($props.item.deadline_month, $props.item.deadline_date)) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.item.deadline_time), 1
   /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "update-button",
-    onClick: _cache[2] || (_cache[2] = function () {
-      return $setup.updateItemIdChange && $setup.updateItemIdChange.apply($setup, arguments);
+    onClick: _cache[1] || (_cache[1] = function () {
+      return $setup.changeUpdatingEmit && $setup.changeUpdatingEmit.apply($setup, arguments);
     })
-  }, "編集")], 8
+  }, "編集")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 編集ボタンを押したときの入力フォーム "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_todo_list_update_component, {
+    item: $props.item,
+    onUpdateFinish: $setup.updateFinish
+  }, null, 8
   /* PROPS */
-  , _hoisted_2)]);
+  , ["item", "onUpdateFinish"])], 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.item.updating]])], 64
+  /* STABLE_FRAGMENT */
+  );
 }
 
 /***/ }),

@@ -6,7 +6,12 @@
             v-on:click="deleteConfirm"
         >削除
         </button>
+        <button
+            v-on:click="checkClear"
+        >チェックを外す
+        </button>
 
+        <!-- 削除確認ウィンドウ -->
         <div
             v-if="deleteFlag"
             class="delete-confirm"
@@ -15,7 +20,7 @@
                 <p>次のタスクを削除していいですか?</p>
                 <div class="delete-items">
                     <p
-                        v-for="checkedItem in checkedItems"
+                        v-for="checkedItem in checkedItems" 
                         v-bind:key="checkedItem.id"
                     >
                         <span>{{checkedItem.todo_content}}</span>
@@ -28,36 +33,19 @@
             </div>
         </div>
 
+        <!-- todoリストを表示 -->
         <div
-            v-for="item in todoItems"
+            v-for="item in todoTasks"
             v-bind:key="item.id"
             class="todo-item-wrap"
         >
-
-            <!-- todoリストを表示 -->
-            <div
-                v-if="updateItemId != item.id"
-                class="todo-item"
-            >
-                <todo-list-item-component
-                    v-bind:item="item"
-                    v-bind:dayString="dayString"
-                    v-on:checked-items-admin="checkedItemsAdmin"
-                    v-on:update-item-id-change="updateItemIdChange"
-                ></todo-list-item-component>
-            </div>
-
-            <!-- 編集ボタンを押したときの入力フォーム -->
-            <div
-                v-if="updateItemId === item.id"
-                class="update-todo-item"
-            >
-                <todo-list-update-component
-                    v-bind:item="item"
-                    v-on:update-finish="updateFinish"
-                ></todo-list-update-component>
-            </div>
-
+            <todo-list-item-component
+                v-bind:item="item"
+                v-bind:dayString="dayString"
+                v-on:change-checked="changeChecked"
+                v-on:change-updating="changeUpdating"
+                v-on:todo-list-reload-emit="todoListReloadEmit"
+            ></todo-list-item-component>
         </div>
 
     </div>
@@ -67,13 +55,12 @@
 
 <script>
 import axios from 'axios'
-import { ref } from 'vue'
-import TodoListUpdateComponent from './TodoListUpdateComponent.vue'
+import { ref, watchEffect } from 'vue'
 import TodoListItemComponent from './TodoListItemComponent.vue'
 
 export default {
     name:'TodoListComponent',
-    components:{ TodoListItemComponent,TodoListUpdateComponent },
+    components:{ TodoListItemComponent },
     props:{
         todoItems:{
             type:Array,
@@ -86,27 +73,61 @@ export default {
     },
     emits:['todo-list-reload'],
     setup(props,{emit}) {
-
-        let checkedItems = ref([])
-        const checkedItemsAdmin = (checkboxAdminObject)=>{
-            if(checkboxAdminObject.checked){
-                checkedItems.value.push(checkboxAdminObject.item)
-            }
-            else{
-                checkedItems.value = checkedItems.value.filter((elementObject)=>{
-                    return elementObject.id !== checkboxAdminObject.item.id
+        const todoTasks = ref([])
+        watchEffect(()=>{
+            todoTasks.value = props.todoItems
+            todoTasks.value.forEach((item)=>{
+                Object.defineProperties(item,{
+                    checked:{
+                        value:false,
+                        writable:true,
+                    },
+                    updating:{
+                        value:false,
+                        writable:true,
+                    },
                 })
-            }
+            })
+        })
+
+        // チェック変更
+        const checkedItems = ref([])
+        const changeChecked = (checkedId)=>{
+            todoTasks.value.forEach((item) => {
+                if(item.id === checkedId && item.checked === false){
+                    item.checked = true
+                }
+                else if(item.id === checkedId && item.checked === true){
+                    item.checked = false
+                }
+            })
+            checkedItems.value = []
+            todoTasks.value.forEach((item)=>{
+                if(item.checked){
+                    checkedItems.value.push(item)
+                }
+            })
         }
 
-        //編集処理
-        let updateItemId = ref('')
-        const updateItemIdChange = (idObject)=>{
-            updateItemId.value = idObject.id
+        // チェッククリア
+        const checkClear = ()=>{
+            todoTasks.value.forEach((item)=>{
+                item.checked = false
+            })
+            checkedItems.value = []
         }
-        const updateFinish = ()=>{
-            updateItemId.value = ''
-            emit('todo-list-reload')
+
+        // 編集ボタン処理
+        const changeUpdating = (updatingId)=>{
+            checkClear()
+            todoTasks.value.forEach((item) => {
+                if(item.id === updatingId){
+                    item.updating = true
+                }
+                else{
+                    item.updating = false
+                }
+            })
         }
 
         // 削除ボタン
@@ -134,17 +155,22 @@ export default {
             }
         }
 
+        const todoListReloadEmit = ()=>{
+            emit('todo-list-reload')
+        }
+
         return{
+            todoTasks,
             checkedItems,
-            checkedItemsAdmin,
+            checkClear,
+            changeChecked,
+            changeUpdating,
             deleteFlag,
             deleteConfirm,
             deleteItemsRequest,
             deleteCancel,
-            updateItemId,
-            updateItemIdChange,
-            updateFinish,
             dayString,
+            todoListReloadEmit,
         }
     },
 }

@@ -1,29 +1,45 @@
 <template>
-    <div>   
+     <div
+        v-if="!item.updating"
+        class="todo-item"
+    >  
         <input
-            v-model="checked"
-            v-bind:id="item.id+'checkbox'"
+            v-bind:checked="item.checked"
             type="checkbox"
-            v-on:change="checkboxAdmin"
         >
-        <label v-bind:for="item.id+'checkbox'" >
+        <span
+            v-on:click="changeCheckedEmit"
+        >
             <span class="todo-content">{{item.todo_content}}</span>   
             <span class="date-time">
                 {{dayString(item.deadline_month,item.deadline_date)}}
                 {{item.deadline_time}}
             </span>
+        </span>
             <button 
                 class="update-button"
-                v-on:click="updateItemIdChange"
+                v-on:click="changeUpdatingEmit"
             >編集</button>
-        </label>
     </div>
+
+    <!-- 編集ボタンを押したときの入力フォーム -->
+    <div
+        v-show="item.updating"
+        class="update-todo-item"
+    >
+        <todo-list-update-component
+            v-bind:item="item"
+            v-on:update-finish="updateFinish"
+        ></todo-list-update-component>
+    </div>
+
 </template>
 
 <script>
-import { ref } from 'vue'
+import TodoListUpdateComponent from './TodoListUpdateComponent.vue'
 
 export default {
+  components: { TodoListUpdateComponent },
     name:'TodoListItemComponent',
     props:{
         item:{
@@ -36,27 +52,28 @@ export default {
         },
     },
     emits:[
-        'checked-items-admin',
-        'update-item-id-change',
+        'change-checked',
+        'change-updating',
+        'todo-list-reload-emit',
     ],
     setup(props,{emit}) {
 
-        const checked = ref(false)
-        const checkboxAdmin = ()=>{
-            emit('checked-items-admin',{
-                item:props.item,
-                checked:checked.value,
-            })
+        const changeCheckedEmit = ()=>{
+            emit('change-checked',props.item.id)
         }
 
-        const updateItemIdChange = ()=>{
-            emit('update-item-id-change',{id:props.item.id})
+        const changeUpdatingEmit = ()=>{
+            emit('change-updating',props.item.id)
+        }
+
+        const updateFinish = ()=>{
+            emit('todo-list-reload-emit')
         }
 
         return {
-            checked,
-            checkboxAdmin,
-            updateItemIdChange,
+            changeCheckedEmit,
+            changeUpdatingEmit,
+            updateFinish,
         }
     },
 }
