@@ -19423,12 +19423,9 @@ __webpack_require__.r(__webpack_exports__);
     var channelMenuId = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(''); //削除ボタン
 
     var deleteChannelId = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('');
-    var deleteFlag = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
 
     var deleteConfirm = function deleteConfirm() {
       channelMenuId.value = '';
-      deleteChannelId.value = '';
-      deleteFlag.value = true;
     };
 
     var deleteChannelIdRequest = function deleteChannelIdRequest() {
@@ -19439,13 +19436,12 @@ __webpack_require__.r(__webpack_exports__);
           changeChannel('やることリスト');
         }
       });
-      deleteFlag.value = false;
       deleteChannelId.value = '';
       channelListReload();
     };
 
     var deleteCancel = function deleteCancel() {
-      deleteFlag.value = false;
+      deleteChannelId.value = '';
     }; //編集処理
 
 
@@ -19464,7 +19460,6 @@ __webpack_require__.r(__webpack_exports__);
       changeChannel: changeChannel,
       channelMenuId: channelMenuId,
       deleteChannelId: deleteChannelId,
-      deleteFlag: deleteFlag,
       deleteConfirm: deleteConfirm,
       deleteChannelIdRequest: deleteChannelIdRequest,
       deleteCancel: deleteCancel,
@@ -20017,7 +20012,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   , ["onChannelListReload"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.channelItems, function (item) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: item.id
-    }, [$setup.deleteFlag ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "「" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.name) + "」を削除していいですか?", 1
+    }, [$setup.deleteChannelId === item.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "「" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.name) + "」を削除していいですか?", 1
     /* TEXT */
     ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       "class": "delete-button",

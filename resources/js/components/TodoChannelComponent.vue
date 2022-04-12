@@ -12,7 +12,7 @@
         >
 
             <div
-                v-if="deleteFlag"
+                v-if="deleteChannelId===item.id"
                 class="delete-confirm"
             >
                 <div class="confirm-display-channel">
@@ -157,11 +157,8 @@ export default{
 
         //削除ボタン
         let deleteChannelId = ref('')
-        let deleteFlag = ref(false)
         const deleteConfirm = ()=>{
             channelMenuId.value = ''
-            deleteChannelId.value = ''
-            deleteFlag.value = true
         }
         const deleteChannelIdRequest = ()=>{
             axios.post('/api/channel/delete',{id:deleteChannelId.value}).then((res)=>{
@@ -169,12 +166,11 @@ export default{
                     changeChannel('やることリスト')
                 }
             })
-            deleteFlag.value = false
             deleteChannelId.value = ''
             channelListReload()
         }
         const deleteCancel = ()=>{
-            deleteFlag.value = false
+            deleteChannelId.value = ''
         }
 
         //編集処理
@@ -192,7 +188,6 @@ export default{
             changeChannel,
             channelMenuId,
             deleteChannelId,
-            deleteFlag,
             deleteConfirm,
             deleteChannelIdRequest,
             deleteCancel,
