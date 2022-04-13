@@ -12,26 +12,13 @@
         </button>
 
         <!-- 削除確認ウィンドウ -->
-        <div
-            v-if="deleteFlag"
-            class="delete-confirm"
-        >
-            <div class="confirm-display">
-                <p>次のタスクを削除していいですか?</p>
-                <div class="delete-items">
-                    <p
-                        v-for="checkedItem in checkedItems" 
-                        v-bind:key="checkedItem.id"
-                    >
-                        <span>{{checkedItem.todo_content}}</span>
-                        <span>{{dayString(checkedItem.deadline_month,checkedItem.deadline_date)}}</span>
-                        <span>{{checkedItem.deadline_time}}</span>
-                    </p>
-                </div>
-                <button v-on:click="deleteItemsRequest">はい</button>
-                <button v-on:click="deleteCancel">いいえ</button>
-            </div>
-        </div>
+        <todo-list-delete-window-component
+            v-bind:dayString="dayString"
+            v-bind:checkedItems="checkedItems"
+            v-bind:deleteFlag="deleteFlag"
+            v-on:delete-items-request="deleteItemsRequest"
+            v-on:delete-cancel="deleteCancel"
+        ></todo-list-delete-window-component>
 
         <!-- todoリストを表示 -->
         <div
@@ -57,10 +44,11 @@
 import axios from 'axios'
 import { ref, watchEffect } from 'vue'
 import TodoListItemComponent from './TodoListItemComponent.vue'
+import TodoListDeleteWindowComponent from './TodoListDeleteWindowComponent.vue'
 
 export default {
     name:'TodoListComponent',
-    components:{ TodoListItemComponent },
+    components:{ TodoListItemComponent,TodoListDeleteWindowComponent },
     props:{
         todoItems:{
             type:Array,

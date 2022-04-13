@@ -19604,13 +19604,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 /* harmony import */ var _TodoListItemComponent_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TodoListItemComponent.vue */ "./resources/js/components/TodoListItemComponent.vue");
+/* harmony import */ var _TodoListDeleteWindowComponent_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./TodoListDeleteWindowComponent.vue */ "./resources/js/components/TodoListDeleteWindowComponent.vue");
+
 
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'TodoListComponent',
   components: {
-    TodoListItemComponent: _TodoListItemComponent_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+    TodoListItemComponent: _TodoListItemComponent_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    TodoListDeleteWindowComponent: _TodoListDeleteWindowComponent_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
   props: {
     todoItems: {
@@ -19725,6 +19728,54 @@ __webpack_require__.r(__webpack_exports__);
       deleteCancel: deleteCancel,
       dayString: dayString,
       todoListReloadEmit: todoListReloadEmit
+    };
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/TodoListDeleteWindowComponent.vue?vue&type=script&lang=js":
+/*!***********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/TodoListDeleteWindowComponent.vue?vue&type=script&lang=js ***!
+  \***********************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: 'TodoListDeleteWindowComponent',
+  props: {
+    dayString: {
+      type: Function,
+      required: true
+    },
+    checkedItems: {
+      type: Array,
+      required: true
+    },
+    deleteFlag: {
+      type: Boolean,
+      required: true
+    }
+  },
+  emits: ['delete-items-request', 'delete-cancel'],
+  setup: function setup(props, _ref) {
+    var emit = _ref.emit;
+
+    var deleteItemsRequestEmit = function deleteItemsRequestEmit() {
+      emit('delete-items-request');
+    };
+
+    var deleteCancelEmit = function deleteCancelEmit() {
+      emit('delete-cancel');
+    };
+
+    return {
+      deleteItemsRequestEmit: deleteItemsRequestEmit,
+      deleteCancelEmit: deleteCancelEmit
     };
   }
 });
@@ -20290,22 +20341,9 @@ var _hoisted_1 = {
 var _hoisted_2 = {
   "class": "current-channel"
 };
-var _hoisted_3 = {
-  key: 0,
-  "class": "delete-confirm"
-};
-var _hoisted_4 = {
-  "class": "confirm-display"
-};
-
-var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "次のタスクを削除していいですか?", -1
-/* HOISTED */
-);
-
-var _hoisted_6 = {
-  "class": "delete-items"
-};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_todo_list_delete_window_component = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("todo-list-delete-window-component");
+
   var _component_todo_list_item_component = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("todo-list-item-component");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.currentChannel), 1
@@ -20319,27 +20357,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[1] || (_cache[1] = function () {
       return $setup.checkClear && $setup.checkClear.apply($setup, arguments);
     })
-  }, "チェックを外す "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 削除確認ウィンドウ "), $setup.deleteFlag ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.checkedItems, function (checkedItem) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", {
-      key: checkedItem.id
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(checkedItem.todo_content), 1
-    /* TEXT */
-    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.dayString(checkedItem.deadline_month, checkedItem.deadline_date)), 1
-    /* TEXT */
-    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(checkedItem.deadline_time), 1
-    /* TEXT */
-    )]);
-  }), 128
-  /* KEYED_FRAGMENT */
-  ))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[2] || (_cache[2] = function () {
-      return $setup.deleteItemsRequest && $setup.deleteItemsRequest.apply($setup, arguments);
-    })
-  }, "はい"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[3] || (_cache[3] = function () {
-      return $setup.deleteCancel && $setup.deleteCancel.apply($setup, arguments);
-    })
-  }, "いいえ")])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" todoリストを表示 "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.todoTasks, function (item) {
+  }, "チェックを外す "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 削除確認ウィンドウ "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_todo_list_delete_window_component, {
+    dayString: $setup.dayString,
+    checkedItems: $setup.checkedItems,
+    deleteFlag: $setup.deleteFlag,
+    onDeleteItemsRequest: $setup.deleteItemsRequest,
+    onDeleteCancel: $setup.deleteCancel
+  }, null, 8
+  /* PROPS */
+  , ["dayString", "checkedItems", "deleteFlag", "onDeleteItemsRequest", "onDeleteCancel"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" todoリストを表示 "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.todoTasks, function (item) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: item.id,
       "class": "todo-item-wrap"
@@ -20355,6 +20381,60 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }), 128
   /* KEYED_FRAGMENT */
   ))]);
+}
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/TodoListDeleteWindowComponent.vue?vue&type=template&id=468b8e7a":
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/TodoListDeleteWindowComponent.vue?vue&type=template&id=468b8e7a ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+var _hoisted_1 = {
+  key: 0,
+  "class": "delete-confirm"
+};
+var _hoisted_2 = {
+  "class": "confirm-display"
+};
+
+var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "次のタスクを削除していいですか?", -1
+/* HOISTED */
+);
+
+var _hoisted_4 = {
+  "class": "delete-items"
+};
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return $props.deleteFlag ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.checkedItems, function (checkedItem) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", {
+      key: checkedItem.id
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(checkedItem.todo_content), 1
+    /* TEXT */
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.dayString(checkedItem.deadline_month, checkedItem.deadline_date)), 1
+    /* TEXT */
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(checkedItem.deadline_time), 1
+    /* TEXT */
+    )]);
+  }), 128
+  /* KEYED_FRAGMENT */
+  ))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[0] || (_cache[0] = function () {
+      return $setup.deleteItemsRequestEmit && $setup.deleteItemsRequestEmit.apply($setup, arguments);
+    })
+  }, "はい"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[1] || (_cache[1] = function () {
+      return $setup.deleteCancelEmit && $setup.deleteCancelEmit.apply($setup, arguments);
+    })
+  }, "いいえ")])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true);
 }
 
 /***/ }),
@@ -20524,9 +20604,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_TodoListComponent_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/TodoListComponent.vue */ "./resources/js/components/TodoListComponent.vue");
 /* harmony import */ var _components_TodoListItemComponent_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/TodoListItemComponent.vue */ "./resources/js/components/TodoListItemComponent.vue");
 /* harmony import */ var _components_TodoListUpdateComponent_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/TodoListUpdateComponent.vue */ "./resources/js/components/TodoListUpdateComponent.vue");
-/* harmony import */ var _components_TodoChannelComponent_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/TodoChannelComponent.vue */ "./resources/js/components/TodoChannelComponent.vue");
-/* harmony import */ var _components_TodoChannelAddComponent_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/TodoChannelAddComponent.vue */ "./resources/js/components/TodoChannelAddComponent.vue");
-/* harmony import */ var _components_TodoChannelUpdateComponent_vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/TodoChannelUpdateComponent.vue */ "./resources/js/components/TodoChannelUpdateComponent.vue");
+/* harmony import */ var _components_TodoListDeleteWindowComponent_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/TodoListDeleteWindowComponent.vue */ "./resources/js/components/TodoListDeleteWindowComponent.vue");
+/* harmony import */ var _components_TodoChannelComponent_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/TodoChannelComponent.vue */ "./resources/js/components/TodoChannelComponent.vue");
+/* harmony import */ var _components_TodoChannelAddComponent_vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/TodoChannelAddComponent.vue */ "./resources/js/components/TodoChannelAddComponent.vue");
+/* harmony import */ var _components_TodoChannelUpdateComponent_vue__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/TodoChannelUpdateComponent.vue */ "./resources/js/components/TodoChannelUpdateComponent.vue");
+
 
 
 
@@ -20542,9 +20624,10 @@ app.component('todo-input-component', _components_TodoInputComponent_vue__WEBPAC
 app.component('todo-list-component', _components_TodoListComponent_vue__WEBPACK_IMPORTED_MODULE_3__["default"]);
 app.component('todo-list-item-component', _components_TodoListItemComponent_vue__WEBPACK_IMPORTED_MODULE_4__["default"]);
 app.component('todo-list-update-component', _components_TodoListUpdateComponent_vue__WEBPACK_IMPORTED_MODULE_5__["default"]);
-app.component('todo-channel-component', _components_TodoChannelComponent_vue__WEBPACK_IMPORTED_MODULE_6__["default"]);
-app.component('todo-channel-add-component', _components_TodoChannelAddComponent_vue__WEBPACK_IMPORTED_MODULE_7__["default"]);
-app.component('todo-channel-update-component', _components_TodoChannelUpdateComponent_vue__WEBPACK_IMPORTED_MODULE_8__["default"]);
+app.component('todo-list-delete-window-component', _components_TodoListDeleteWindowComponent_vue__WEBPACK_IMPORTED_MODULE_6__["default"]);
+app.component('todo-channel-component', _components_TodoChannelComponent_vue__WEBPACK_IMPORTED_MODULE_7__["default"]);
+app.component('todo-channel-add-component', _components_TodoChannelAddComponent_vue__WEBPACK_IMPORTED_MODULE_8__["default"]);
+app.component('todo-channel-update-component', _components_TodoChannelUpdateComponent_vue__WEBPACK_IMPORTED_MODULE_9__["default"]);
 app.mount("#app");
 
 /***/ }),
@@ -20946,6 +21029,34 @@ if (false) {}
 
 /***/ }),
 
+/***/ "./resources/js/components/TodoListDeleteWindowComponent.vue":
+/*!*******************************************************************!*\
+  !*** ./resources/js/components/TodoListDeleteWindowComponent.vue ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _TodoListDeleteWindowComponent_vue_vue_type_template_id_468b8e7a__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TodoListDeleteWindowComponent.vue?vue&type=template&id=468b8e7a */ "./resources/js/components/TodoListDeleteWindowComponent.vue?vue&type=template&id=468b8e7a");
+/* harmony import */ var _TodoListDeleteWindowComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TodoListDeleteWindowComponent.vue?vue&type=script&lang=js */ "./resources/js/components/TodoListDeleteWindowComponent.vue?vue&type=script&lang=js");
+/* harmony import */ var C_Users_yuhei_OneDrive_project_todo_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+
+
+
+
+;
+const __exports__ = /*#__PURE__*/(0,C_Users_yuhei_OneDrive_project_todo_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_TodoListDeleteWindowComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_TodoListDeleteWindowComponent_vue_vue_type_template_id_468b8e7a__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/TodoListDeleteWindowComponent.vue"]])
+/* hot reload */
+if (false) {}
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
+
+/***/ }),
+
 /***/ "./resources/js/components/TodoListItemComponent.vue":
 /*!***********************************************************!*\
   !*** ./resources/js/components/TodoListItemComponent.vue ***!
@@ -21098,6 +21209,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/TodoListDeleteWindowComponent.vue?vue&type=script&lang=js":
+/*!*******************************************************************************************!*\
+  !*** ./resources/js/components/TodoListDeleteWindowComponent.vue?vue&type=script&lang=js ***!
+  \*******************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_TodoListDeleteWindowComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_TodoListDeleteWindowComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./TodoListDeleteWindowComponent.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/TodoListDeleteWindowComponent.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
 /***/ "./resources/js/components/TodoListItemComponent.vue?vue&type=script&lang=js":
 /*!***********************************************************************************!*\
   !*** ./resources/js/components/TodoListItemComponent.vue?vue&type=script&lang=js ***!
@@ -21222,6 +21349,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_TodoListComponent_vue_vue_type_template_id_5c76bffe__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_TodoListComponent_vue_vue_type_template_id_5c76bffe__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./TodoListComponent.vue?vue&type=template&id=5c76bffe */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/TodoListComponent.vue?vue&type=template&id=5c76bffe");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/TodoListDeleteWindowComponent.vue?vue&type=template&id=468b8e7a":
+/*!*************************************************************************************************!*\
+  !*** ./resources/js/components/TodoListDeleteWindowComponent.vue?vue&type=template&id=468b8e7a ***!
+  \*************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_TodoListDeleteWindowComponent_vue_vue_type_template_id_468b8e7a__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_TodoListDeleteWindowComponent_vue_vue_type_template_id_468b8e7a__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./TodoListDeleteWindowComponent.vue?vue&type=template&id=468b8e7a */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/TodoListDeleteWindowComponent.vue?vue&type=template&id=468b8e7a");
 
 
 /***/ }),
