@@ -1,22 +1,29 @@
 <template>
     <div
         v-if="deleteFlag"
-        class="delete-confirm"
+        class="delete-confirm-wrap"
     >
         <div class="confirm-display">
             <p>次のタスクを削除していいですか?</p>
-            <div class="delete-items">
+            <div>
                 <p
                     v-for="checkedItem in checkedItems" 
                     v-bind:key="checkedItem.id"
+                    class="delete-item"
                 >
                     <span>{{checkedItem.todo_content}}</span>
                     <span>{{dayString(checkedItem.deadline_month,checkedItem.deadline_date)}}</span>
                     <span>{{checkedItem.deadline_time}}</span>
                 </p>
             </div>
-            <button v-on:click="deleteItemsRequestEmit">はい</button>
-            <button v-on:click="deleteCancelEmit">いいえ</button>
+            <button
+                class="public-button-red"
+                v-on:click="deleteItemsRequestEmit"
+            >はい</button>
+            <button
+                class="public-button-gray"
+                v-on:click="deleteCancelEmit"
+            >いいえ</button>
         </div>
     </div>
 </template>

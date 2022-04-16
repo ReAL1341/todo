@@ -1,5 +1,5 @@
 <template>
-    <div class="add-channel-wrap">
+    <div class="channel-add-wrap">
         <div>
             <input
                 v-model="newChannel"

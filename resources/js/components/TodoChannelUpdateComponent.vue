@@ -1,13 +1,11 @@
 <template>
-    <div class="update-channel-wrap">
+    <div class="channel-update-wrap">
         <input
             v-model="newChannelName"
             type="text"
         >
         <p>{{errorMessage}}</p>
-        <button 
-            v-on:click="newChannelNamePost"
-        >完了</button>
+        <button v-on:click="newChannelNamePost">完了</button>
     </div>
 </template>
 

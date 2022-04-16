@@ -1,27 +1,24 @@
 <template>
     <div>
-        <p>
+        <p class="update-form-wrap">
             <input
                 v-model="updateData.todo_content"
-                class="update-todo-content"
                 type="text"
                 v-on:keyup.enter="$event.target.blur()"
             >
             <span class="update-deadline-wrap">
                 <input
                     v-model="updateData.deadline_month"
-                    class="update-deadline-day"
                     type="text"
                     v-on:keyup.enter="$event.target.nextElementSibling.nextElementSibling.focus()"
                 >
-                <span class="update-string">月</span>
+                <span>月</span>
                 <input
                     v-model="updateData.deadline_date"
-                    class="update-deadline-day"
                     type="text"
                     v-on:keyup.enter="$event.target.nextElementSibling.nextElementSibling.focus()"
                 >
-                <span class="update-string">日</span>
+                <span>日</span>
                 <input
                     v-model="updateData.deadline_time"
                     class="update-deadline-time"
@@ -29,8 +26,8 @@
                     v-on:keyup.enter="$event.target.blur()"
                 >
             </span>
-            <button 
-                class="update-button"
+            <button
+                class="public-button-blue"
                 v-on:click="updateDataPost"
             >完了</button>
         </p>

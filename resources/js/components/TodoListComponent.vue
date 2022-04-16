@@ -1,12 +1,14 @@
 <template>
     <div class="todo-list-wrap">
-        <h1 class="current-channel">{{currentChannel}}</h1>
+
+        <h1>{{currentChannel}}</h1>
         <button
-            class="delete-button"
+            class="public-button-red"
             v-on:click="deleteConfirm"
         >削除
         </button>
         <button
+            class="public-button-gray"
             v-on:click="checkClear"
         >チェックを外す
         </button>
@@ -61,6 +63,8 @@ export default {
     },
     emits:['todo-list-reload'],
     setup(props,{emit}) {
+
+        // タスクのObjectに「checked」と「updating」を追加
         const todoTasks = ref([])
         watchEffect(()=>{
             todoTasks.value = props.todoItems
@@ -105,19 +109,6 @@ export default {
             checkedItems.value = []
         }
 
-        // 編集ボタン処理
-        const changeUpdating = (updatingId)=>{
-            checkClear()
-            todoTasks.value.forEach((item) => {
-                if(item.id === updatingId){
-                    item.updating = true
-                }
-                else{
-                    item.updating = false
-                }
-            })
-        }
-
         // 削除ボタン
         let deleteFlag = ref(false)
         const deleteConfirm = ()=>{
@@ -133,6 +124,19 @@ export default {
             deleteFlag.value = false
         }
 
+        // 編集ボタン処理
+        const changeUpdating = (updatingId)=>{
+            checkClear()
+            todoTasks.value.forEach((item) => {
+                if(item.id === updatingId){
+                    item.updating = true
+                }
+                else{
+                    item.updating = false
+                }
+            })
+        }
+
         //「●月●日」を返す
         const dayString = (month,date)=>{
             if (month!=null && date!=null){
@@ -143,6 +147,7 @@ export default {
             }
         }
 
+        // タスクの再読み込み
         const todoListReloadEmit = ()=>{
             emit('todo-list-reload')
         }

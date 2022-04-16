@@ -2,24 +2,24 @@
      <div
         v-if="!item.updating"
         class="todo-item"
-    >  
-        <input
-            v-bind:checked="item.checked"
-            type="checkbox"
-        >
+    >   
         <span
             v-on:click="changeCheckedEmit"
         >
-            <span class="todo-content">{{item.todo_content}}</span>   
+            <input
+                v-bind:checked="item.checked"
+                type="checkbox"
+            >
+            <span class="todo-content">{{item.todo_content}}</span>
             <span class="date-time">
                 {{dayString(item.deadline_month,item.deadline_date)}}
                 {{item.deadline_time}}
             </span>
         </span>
-            <button 
-                class="update-button"
-                v-on:click="changeUpdatingEmit"
-            >編集</button>
+        <button
+            class="public-button-blue"
+            v-on:click="changeUpdatingEmit"
+        >編集</button>
     </div>
 
     <!-- 編集ボタンを押したときの入力フォーム -->

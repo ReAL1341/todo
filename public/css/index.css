@@ -23,420 +23,64 @@ body::-webkit-scrollbar{
     display: flex;
     height: 100%;
 }
-.side-menu{
+.app-side-menu{
     width: 400px;
     min-height: 100%;
     background-color: rgb(34, 36, 37);
     overflow: scroll;
 }
-.side-menu::-webkit-scrollbar{
+.app-side-menu::-webkit-scrollbar{
     display: none;
 }
-.channel-h2{
+.app-side-menu div{
+    position: sticky;
+}
+.app-side-menu div h2{
     color: white;
     width: 90%;
     margin: 10px auto;
     font-size: 26px;
     text-align: center;
 }
-.main-content{
+.app-main-content{
     width: 100%;
     height: 100%;
 }
-.sticky{
-    position: sticky;
-}
 
-/*==============================
-    TodoInputComponent.vue
-==============================*/
-.input-wrap{
-    position: fixed;
-    width: 100%;
-    height: 135px;
-    background-color: rgb(179, 179, 179);
-    bottom: 0px;
-    margin-top: 0px;
-    padding-top: 20px;
-}
-.input-todo-content{
-    width: 54%;
-    margin-left: 5%;
-    font-size: 24px;
-    border-radius: 5px;
-    border: none;
-}
-.input-submit-button{
-    border-radius: 3px;
-    border-color: rgb(15, 122, 175);
-    background-color: rgb(30, 144, 255);
-    color: white;
-    font-weight: bold;
-    font-size: 24px;
-    margin-left: 15px;
-}
-.input-submit-button:hover{
-    background-color: rgb(18,122,189);
-}
-.input-deadline-wrap{
-    margin-left: 10%;
-}
-.input-deadline-text{
-    font-size: 20px;
-    color: white;
-}
-.input-deadline{
-    font-size: 20px;
-    border-radius: 4px;
-    border: none;
-    text-align: center;
-}
-.input-deadline-month{
-    width: 27px;
-    padding: 5px 3px;
-}
-.input-deadline-date{
-    width: 27px;
-    padding: 5px 3px;
-}
-.input-deadline-time{
-    padding: 5px 10px;
-}
-.input-deadline-time::-webkit-calendar-picker-indicator{
-    display: none;
-}
-.input-error-message{
-    margin-left: 8%;
-    color: rgb(248, 20, 20);
-}
 
-/*=============================
-    TodoListComponent.vue
-=============================*/
-.todo-list-wrap{
-    width: 100%;
-    height: 80.5%;
-    overflow:scroll;
-}
-.todo-list-wrap::-webkit-scrollbar {
-    width: 10px;
-    height: 3px;
-}
-.todo-list-wrap::-webkit-scrollbar-thumb {
-    background: rgb(142, 141, 141);
-    border-radius: 5px;
-}
-.todo-item-wrap{
-    margin-left: 10px;
-    width: 70%;
-    margin: auto;
-}
-.todo-item{
-    font-size: 18px;
-    margin: 20px 2% 20px 1%;
-    border-bottom: solid black 3px ;
-    user-select: none;
-}
-.button-hidden,
-.update-time::-webkit-calendar-picker-indicator{
-    display: none;
-}
-
-.delete-button{
+/*=========
+    共通
+=========*/
+.public-button-red{
     border-radius: 3px;
     border-color: rgb(188, 17, 17);
     background-color: rgb(248, 20, 20);
     color: white;
     font-weight: bold;
-    margin: auto 1.2%;
     font-size: 15px;
 }
-.delete-button:hover{
+.public-button-red:hover{
     background-color: rgb(210, 20, 20);
 }
-.current-channel{
-    margin-left: 4%;
-}
-.delete-confirm{
-    background-color: rgba(0, 0, 0, 0.8);
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    width: 100%;
-    height: 100%;
-    z-index: 999;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.confirm-display{
-    background-color: white;
-    width: 50%;
-    height: 60%;
-    border-radius: 10px;
-    font-size: 18px;
-}
-.delete-items{
-    border: solid black 3px;
-    width: 70%;
-    height: 60%;
-    margin: auto;
-    overflow: scroll;
-}
-.delete-items::-webkit-scrollbar{
-    display: none;
-}
-/*===============================
-    TodoListItemComponent.vue
-================================*/
-.todo-content{
-    display: inline-block;
-    width: 38%;
-    padding: 0px 18px;
-    border-radius: 5px;
-}
-.date-time{
-    display: inline-block;
-    width:148px;
-    margin-left: 3%;
-    padding-left:10px;
-    border-radius: 5px;
-}
-.update-button{
+.public-button-blue{
     border-radius: 3px;
     border-color: rgb(15, 122, 175);
     background-color: rgb(30, 144, 255);
     color: white;
     font-weight: bold;
-    margin-left: 3%;
     font-size: 15px;
 }
-.update-button:hover{
+.public-button-blue:hover{
     background-color: rgb(18,122,189);
 }
-.button-hidden{
-    display: none;
-}
-
-/*================================
-    TodoListUpdateComponent.vue
-================================*/
-.update-todo-item{
-    font-size: 18px;
-    margin: 20px 2% 0px 1%;
-    border-bottom: solid black 3px ;
-    user-select: none;
-}
-.update-todo-content{
-    display: inline-block;
-    width: 38%;
-    padding: 3px 18px;
-    font-size: 18px;
-    border: none;
-    background-color: rgb(222, 219, 219);
-    border-radius: 5px;;
-}
-.update-deadline-day{
-    font-size: 18px;
-    width: 24px;
-    text-align: center;
-    padding: 3px 3px;
-    border: none;
-    background-color: rgb(222, 219, 219);
+.public-button-gray{
     border-radius: 3px;
-}
-.update-deadline-time{
-    font-size: 18px;
-    padding: 3px 3px;
-    border: none;
-    background-color: rgb(222, 219, 219);
-    border-radius: 3px;
-}
-.update-deadline-time::-webkit-calendar-picker-indicator{
-    display: none;
-}
-.update-string{
-    font-size: 18px;
-}
-.update-deadline-wrap{
-    margin-left: 7%;
-}
-.update-error{
-    font-size: 18px;
-    color: rgb(248, 20, 20);
-}
-/*=========================
-    TodoChannelComponent
-=========================*/
-.channel-item{
-    width: 100%;
-    background-color: rgb(34, 36, 37);
-    color: white;
-    border: none;
-    font-size: 26px;
-    margin: 15px auto;
-    text-align: center;
-}
-.channel-item:hover{
-    background-color: rgb(26, 158, 245);
-}
-.kebab-menu{
-    display: inline-block;
-    padding: 0px 9px;
-    border-radius: 1000px;
-    font-size: 16px;
-    font-weight: bold;
-    position: relative;
-    left: 50px;
-    user-select: none;
-}
-.kebab-menu:hover{
-    background-color: rgb(144, 202, 241);
-}
-.kebab-menu:active{
-    background-color: rgb(107, 193, 250);
-}
-.channel-menu-background{
-    position: fixed;
-    display: block;
-    top: 0px;
-    left: 0px;
-    width: 100%;
-    height: 100%;
-    z-index: 900;
-    background-color: rgba(0, 0, 0, 0.2);
-}
-.channel-menu-content{
-    display: flex;
-    justify-content: space-around;
-    width: 70%;
-    margin: auto;
-}
-.channel-menu-button{
-    background-color: white;
-    z-index: 1000;
-    color: black;
-    border-radius: 10px;
-    font-size: 14px;
-    display: inline-block;
-    padding: 0px 15px;
-    position: relative;
-}
-.channel-menu-button:hover{
-    background-color: rgb(198, 193, 193);
-}
-.channel-name{
-    display: inline-block;
-    width: 55%;
-}
-.delete-confirm{
-    background-color: rgba(0, 0, 0, 0.8);
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    width: 100%;
-    height: 100%;
-    z-index: 999;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.confirm-display-channel{
-    background-color: white;
-    width: 30%;
-    height: 20%;
-    font-size: 18px;
-    text-align: center;
-    border-radius: 10px;
-}
-.delete-button{
-    border-radius: 3px;
-    border-color: rgb(188, 17, 17);
-    background-color: rgb(248, 20, 20);
+    border-color: rgb(114, 113, 113);
+    background-color: rgb(166, 164, 164);
     color: white;
     font-weight: bold;
-    margin: auto 1.2%;
     font-size: 15px;
 }
-.delete-button:hover{
-    background-color: rgb(210, 20, 20);
-}
-.cancel-button{
-    border-radius: 3px;
-    border-color: rgb(179, 179, 179);
-    background-color: rgb(239, 239, 239);
-    color: black;
-    font-weight: bold;
-    margin: auto 1.2%;
-    font-size: 15px;
-}
-.cancel-button:hover{
-    background-color: rgb(201, 201, 201);
-}
-/*==============================
-    TodoChannelAddComponent
-==============================*/
-.add-channel-wrap{
-    text-align: center;
-    margin-top: 20px;
-    margin-bottom: 30px;
-}
-.add-channel-wrap div input{
-    width: 80%;
-    border: none;
-    margin: auto;
-    display: block;
-    border-radius: 5px;
-    font-size: 16px;
-    padding: 5px;
-}
-.add-channel-wrap p{
-    color: rgb(248, 20, 20);
-}
-.add-channel-wrap div button{
-    display: inline-block;
-    margin-top: 10px;
-    border-radius: 3px;
-    border-color: rgb(15, 122, 175);
-    background-color: rgb(30, 144, 255);
-    color: white;
-    font-weight: bold;
-    font-size: 14px;
-}
-.add-channel-wrap button:hover{
-    background-color: rgb(18,122,189);
-}
-
-
-/*================================
-    TodoChannelUpdateComponent
-================================*/
-.update-channel-wrap{
-    text-align: center;
-}
-.update-channel-wrap input{
-    background-color: rgb(34,36,37);
-    font-size: 28px;
-    color: white;
-    width: 80%;
-    display: block;
-    margin: 15px auto;
-    border: solid white 0.5px;
-    border-radius: 5px;
-    text-align: center;
-}
-.update-channel-wrap p{
-    color: rgb(248, 20, 20);
-}
-.update-channel-wrap button{
-    display: inline-block;
-    border-radius: 3px;
-    border-color: rgb(15, 122, 175);
-    background-color: rgb(30, 144, 255);
-    color: white;
-    font-weight: bold;
-    font-size: 14px;
-}
-.add-channel-wrap button:hover{
-    background-color: rgb(18,122,189);
+.public-button-gray:hover{
+    background-color: rgb(145, 145, 145);
 }

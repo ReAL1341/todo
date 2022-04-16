@@ -1,42 +1,36 @@
 <template>
     <div class="input-wrap">
-        <p>
+        <p class="input-up-wrap">
             <input
                 v-model="inputData.todo_content"
-                class="input-todo-content"
                 type="text"
                 placeholder="タスクを入力してください"
                 v-on:keyup.enter="$event.target.blur()"
             >
-            <button 
-                class="input-submit-button"
-                v-on:click="inputDataPost"
-            >追加</button>
+            <button v-on:click="inputDataPost">追加</button>
         </p>
-        <p class="input-deadline-wrap">
-            <span class="input-deadline-text">期限:</span>
+        <p class="input-bottom-wrap">
+            <span>期限:</span>
             <input
                 v-model="inputData.deadline_month"
-                class="input-deadline  input-deadline-month"
                 type="text"
                 v-on:keyup.enter="$event.target.nextElementSibling.nextElementSibling.focus()"
             >
-            <span class="input-deadline-text">月</span>
+            <span>月</span>
             <input
                 v-model="inputData.deadline_date"
-                class="input-deadline  input-deadline-date"
                 type="text"
                 v-on:keyup.enter="$event.target.nextElementSibling.nextElementSibling.focus()"
             >
-            <span class="input-deadline-text">日</span>
+            <span>日</span>
             <input
                 v-model="inputData.deadline_time"
-                class="input-deadline input-deadline-time"
+                class="input-deadline-time"
                 type="time"
                 v-on:keyup.enter="$event.target.blur()"
             >
-            <span class="input-error-message">{{errorMessage}}</span>
         </p>
+        <span class="input-error-message">{{errorMessage}}</span>
     </div>
 </template>
 

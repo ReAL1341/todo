@@ -1,0 +1,176 @@
+.button-hidden{
+    display: none;
+}
+
+/*=========================
+    TodoChannelComponent
+=========================*/
+.channel-item{
+    width: 100%;
+    background-color: rgb(34, 36, 37);
+    color: white;
+    border: none;
+    font-size: 26px;
+    margin: 15px auto;
+    text-align: center;
+}
+.channel-item:hover{
+    background-color: rgb(26, 158, 245);
+}
+.kebab-menu{
+    display: inline-block;
+    padding: 0px 9px;
+    border-radius: 1000px;
+    font-size: 16px;
+    font-weight: bold;
+    position: relative;
+    left: 50px;
+    user-select: none;
+}
+.kebab-menu:hover{
+    background-color: rgb(144, 202, 241);
+}
+.kebab-menu:active{
+    background-color: rgb(107, 193, 250);
+}
+.channel-menu-background{
+    position: fixed;
+    display: block;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 900;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+.channel-menu-content{
+    display: flex;
+    justify-content: space-around;
+    width: 70%;
+    margin: auto;
+}
+.channel-menu-button{
+    background-color: white;
+    z-index: 1000;
+    color: black;
+    border-radius: 10px;
+    font-size: 14px;
+    display: inline-block;
+    padding: 0px 15px;
+    position: relative;
+}
+.channel-menu-button:hover{
+    background-color: rgb(198, 193, 193);
+}
+.channel-name{
+    display: inline-block;
+    width: 55%;
+}
+.delete-confirm{
+    background-color: rgba(0, 0, 0, 0.8);
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.confirm-display-channel{
+    background-color: white;
+    width: 30%;
+    height: 20%;
+    font-size: 18px;
+    text-align: center;
+    border-radius: 10px;
+}
+.delete-button{
+    border-radius: 3px;
+    border-color: rgb(188, 17, 17);
+    background-color: rgb(248, 20, 20);
+    color: white;
+    font-weight: bold;
+    margin: auto 1.2%;
+    font-size: 15px;
+}
+.delete-button:hover{
+    background-color: rgb(210, 20, 20);
+}
+.cancel-button{
+    border-radius: 3px;
+    border-color: rgb(179, 179, 179);
+    background-color: rgb(239, 239, 239);
+    color: black;
+    font-weight: bold;
+    margin: auto 1.2%;
+    font-size: 15px;
+}
+.cancel-button:hover{
+    background-color: rgb(201, 201, 201);
+}
+/*==============================
+    TodoChannelAddComponent
+==============================*/
+.channel-add-wrap{
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+.channel-add-wrap div input{
+    width: 80%;
+    border: none;
+    margin: auto;
+    display: block;
+    border-radius: 5px;
+    font-size: 16px;
+    padding: 5px;
+}
+.channel-add-wrap p{
+    color: rgb(248, 20, 20);
+}
+.channel-add-wrap div button{
+    display: inline-block;
+    margin-top: 10px;
+    border-radius: 3px;
+    border-color: rgb(15, 122, 175);
+    background-color: rgb(30, 144, 255);
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+}
+.channel-add-wrap button:hover{
+    background-color: rgb(18,122,189);
+}
+
+
+/*================================
+    TodoChannelUpdateComponent
+================================*/
+.channel-update-wrap{
+    text-align: center;
+}
+.channel-update-wrap input{
+    background-color: rgb(34,36,37);
+    font-size: 28px;
+    color: white;
+    width: 80%;
+    display: block;
+    margin: 15px auto;
+    border: solid white 0.5px;
+    border-radius: 5px;
+    text-align: center;
+}
+.channel-update-wrap p{
+    color: rgb(248, 20, 20);
+}
+.channel-update-wrap button{
+    display: inline-block;
+    border-radius: 3px;
+    border-color: rgb(15, 122, 175);
+    background-color: rgb(30, 144, 255);
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+}

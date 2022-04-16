@@ -1,9 +1,9 @@
 <template>
     <div class="app-wrap">
 
-        <section class="side-menu">
-            <div class="sticky">
-                <h2 class="channel-h2">チャンネル</h2>
+        <section class="app-side-menu">
+            <div>
+                <h2>チャンネル</h2>
                 <todo-channel-component
                     v-bind:currentChannel="currentChannel"
                     v-on:change-channel="changeChannel"
@@ -11,7 +11,7 @@
             </div>
         </section>
 
-        <main class="main-content">
+        <main class="app-main-content">
             
             <todo-list-component
                 v-bind:todoItems="todoItems"
