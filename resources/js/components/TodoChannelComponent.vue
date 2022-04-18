@@ -1,8 +1,8 @@
 <template>
+    <!-- チャンネル追加フォーム -->
     <todo-channel-add-component
         v-on:channel-list-reload="channelListReload"
     ></todo-channel-add-component>
-
 
 
     <div>
@@ -10,7 +10,7 @@
             v-for="item in channelItems"
             v-bind:key="item.id"
         >
-
+            <!-- 削除確認ウィンドウ -->
             <div
                 v-if="deleteChannelId===item.id"
                 class="delete-confirm"
@@ -28,20 +28,9 @@
                 </div>
             </div>
 
-            <div v-if="updateChannelId!=item.id && item.name=='やることリスト'">
-                <input
-                    v-model="toChannel"
-                    v-bind:id="item.id+'current-id'"
-                    v-bind:value="item.name"
-                    class="button-hidden"
-                    type="radio"
-                    v-on:change="changeChannel(toChannel)"
-                >
-                <div class="channel-item"><label v-bind:for="item.id+'current-id'">{{item.name}}</label></div>
-                
-            </div>
 
-            <div v-else-if="updateChannelId != item.id">
+            <!-- チャンネル項目 -->
+            <div v-if="updateChannelId != item.id">
                 <input
                     v-model="toChannel"
                     v-bind:id="item.id+'current-id'"
@@ -52,64 +41,45 @@
                 >
                 <div>
                     <div class="channel-item">
-                        <label class="channel-name" v-bind:for="item.id+'current-id'">{{item.name}}</label>
-                        <input
-                            v-model="channelMenuId"
-                            v-bind:value="item.id"
-                            v-bind:id="item.id+'channel-menu'"
-                            class="button-hidden"
-                            type="radio"
-                        >
                         <label
-                            v-bind:for="item.id+'channel-menu'"
-                            class="kebab-menu"
-                        >&#8942;</label>
+                            v-bind:for="item.id+'current-id'"
+                            class="channel-name"
+                        >{{item.name}}</label>
+                        <span v-if="item.name!=='やることリスト'">
+                            <input
+                                v-model="channelMenuId"
+                                v-bind:value="item.id"
+                                v-bind:id="item.id+'channel-menu'"
+                                class="button-hidden"
+                                type="radio"
+                            >
+                            <label
+                                v-bind:for="item.id+'channel-menu'"
+                                class="kebab-menu"
+                            >&#8942;</label>
+                        </span>
                     </div>
 
                     <!-- ケバブメニューの内容 -->
-                    <div v-if="channelMenuId == item.id">
-                        <input
-                            v-model="channelMenuId"
-                            v-bind:value="''"
-                            v-bind:id="item.id+'hidden'"
-                            class="button-hidden"
-                            type="radio"
-                        >
-                        <label
-                            class="channel-menu-background"
-                            v-bind:for="item.id+'hidden'"
-                        ></label>
-                        <div class="channel-menu-content">
-                                <input
-                                    v-model="updateChannelId"
-                                    v-bind:id="item.id+'channel-update'"
-                                    v-bind:value="item.id"
-                                    class="button-hidden"
-                                    type="radio"
-                                >
-                                <label v-bind:for="item.id+'channel-update'" class="channel-menu-button">編集</label>
-                                <input
-                                    v-model="deleteChannelId"
-                                    v-bind:id="item.id+'channel-delete'"
-                                    v-bind:value="item.id"
-                                    class="button-hidden"
-                                    type="radio"
-                                    v-on:change="deleteConfirm"
-                                >
-                                <label v-bind:for="item.id+'channel-delete'" class="channel-menu-button">削除</label>
-                        </div>
-                    </div>
+                    <todo-channel-menu-component 
+                        v-if="channelMenuId===item.id"
+                        v-bind:itemId="item.id"
+                        v-bind:channelMenuId="channelMenuId"
+                        v-on:fold-menu="foldMenu"
+                        v-on:update-id-change="updateIdChange"
+                        v-on:delete-confirm="deleteConfirm"
+                    ></todo-channel-menu-component>
+                    
                 </div>
             </div>
                
-
+            <!-- 編集フォーム -->
             <div v-else-if="updateChannelId === item.id">
                 <todo-channel-update-component
                     v-bind:channel="item"
                     v-on:channel-update-finish="channelUpdateFinish"
                 ></todo-channel-update-component>
             </div>
-
 
         </div>
     </div>
@@ -119,10 +89,11 @@
 import { ref } from 'vue'
 import axios from 'axios'
 import TodoChannelAddComponent from './TodoChannelAddComponent.vue'
+import TodoChannelMenuComponent from './TodoChannelMenuComponent.vue'
 
 export default{
     name:'TodoChannelComponent',
-    components: { TodoChannelAddComponent },
+    components: { TodoChannelAddComponent,TodoChannelMenuComponent },
     props:{
         currentChannel:{
             type:String,
@@ -134,7 +105,7 @@ export default{
     ],
     setup(props,{emit}){
 
-        let channelItems = ref([])
+        const channelItems = ref([])
         axios.get('/api/channel').then((res)=>{
             channelItems.value = res.data
         })
@@ -147,18 +118,22 @@ export default{
         }
 
         //チャンネル切り替え
-        let toChannel = ref('')
+        const toChannel = ref('')
         const changeChannel = (toChannel)=>{
             emit('change-channel',toChannel)
         }
 
         //ケバブメニュー
-        let channelMenuId = ref('')
+        const channelMenuId = ref(0)
+        const foldMenu = ()=>{
+            channelMenuId.value = 0
+        }
 
         //削除ボタン
-        let deleteChannelId = ref('')
-        const deleteConfirm = ()=>{
-            channelMenuId.value = ''
+        const deleteChannelId = ref(0)
+        const deleteConfirm = (id)=>{
+            channelMenuId.value = 0
+            deleteChannelId.value = id
         }
         const deleteChannelIdRequest = ()=>{
             axios.post('/api/channel/delete',{id:deleteChannelId.value}).then((res)=>{
@@ -166,19 +141,22 @@ export default{
                     changeChannel('やることリスト')
                 }
             })
-            deleteChannelId.value = ''
+            deleteChannelId.value = 0
             channelListReload()
         }
         const deleteCancel = ()=>{
-            deleteChannelId.value = ''
+            deleteChannelId.value = 0
         }
 
         //編集処理
-        let updateChannelId = ref('')
+        const updateChannelId = ref(0)
+        const updateIdChange = (id)=>{
+            updateChannelId.value = id 
+        }
         const channelUpdateFinish = ()=>{
-            updateChannelId.value = ''
-            channelMenuId.value = ''
             channelListReload()
+            updateChannelId.value = 0
+            channelMenuId.value = 0
         }
 
         return {
@@ -187,11 +165,13 @@ export default{
             toChannel,
             changeChannel,
             channelMenuId,
+            foldMenu,
             deleteChannelId,
             deleteConfirm,
             deleteChannelIdRequest,
             deleteCancel,
             updateChannelId,
+            updateIdChange,
             channelUpdateFinish,
         }
     },

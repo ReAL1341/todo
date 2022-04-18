@@ -14,10 +14,10 @@
     background: rgb(142, 141, 141);
     border-radius: 5px;
 }
-.todo-list-wrap button{
+.todo-list-wrap > button{
     margin: auto 1.2%;
 }
-.todo-list-wrap h1{
+.todo-list-wrap > h1{
     margin-left: 4%;
     margin-right: 4%;
     display: inline-block;
@@ -51,14 +51,14 @@
     padding-left:10px;
     border-radius: 5px;
 }
-.todo-item button{
+.todo-item > button{
     margin-left: 3%;
 }
 
 /*================================
     TodoListUpdateComponent.vue
 ================================*/
-.update-form-wrap input{
+.update-form-wrap > input{
     display: inline-block;
     width: 38%;
     padding: 3px 18px;
@@ -70,7 +70,7 @@
 .update-deadline-wrap{
     margin-left: 7%;
 }
-.update-deadline-wrap input{
+.update-deadline-wrap > input{
     font-size: 18px;
     width: 24px;
     text-align: center;
@@ -80,19 +80,19 @@
     border-radius: 3px;
     display: inline-block;
 }
-.update-deadline-wrap .update-deadline-time{
+.update-deadline-wrap > .update-deadline-time{
     width: 54px;
 }
-.update-deadline-wrap .update-deadline-time::-webkit-calendar-picker-indicator{
+.update-deadline-wrap > .update-deadline-time::-webkit-calendar-picker-indicator{
     display: none;
 }
-.update-deadline-wrap span{
+.update-deadline-wrap > span{
     font-size: 18px;
 }
 .update-time::-webkit-calendar-picker-indicator{
     display: none;
 }
-.update-form-wrap button{
+.update-form-wrap > button{
     margin-left: 3%;
 }
 .update-error{
@@ -124,7 +124,7 @@
     font-size: 18px;
     text-align: center;
 }
-.confirm-display div{
+.confirm-display > div{
     border: solid black 3px;
     width: 70%;
     height: 60%;
@@ -132,16 +132,16 @@
     overflow: scroll;
     text-align: left;
 }
-.confirm-display div::-webkit-scrollbar{
+.confirm-display > div::-webkit-scrollbar{
     display: none;
 }
-.delete-item span{
+.delete-item > span{
     margin-right: 15px;
 }
-.delete-item span:first-child{
+.delete-item > span:first-child{
     width: 50%;
     display: inline-block;
 }
-.confirm-display button{
+.confirm-display > button{
     margin: 30px 25px auto;
 }

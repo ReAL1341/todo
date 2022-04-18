@@ -8,6 +8,7 @@ import TodoListDeleteWindowComponent from './components/TodoListDeleteWindowComp
 import TodoChannelComponent from './components/TodoChannelComponent.vue';
 import TodoChannelAddComponent from './components/TodoChannelAddComponent.vue';
 import TodoChannelUpdateComponent from './components/TodoChannelUpdateComponent.vue';
+import TodoChannelMenuComponent from './components/TodoChannelMenuComponent.vue';
 
 let app = createApp({})
 app.component('app-component',AppComponent);
@@ -19,5 +20,6 @@ app.component('todo-list-delete-window-component',TodoListDeleteWindowComponent)
 app.component('todo-channel-component',TodoChannelComponent);
 app.component('todo-channel-add-component',TodoChannelAddComponent);
 app.component('todo-channel-update-component',TodoChannelUpdateComponent);
+app.component('todo-channel-menu-component',TodoChannelMenuComponent);
 
 app.mount("#app");

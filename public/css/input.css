@@ -12,7 +12,7 @@
 }
 
 
-.input-up-wrap input{
+.input-up-wrap > input{
     width: 54%;
     margin-left: 5%;
     margin-bottom: 0px;
@@ -20,7 +20,7 @@
     border-radius: 5px;
     border: none;
 }
-.input-up-wrap button{
+.input-up-wrap > button{
     border-radius: 3px;
     border-color: rgb(15, 122, 175);
     background-color: rgb(30, 144, 255);
@@ -29,7 +29,7 @@
     font-size: 24px;
     margin-left: 15px;
 }
-.input-up-wrap button:hover{
+.input-up-wrap > button:hover{
     background-color: rgb(18,122,189);
 }
 
@@ -39,24 +39,24 @@
     margin-left: 10%;
     margin-top: 0px;
 }
-.input-bottom-wrap span{
+.input-bottom-wrap > span{
     font-size: 20px;
     color: white;
     margin: 0px 5px;
 }
-.input-buttom-wrap input{
+.input-buttom-wrap > input{
     font-size: 20px;
     border-radius: 4px;
     border: none;
     text-align: center;
 }
-.input-bottom-wrap input{
+.input-bottom-wrap > input{
     width: 27px;
     padding: 2px 3px;
     font-size: 20px;
     text-align: center;
 }
-.input-bottom-wrap .input-deadline-time{
+.input-bottom-wrap > .input-deadline-time{
     width: 64px;
     padding: 2px 10px;
 }

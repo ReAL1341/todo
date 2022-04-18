@@ -33,35 +33,6 @@
 .kebab-menu:active{
     background-color: rgb(107, 193, 250);
 }
-.channel-menu-background{
-    position: fixed;
-    display: block;
-    top: 0px;
-    left: 0px;
-    width: 100%;
-    height: 100%;
-    z-index: 900;
-    background-color: rgba(0, 0, 0, 0.2);
-}
-.channel-menu-content{
-    display: flex;
-    justify-content: space-around;
-    width: 70%;
-    margin: auto;
-}
-.channel-menu-button{
-    background-color: white;
-    z-index: 1000;
-    color: black;
-    border-radius: 10px;
-    font-size: 14px;
-    display: inline-block;
-    padding: 0px 15px;
-    position: relative;
-}
-.channel-menu-button:hover{
-    background-color: rgb(198, 193, 193);
-}
 .channel-name{
     display: inline-block;
     width: 55%;
@@ -118,7 +89,7 @@
     margin-top: 20px;
     margin-bottom: 30px;
 }
-.channel-add-wrap div input{
+.channel-add-wrap > div > input{
     width: 80%;
     border: none;
     margin: auto;
@@ -127,10 +98,10 @@
     font-size: 16px;
     padding: 5px;
 }
-.channel-add-wrap p{
+.channel-add-wrap > p{
     color: rgb(248, 20, 20);
 }
-.channel-add-wrap div button{
+.channel-add-wrap > div > button{
     display: inline-block;
     margin-top: 10px;
     border-radius: 3px;
@@ -140,7 +111,7 @@
     font-weight: bold;
     font-size: 14px;
 }
-.channel-add-wrap button:hover{
+.channel-add-wrap > button:hover{
     background-color: rgb(18,122,189);
 }
 
@@ -151,7 +122,7 @@
 .channel-update-wrap{
     text-align: center;
 }
-.channel-update-wrap input{
+.channel-update-wrap > input{
     background-color: rgb(34,36,37);
     font-size: 28px;
     color: white;
@@ -162,10 +133,10 @@
     border-radius: 5px;
     text-align: center;
 }
-.channel-update-wrap p{
+.channel-update-wrap > p{
     color: rgb(248, 20, 20);
 }
-.channel-update-wrap button{
+.channel-update-wrap > button{
     display: inline-block;
     border-radius: 3px;
     border-color: rgb(15, 122, 175);
@@ -173,4 +144,38 @@
     color: white;
     font-weight: bold;
     font-size: 14px;
+}
+
+/*==============================
+    TodoChannelMenuComponent
+==============================*/
+.channel-menu-background{
+    position: fixed;
+    display: block;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 900;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+.channel-menu-content{
+    display: flex;
+    justify-content: space-around;
+    width: 70%;
+    margin: auto;
+    z-index: 1000;
+}
+.channel-menu-content > label{
+    background-color: white;
+    z-index: 1000;
+    color: black;
+    border-radius: 10px;
+    font-size: 14px;
+    display: inline-block;
+    padding: 0px 15px;
+    position: relative;
+}
+.channel-menu-content > label:hover{
+    background-color: rgb(198, 193, 193);
 }

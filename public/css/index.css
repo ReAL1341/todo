@@ -32,10 +32,10 @@ body::-webkit-scrollbar{
 .app-side-menu::-webkit-scrollbar{
     display: none;
 }
-.app-side-menu div{
+.app-side-menu > div{
     position: sticky;
 }
-.app-side-menu div h2{
+.app-side-menu > div > h2{
     color: white;
     width: 90%;
     margin: 10px auto;

@@ -5,6 +5,7 @@
                 v-model="newChannel"
                 type="text"
                 placeholder="チャンネル名を入力してください"
+                v-on:keyup.enter="$event.target.blur()"
             >
             <button v-on:click="newChannelPost">追加</button>
         </div>
