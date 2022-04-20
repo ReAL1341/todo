@@ -29,36 +29,14 @@
             </div>
 
 
-            <!-- チャンネル項目 -->
             <div v-if="updateChannelId != item.id">
-                <input
-                    v-model="toChannel"
-                    v-bind:id="item.id+'current-id'"
-                    v-bind:value="item.name"
-                    class="button-hidden"
-                    type="radio"
-                    v-on:change="changeChannel(toChannel)"
-                >
                 <div>
-                    <div class="channel-item">
-                        <label
-                            v-bind:for="item.id+'current-id'"
-                            class="channel-name"
-                        >{{item.name}}</label>
-                        <span v-if="item.name!=='やることリスト'">
-                            <input
-                                v-model="channelMenuId"
-                                v-bind:value="item.id"
-                                v-bind:id="item.id+'channel-menu'"
-                                class="button-hidden"
-                                type="radio"
-                            >
-                            <label
-                                v-bind:for="item.id+'channel-menu'"
-                                class="kebab-menu"
-                            >&#8942;</label>
-                        </span>
-                    </div>
+                    <!-- チャンネルアイテム -->
+                    <todo-channel-item-component
+                        v-bind:item="item"
+                        v-on:change-channel="changeChannel"
+                        v-on:menu-id-change="menuIdChange"
+                    ></todo-channel-item-component>
 
                     <!-- ケバブメニューの内容 -->
                     <todo-channel-menu-component 
@@ -88,12 +66,17 @@
 <script>
 import { ref } from 'vue'
 import axios from 'axios'
+import TodoChannelItemComponent from './TodoChannelItemComponent.vue'
 import TodoChannelAddComponent from './TodoChannelAddComponent.vue'
 import TodoChannelMenuComponent from './TodoChannelMenuComponent.vue'
 
 export default{
     name:'TodoChannelComponent',
-    components: { TodoChannelAddComponent,TodoChannelMenuComponent },
+    components: {
+        TodoChannelItemComponent,
+        TodoChannelAddComponent,
+        TodoChannelMenuComponent,
+    },
     props:{
         currentChannel:{
             type:String,
@@ -118,7 +101,6 @@ export default{
         }
 
         //チャンネル切り替え
-        const toChannel = ref('')
         const changeChannel = (toChannel)=>{
             emit('change-channel',toChannel)
         }
@@ -127,6 +109,9 @@ export default{
         const channelMenuId = ref(0)
         const foldMenu = ()=>{
             channelMenuId.value = 0
+        }
+        const menuIdChange = (id)=>{
+            channelMenuId.value = id
         }
 
         //削除ボタン
@@ -162,10 +147,10 @@ export default{
         return {
             channelItems,
             channelListReload,
-            toChannel,
             changeChannel,
             channelMenuId,
             foldMenu,
+            menuIdChange,
             deleteChannelId,
             deleteConfirm,
             deleteChannelIdRequest,

@@ -2,20 +2,21 @@
     <div v-if="menuFlag == itemId">
         <input
             v-bind:id="itemId+'hidden'"
-            class="button-hidden"
+            class="public-hidden"
             type="radio"
+            name="channel-menu-radio"
             v-on:change="foldMenuEmit"
         >
         <label
-            class="channel-menu-background"
             v-bind:for="itemId+'hidden'"
+            class="channel-menu-background"
         ></label>
         <div class="channel-menu-content">
             <input
                 v-model="updateChannelId"
                 v-bind:id="itemId+'channel-update'"
                 v-bind:value="itemId"
-                class="button-hidden"
+                class="public-hidden"
                 type="radio"
                 v-on:change="updateIdChangeEmit"
             >
@@ -24,7 +25,7 @@
                 v-model="deleteChannelId"
                 v-bind:id="itemId+'channel-delete'"
                 v-bind:value="itemId"
-                class="button-hidden"
+                class="public-hidden"
                 type="radio"
                 v-on:change="deleteConfirmEmit"
             >

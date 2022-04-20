@@ -19383,8 +19383,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _TodoChannelAddComponent_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TodoChannelAddComponent.vue */ "./resources/js/components/TodoChannelAddComponent.vue");
-/* harmony import */ var _TodoChannelMenuComponent_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./TodoChannelMenuComponent.vue */ "./resources/js/components/TodoChannelMenuComponent.vue");
+/* harmony import */ var _TodoChannelItemComponent_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TodoChannelItemComponent.vue */ "./resources/js/components/TodoChannelItemComponent.vue");
+/* harmony import */ var _TodoChannelAddComponent_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./TodoChannelAddComponent.vue */ "./resources/js/components/TodoChannelAddComponent.vue");
+/* harmony import */ var _TodoChannelMenuComponent_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./TodoChannelMenuComponent.vue */ "./resources/js/components/TodoChannelMenuComponent.vue");
+
 
 
 
@@ -19392,8 +19394,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'TodoChannelComponent',
   components: {
-    TodoChannelAddComponent: _TodoChannelAddComponent_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
-    TodoChannelMenuComponent: _TodoChannelMenuComponent_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
+    TodoChannelItemComponent: _TodoChannelItemComponent_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    TodoChannelAddComponent: _TodoChannelAddComponent_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
+    TodoChannelMenuComponent: _TodoChannelMenuComponent_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
   },
   props: {
     currentChannel: {
@@ -19416,8 +19419,6 @@ __webpack_require__.r(__webpack_exports__);
     }; //チャンネル切り替え
 
 
-    var toChannel = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('');
-
     var changeChannel = function changeChannel(toChannel) {
       emit('change-channel', toChannel);
     }; //ケバブメニュー
@@ -19427,6 +19428,10 @@ __webpack_require__.r(__webpack_exports__);
 
     var foldMenu = function foldMenu() {
       channelMenuId.value = 0;
+    };
+
+    var menuIdChange = function menuIdChange(id) {
+      channelMenuId.value = id;
     }; //削除ボタン
 
 
@@ -19469,10 +19474,10 @@ __webpack_require__.r(__webpack_exports__);
     return {
       channelItems: channelItems,
       channelListReload: channelListReload,
-      toChannel: toChannel,
       changeChannel: changeChannel,
       channelMenuId: channelMenuId,
       foldMenu: foldMenu,
+      menuIdChange: menuIdChange,
       deleteChannelId: deleteChannelId,
       deleteConfirm: deleteConfirm,
       deleteChannelIdRequest: deleteChannelIdRequest,
@@ -19483,6 +19488,54 @@ __webpack_require__.r(__webpack_exports__);
     };
   }
 });
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/TodoChannelItemComponent.vue?vue&type=script&lang=js":
+/*!******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/TodoChannelItemComponent.vue?vue&type=script&lang=js ***!
+  \******************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: 'TodoChannelItemComponent',
+  props: {
+    item: {
+      type: Object,
+      required: true
+    }
+  },
+  emits: ['change-channel', 'menu-id-change'],
+  setup: function setup(props, _ref) {
+    var emit = _ref.emit;
+    //チャンネル切り替え
+    var toChannel = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('');
+
+    var changeChannelEmit = function changeChannelEmit(toChannel) {
+      emit('change-channel', toChannel);
+    };
+
+    var channelMenuId = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(0);
+
+    var menuIdChangeEmit = function menuIdChangeEmit() {
+      emit('menu-id-change', channelMenuId.value);
+    };
+
+    return {
+      toChannel: toChannel,
+      changeChannelEmit: changeChannelEmit,
+      channelMenuId: channelMenuId,
+      menuIdChangeEmit: menuIdChangeEmit
+    };
+  }
+}); // radioのチェックを外したい
 
 /***/ }),
 
@@ -20100,18 +20153,10 @@ var _hoisted_2 = {
 var _hoisted_3 = {
   key: 1
 };
-var _hoisted_4 = ["id", "value"];
-var _hoisted_5 = {
-  "class": "channel-item"
-};
-var _hoisted_6 = ["for"];
-var _hoisted_7 = {
-  key: 0
-};
-var _hoisted_8 = ["value", "id"];
-var _hoisted_9 = ["for"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_todo_channel_add_component = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("todo-channel-add-component");
+
+  var _component_todo_channel_item_component = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("todo-channel-item-component");
 
   var _component_todo_channel_menu_component = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("todo-channel-menu-component");
 
@@ -20136,40 +20181,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: _cache[1] || (_cache[1] = function () {
         return $setup.deleteCancel && $setup.deleteCancel.apply($setup, arguments);
       })
-    }, "いいえ")])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" チャンネル項目 "), $setup.updateChannelId != item.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-      "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
-        return $setup.toChannel = $event;
-      }),
-      id: item.id + 'current-id',
-      value: item.name,
-      "class": "button-hidden",
-      type: "radio",
-      onChange: _cache[3] || (_cache[3] = function ($event) {
-        return $setup.changeChannel($setup.toChannel);
-      })
-    }, null, 40
-    /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_4), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $setup.toChannel]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-      "for": item.id + 'current-id',
-      "class": "channel-name"
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.name), 9
-    /* TEXT, PROPS */
-    , _hoisted_6), item.name !== 'やることリスト' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-      "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
-        return $setup.channelMenuId = $event;
-      }),
-      value: item.id,
-      id: item.id + 'channel-menu',
-      "class": "button-hidden",
-      type: "radio"
+    }, "いいえ")])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $setup.updateChannelId != item.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" チャンネルアイテム "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_todo_channel_item_component, {
+      item: item,
+      onChangeChannel: $setup.changeChannel,
+      onMenuIdChange: $setup.menuIdChange
     }, null, 8
     /* PROPS */
-    , _hoisted_8), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $setup.channelMenuId]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-      "for": item.id + 'channel-menu',
-      "class": "kebab-menu"
-    }, "⋮", 8
-    /* PROPS */
-    , _hoisted_9)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ケバブメニューの内容 "), $setup.channelMenuId === item.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_todo_channel_menu_component, {
+    , ["item", "onChangeChannel", "onMenuIdChange"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ケバブメニューの内容 "), $setup.channelMenuId === item.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_todo_channel_menu_component, {
       key: 0,
       itemId: item.id,
       channelMenuId: $setup.channelMenuId,
@@ -20191,6 +20209,72 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }), 128
   /* KEYED_FRAGMENT */
   ))])], 64
+  /* STABLE_FRAGMENT */
+  );
+}
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/TodoChannelItemComponent.vue?vue&type=template&id=c1fed590":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/TodoChannelItemComponent.vue?vue&type=template&id=c1fed590 ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+var _hoisted_1 = ["id", "value"];
+var _hoisted_2 = {
+  "class": "channel-item"
+};
+var _hoisted_3 = ["for"];
+var _hoisted_4 = {
+  key: 0
+};
+var _hoisted_5 = ["value", "id"];
+var _hoisted_6 = ["for"];
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+      return $setup.toChannel = $event;
+    }),
+    id: $props.item.id + 'current-id',
+    value: $props.item.name,
+    "class": "public-hidden",
+    type: "radio",
+    onChange: _cache[1] || (_cache[1] = function ($event) {
+      return $setup.changeChannelEmit($setup.toChannel);
+    })
+  }, null, 40
+  /* PROPS, HYDRATE_EVENTS */
+  , _hoisted_1), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $setup.toChannel]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "for": $props.item.id + 'current-id'
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.item.name), 9
+  /* TEXT, PROPS */
+  , _hoisted_3), $props.item.name !== 'やることリスト' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+      return $setup.channelMenuId = $event;
+    }),
+    value: $props.item.id,
+    id: $props.item.id + 'channel-menu',
+    "class": "public-hidden",
+    type: "radio",
+    name: "channel-menu-radio",
+    onChange: _cache[3] || (_cache[3] = function () {
+      return $setup.menuIdChangeEmit && $setup.menuIdChangeEmit.apply($setup, arguments);
+    })
+  }, null, 40
+  /* PROPS, HYDRATE_EVENTS */
+  , _hoisted_5), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $setup.channelMenuId]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "for": $props.item.id + 'channel-menu'
+  }, "⋮", 8
+  /* PROPS */
+  , _hoisted_6)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 64
   /* STABLE_FRAGMENT */
   );
 }
@@ -20225,16 +20309,17 @@ var _hoisted_8 = ["for"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return $setup.menuFlag == $props.itemId ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     id: $props.itemId + 'hidden',
-    "class": "button-hidden",
+    "class": "public-hidden",
     type: "radio",
+    name: "channel-menu-radio",
     onChange: _cache[0] || (_cache[0] = function () {
       return $setup.foldMenuEmit && $setup.foldMenuEmit.apply($setup, arguments);
     })
   }, null, 40
   /* PROPS, HYDRATE_EVENTS */
   , _hoisted_2), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "class": "channel-menu-background",
-    "for": $props.itemId + 'hidden'
+    "for": $props.itemId + 'hidden',
+    "class": "channel-menu-background"
   }, null, 8
   /* PROPS */
   , _hoisted_3), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
@@ -20243,7 +20328,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     id: $props.itemId + 'channel-update',
     value: $props.itemId,
-    "class": "button-hidden",
+    "class": "public-hidden",
     type: "radio",
     onChange: _cache[2] || (_cache[2] = function () {
       return $setup.updateIdChangeEmit && $setup.updateIdChangeEmit.apply($setup, arguments);
@@ -20260,7 +20345,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     id: $props.itemId + 'channel-delete',
     value: $props.itemId,
-    "class": "button-hidden",
+    "class": "public-hidden",
     type: "radio",
     onChange: _cache[4] || (_cache[4] = function () {
       return $setup.deleteConfirmEmit && $setup.deleteConfirmEmit.apply($setup, arguments);
@@ -20681,9 +20766,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_TodoListUpdateComponent_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/TodoListUpdateComponent.vue */ "./resources/js/components/TodoListUpdateComponent.vue");
 /* harmony import */ var _components_TodoListDeleteWindowComponent_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/TodoListDeleteWindowComponent.vue */ "./resources/js/components/TodoListDeleteWindowComponent.vue");
 /* harmony import */ var _components_TodoChannelComponent_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/TodoChannelComponent.vue */ "./resources/js/components/TodoChannelComponent.vue");
-/* harmony import */ var _components_TodoChannelAddComponent_vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/TodoChannelAddComponent.vue */ "./resources/js/components/TodoChannelAddComponent.vue");
-/* harmony import */ var _components_TodoChannelUpdateComponent_vue__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/TodoChannelUpdateComponent.vue */ "./resources/js/components/TodoChannelUpdateComponent.vue");
-/* harmony import */ var _components_TodoChannelMenuComponent_vue__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/TodoChannelMenuComponent.vue */ "./resources/js/components/TodoChannelMenuComponent.vue");
+/* harmony import */ var _components_TodoChannelItemComponent_vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/TodoChannelItemComponent.vue */ "./resources/js/components/TodoChannelItemComponent.vue");
+/* harmony import */ var _components_TodoChannelAddComponent_vue__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/TodoChannelAddComponent.vue */ "./resources/js/components/TodoChannelAddComponent.vue");
+/* harmony import */ var _components_TodoChannelUpdateComponent_vue__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/TodoChannelUpdateComponent.vue */ "./resources/js/components/TodoChannelUpdateComponent.vue");
+/* harmony import */ var _components_TodoChannelMenuComponent_vue__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/TodoChannelMenuComponent.vue */ "./resources/js/components/TodoChannelMenuComponent.vue");
+
 
 
 
@@ -20703,9 +20790,10 @@ app.component('todo-list-item-component', _components_TodoListItemComponent_vue_
 app.component('todo-list-update-component', _components_TodoListUpdateComponent_vue__WEBPACK_IMPORTED_MODULE_5__["default"]);
 app.component('todo-list-delete-window-component', _components_TodoListDeleteWindowComponent_vue__WEBPACK_IMPORTED_MODULE_6__["default"]);
 app.component('todo-channel-component', _components_TodoChannelComponent_vue__WEBPACK_IMPORTED_MODULE_7__["default"]);
-app.component('todo-channel-add-component', _components_TodoChannelAddComponent_vue__WEBPACK_IMPORTED_MODULE_8__["default"]);
-app.component('todo-channel-update-component', _components_TodoChannelUpdateComponent_vue__WEBPACK_IMPORTED_MODULE_9__["default"]);
-app.component('todo-channel-menu-component', _components_TodoChannelMenuComponent_vue__WEBPACK_IMPORTED_MODULE_10__["default"]);
+app.component('todo-channel-item-component', _components_TodoChannelItemComponent_vue__WEBPACK_IMPORTED_MODULE_8__["default"]);
+app.component('todo-channel-add-component', _components_TodoChannelAddComponent_vue__WEBPACK_IMPORTED_MODULE_9__["default"]);
+app.component('todo-channel-update-component', _components_TodoChannelUpdateComponent_vue__WEBPACK_IMPORTED_MODULE_10__["default"]);
+app.component('todo-channel-menu-component', _components_TodoChannelMenuComponent_vue__WEBPACK_IMPORTED_MODULE_11__["default"]);
 app.mount("#app");
 
 /***/ }),
@@ -21023,6 +21111,34 @@ if (false) {}
 
 /***/ }),
 
+/***/ "./resources/js/components/TodoChannelItemComponent.vue":
+/*!**************************************************************!*\
+  !*** ./resources/js/components/TodoChannelItemComponent.vue ***!
+  \**************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _TodoChannelItemComponent_vue_vue_type_template_id_c1fed590__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TodoChannelItemComponent.vue?vue&type=template&id=c1fed590 */ "./resources/js/components/TodoChannelItemComponent.vue?vue&type=template&id=c1fed590");
+/* harmony import */ var _TodoChannelItemComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TodoChannelItemComponent.vue?vue&type=script&lang=js */ "./resources/js/components/TodoChannelItemComponent.vue?vue&type=script&lang=js");
+/* harmony import */ var C_Users_yuhei_OneDrive_project_todo_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+
+
+
+
+;
+const __exports__ = /*#__PURE__*/(0,C_Users_yuhei_OneDrive_project_todo_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_TodoChannelItemComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_TodoChannelItemComponent_vue_vue_type_template_id_c1fed590__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/TodoChannelItemComponent.vue"]])
+/* hot reload */
+if (false) {}
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
+
+/***/ }),
+
 /***/ "./resources/js/components/TodoChannelMenuComponent.vue":
 /*!**************************************************************!*\
   !*** ./resources/js/components/TodoChannelMenuComponent.vue ***!
@@ -21267,6 +21383,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/TodoChannelItemComponent.vue?vue&type=script&lang=js":
+/*!**************************************************************************************!*\
+  !*** ./resources/js/components/TodoChannelItemComponent.vue?vue&type=script&lang=js ***!
+  \**************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_TodoChannelItemComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_TodoChannelItemComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./TodoChannelItemComponent.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/TodoChannelItemComponent.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
 /***/ "./resources/js/components/TodoChannelMenuComponent.vue?vue&type=script&lang=js":
 /*!**************************************************************************************!*\
   !*** ./resources/js/components/TodoChannelMenuComponent.vue?vue&type=script&lang=js ***!
@@ -21423,6 +21555,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_TodoChannelComponent_vue_vue_type_template_id_676bb48b__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_TodoChannelComponent_vue_vue_type_template_id_676bb48b__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./TodoChannelComponent.vue?vue&type=template&id=676bb48b */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/TodoChannelComponent.vue?vue&type=template&id=676bb48b");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/TodoChannelItemComponent.vue?vue&type=template&id=c1fed590":
+/*!********************************************************************************************!*\
+  !*** ./resources/js/components/TodoChannelItemComponent.vue?vue&type=template&id=c1fed590 ***!
+  \********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_TodoChannelItemComponent_vue_vue_type_template_id_c1fed590__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_TodoChannelItemComponent_vue_vue_type_template_id_c1fed590__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./TodoChannelItemComponent.vue?vue&type=template&id=c1fed590 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/TodoChannelItemComponent.vue?vue&type=template&id=c1fed590");
 
 
 /***/ }),

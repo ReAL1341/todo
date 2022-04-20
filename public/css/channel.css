@@ -1,42 +1,6 @@
-.button-hidden{
-    display: none;
-}
-
 /*=========================
     TodoChannelComponent
 =========================*/
-.channel-item{
-    width: 100%;
-    background-color: rgb(34, 36, 37);
-    color: white;
-    border: none;
-    font-size: 26px;
-    margin: 15px auto;
-    text-align: center;
-}
-.channel-item:hover{
-    background-color: rgb(26, 158, 245);
-}
-.kebab-menu{
-    display: inline-block;
-    padding: 0px 9px;
-    border-radius: 1000px;
-    font-size: 16px;
-    font-weight: bold;
-    position: relative;
-    left: 50px;
-    user-select: none;
-}
-.kebab-menu:hover{
-    background-color: rgb(144, 202, 241);
-}
-.kebab-menu:active{
-    background-color: rgb(107, 193, 250);
-}
-.channel-name{
-    display: inline-block;
-    width: 55%;
-}
 .delete-confirm{
     background-color: rgba(0, 0, 0, 0.8);
     position: fixed;
@@ -81,6 +45,43 @@
 .cancel-button:hover{
     background-color: rgb(201, 201, 201);
 }
+
+/*================================
+    TodoChannelItemComponent.vue
+================================*/
+.channel-item{
+    width: 100%;
+    background-color: rgb(34, 36, 37);
+    color: white;
+    border: none;
+    font-size: 24px;
+    margin: 15px auto;
+    text-align: center;
+}
+.channel-item:hover{
+    background-color: rgb(26, 158, 245);
+}
+.channel-item > label{
+    display: inline-block;
+    width: 56%;
+}
+.channel-item > span > label{
+    display: inline-block;
+    padding: 0px 9px;
+    border-radius: 1000px;
+    font-size: 16px;
+    font-weight: bold;
+    position: relative;
+    left: 50px;
+    user-select: none;
+}
+.channel-item > span > label:hover{
+    background-color: rgb(144, 202, 241);
+}
+.channel-item > span > label:active{
+    background-color: rgb(107, 193, 250);
+}
+
 /*==============================
     TodoChannelAddComponent
 ==============================*/

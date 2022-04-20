@@ -51,6 +51,9 @@ body::-webkit-scrollbar{
 /*=========
     共通
 =========*/
+.public-hidden{
+    display: none;
+}
 .public-button-red{
     border-radius: 3px;
     border-color: rgb(188, 17, 17);
