@@ -18,6 +18,7 @@
                 v-bind:value="itemId"
                 class="public-hidden"
                 type="radio"
+                name="channel-menu-radio"
                 v-on:change="updateIdChangeEmit"
             >
             <label v-bind:for="itemId+'channel-update'">編集</label>
@@ -27,6 +28,7 @@
                 v-bind:value="itemId"
                 class="public-hidden"
                 type="radio"
+                name="channel-menu-radio"
                 v-on:change="deleteConfirmEmit"
             >
             <label v-bind:for="itemId+'channel-delete'">削除</label>

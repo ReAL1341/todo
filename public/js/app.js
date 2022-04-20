@@ -20330,6 +20330,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     value: $props.itemId,
     "class": "public-hidden",
     type: "radio",
+    name: "channel-menu-radio",
     onChange: _cache[2] || (_cache[2] = function () {
       return $setup.updateIdChangeEmit && $setup.updateIdChangeEmit.apply($setup, arguments);
     })
@@ -20347,6 +20348,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     value: $props.itemId,
     "class": "public-hidden",
     type: "radio",
+    name: "channel-menu-radio",
     onChange: _cache[4] || (_cache[4] = function () {
       return $setup.deleteConfirmEmit && $setup.deleteConfirmEmit.apply($setup, arguments);
     })
